@@ -10,5 +10,7 @@ original :  https://github.com/rafaelsteil/jforum3
 Todo list
 ---------------
 *change to maven
+
 *change to spring mvc
+
 *change to spring data jpa
