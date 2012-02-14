@@ -5,20 +5,10 @@ JForum
 
 This README describes how to build the project.
 
-Why we use ANT?
+original :  https://github.com/rafaelsteil/jforum3
+
+Todo list
 ---------------
-
-We decided to use ANT because we needed....
-
-
-Steps to build
---------------
-
-
-Issues and Tips
----------------
-
-You may use the issues feature from Github to report bugs or tips to the JForum Team.
-
-Please follow the link to do this: https://github.com/rafaelsteil/jforum3/issues
-
+*use maven
+*change to spring mvc
+*change to spring data jpa
