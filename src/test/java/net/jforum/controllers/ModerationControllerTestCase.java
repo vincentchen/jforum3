@@ -19,9 +19,9 @@ import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.ModerationLogRepository;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.CategoryDao;
+import net.jforum.repository.ModerationLogDao;
+import net.jforum.repository.TopicDao;
 import net.jforum.security.RoleManager;
 import net.jforum.services.ModerationService;
 import net.jforum.util.JForumConfig;
@@ -44,13 +44,13 @@ public class ModerationControllerTestCase {
 	private RoleManager roleManager = context.mock(RoleManager.class);
 	private ModerationService service = context.mock(ModerationService.class);
 	private ModerationLog moderationLog = new ModerationLog();
-	private CategoryRepository categoryRepository = context
-			.mock(CategoryRepository.class);
+	private CategoryDao categoryRepository = context
+			.mock(CategoryDao.class);
 	private UserSession userSession = context.mock(UserSession.class);
-	private TopicRepository topicRepository = context
-			.mock(TopicRepository.class);
-	private ModerationLogRepository moderationLogRepository = context
-			.mock(ModerationLogRepository.class);
+	private TopicDao topicRepository = context
+			.mock(TopicDao.class);
+	private ModerationLogDao moderationLogRepository = context
+			.mock(ModerationLogDao.class);
 	private User user = new User();
 	private Result mockResult = context.mock(MockResult.class);
 	private ForumController mockForumController = context

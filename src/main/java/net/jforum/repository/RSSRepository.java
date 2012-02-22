@@ -10,21 +10,19 @@
  */
 package net.jforum.repository;
 
-import java.util.List;
-
 import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
-
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Repository
 public class RSSRepository {
 	private final Session session;
 
@@ -38,14 +36,14 @@ public class RSSRepository {
 	@SuppressWarnings("unchecked")
 	public List<Topic> getForumTopics(Forum forum, int count) {
 		return session.createCriteria(Topic.class)
-			.add(Restrictions.eq("forum", forum))
-			.add(Restrictions.eq("pendingModeration", false))
-			.addOrder(Order.desc("date"))
-			.setMaxResults(count)
-			.setCacheable(true)
-			.setCacheRegion("rssDAO.getForumTopics#" + forum.getId())
-			.setComment("rssDAO.getForumTopics#" + forum.getId())
-			.list();
+				.add(Restrictions.eq("forum", forum))
+				.add(Restrictions.eq("pendingModeration", false))
+				.addOrder(Order.desc("date"))
+				.setMaxResults(count)
+				.setCacheable(true)
+				.setCacheRegion("rssDAO.getForumTopics#" + forum.getId())
+				.setComment("rssDAO.getForumTopics#" + forum.getId())
+				.list();
 	}
 
 }

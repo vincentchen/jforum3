@@ -10,8 +10,9 @@
  */
 package net.jforum.controllers;
 
-import java.util.Date;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.entities.Post;
@@ -20,18 +21,15 @@ import net.jforum.entities.PostReportStatus;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.PaginatedResult;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.PostReportRepository;
+import net.jforum.repository.PostReportDao;
 import net.jforum.security.ModerationRule;
 import net.jforum.security.RoleManager;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.SecurityConstants;
-
 import org.hibernate.ObjectNotFoundException;
 
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+import java.util.Date;
 
 /**
  * @author Rafael Steil
@@ -39,13 +37,13 @@ import br.com.caelum.vraptor.Result;
 @Resource
 @Path(Domain.POST_REPORT)
 public class PostReportController {
-	private final PostReportRepository repository;
+	private final PostReportDao repository;
 	private final JForumConfig config;
 	private final Result result;
 	private final UserSession userSession;
 
-	public PostReportController(PostReportRepository repository, JForumConfig config,
-			Result result, UserSession userSession) {
+	public PostReportController(PostReportDao repository, JForumConfig config,
+	                            Result result, UserSession userSession) {
 		this.repository = repository;
 		this.userSession = userSession;
 		this.config = config;

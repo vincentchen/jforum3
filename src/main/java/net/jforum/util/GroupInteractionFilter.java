@@ -10,17 +10,17 @@
  */
 package net.jforum.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.controllers.ForumController;
 import net.jforum.entities.Group;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.ioc.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Rafael Steil

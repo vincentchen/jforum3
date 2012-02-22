@@ -10,26 +10,23 @@
  */
 package net.jforum.util;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.ServletContext;
-
 import net.jforum.core.exceptions.ForumException;
 import net.jforum.entities.Config;
-import net.jforum.repository.ConfigRepository;
-
+import net.jforum.repository.ConfigDao;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Rafael Steil
@@ -49,8 +46,7 @@ public class JForumConfig extends PropertiesConfiguration {
 			setProperty(ConfigKeys.APPLICATION_PATH, servletContext.getRealPath(""));
 			loadDatabaseProperties();
 			normalizeTemplateDirectory();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new ForumException(e);
 		}
 	}
@@ -103,7 +99,7 @@ public class JForumConfig extends PropertiesConfiguration {
 			custom.load(is);
 
 			for (Enumeration<?> e = custom.keys(); e.hasMoreElements(); ) {
-				String key = (String)e.nextElement();
+				String key = (String) e.nextElement();
 				this.clearProperty(key);
 				this.addProperty(key, custom.get(key));
 			}
@@ -116,20 +112,20 @@ public class JForumConfig extends PropertiesConfiguration {
 		try {
 			session = sessionFactory.openSession();
 
-			ConfigRepository repository = new ConfigRepository(session);
+			ConfigDao repository = new ConfigDao(session);
 			List<Config> databasesProperties = repository.getAll();
 
 			for (Config config : databasesProperties) {
 				this.clearProperty(config.getName());
 				this.addProperty(config.getName(), config.getValue());
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.error("Error while trying to load custom settings from the database: " + e.getMessage(), e);
-		}
-		finally {
-			try { session.close(); }
-			catch (Exception e) {}
+		} finally {
+			try {
+				session.close();
+			} catch (Exception e) {
+			}
 		}
 	}
 
@@ -143,6 +139,7 @@ public class JForumConfig extends PropertiesConfiguration {
 
 	/**
 	 * Gets the complete path to the application root directory
+	 *
 	 * @return the path to the root directory
 	 */
 	public String getApplicationPath() {
@@ -151,6 +148,7 @@ public class JForumConfig extends PropertiesConfiguration {
 
 	/**
 	 * Delegates to {@link #getString(String)}
+	 *
 	 * @param key the key to retrieve
 	 * @return the key's value
 	 */

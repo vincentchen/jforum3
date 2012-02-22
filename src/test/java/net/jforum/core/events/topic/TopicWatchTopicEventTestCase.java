@@ -11,7 +11,7 @@
 package net.jforum.core.events.topic;
 
 import net.jforum.entities.Topic;
-import net.jforum.repository.TopicWatchRepository;
+import net.jforum.repository.TopicWatchDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class TopicWatchTopicEventTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private TopicWatchRepository repository = context.mock(TopicWatchRepository.class);
+	private TopicWatchDao repository = context.mock(TopicWatchDao.class);
 	private TopicWatchTopicEvent event = new TopicWatchTopicEvent(repository);
 
 	@Test

@@ -10,30 +10,27 @@
  */
 package net.jforum.services;
 
-import java.io.File;
-
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Smilie;
-import net.jforum.repository.SmilieRepository;
+import net.jforum.repository.SmilieDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.MD5;
 import net.jforum.util.UploadUtils;
-
 import org.apache.commons.lang.StringUtils;
 
-import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
-import br.com.caelum.vraptor.ioc.Component;
+import java.io.File;
+
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class SmilieService {
-	private SmilieRepository repository;
+	private SmilieDao repository;
 	private JForumConfig config;
 
-	public SmilieService(SmilieRepository repository, JForumConfig config) {
+	public SmilieService(SmilieDao repository, JForumConfig config) {
 		this.repository = repository;
 		this.config = config;
 	}

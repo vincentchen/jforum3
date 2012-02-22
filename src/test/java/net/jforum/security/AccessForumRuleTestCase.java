@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.Topic;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.TopicDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -34,7 +34,7 @@ public class AccessForumRuleTestCase {
 	private UserSession userSession = context.mock(UserSession.class);
 	private HttpServletRequest request = context.mock(HttpServletRequest.class);
 	private RoleManager roleManager = context.mock(RoleManager.class);
-	private TopicRepository topicRepository = context.mock(TopicRepository.class);
+	private TopicDao topicRepository = context.mock(TopicDao.class);
 	private AccessForumRule rule = new AccessForumRule(topicRepository);
 	private Map<String, String> parameterMap = new HashMap<String, String>() {/**
 		 *

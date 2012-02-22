@@ -42,17 +42,16 @@
  */
 package net.jforum.util.mail;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.jforum.core.exceptions.MailException;
 import net.jforum.entities.User;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Notify users that they have new private messages
@@ -70,10 +69,10 @@ public class PrivateMessageSpammer extends Spammer {
 		}
 
 		String path = new StringBuilder(128)
-			.append(this.buildForumLink())
-			.append("pm/inbox")
-			.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
-			.toString();
+				.append(this.buildForumLink())
+				.append("pm/inbox")
+				.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
+				.toString();
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("path", path);
@@ -86,6 +85,6 @@ public class PrivateMessageSpammer extends Spammer {
 		this.setTemplateParams(params);
 
 		super.prepareMessage(this.getConfig().getValue(ConfigKeys.MAIL_NEW_PM_SUBJECT),
-			this.getConfig().getValue(ConfigKeys.MAIL_NEW_PM_MESSAGE_FILE));
+				this.getConfig().getValue(ConfigKeys.MAIL_NEW_PM_MESSAGE_FILE));
 	}
 }

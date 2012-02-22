@@ -10,35 +10,30 @@
  */
 package net.jforum.core;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
-
 import net.jforum.core.exceptions.ForumException;
 import net.jforum.entities.Session;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.SessionRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.SessionDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.RoleManager;
 import net.jforum.sso.SSO;
 import net.jforum.sso.SSOUtils;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.MD5;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
+import java.io.IOException;
+import java.util.*;
+
 /**
  * Manages all user sessions
+ *
  * @author Rafael Steil
  */
 @Component
@@ -46,12 +41,12 @@ public class SessionManager {
 	private static final Logger logger = LoggerFactory.getLogger(SessionManager.class);
 	private static Map<String, UserSession> loggedSessions = new HashMap<String, UserSession>();
 	private static Map<String, UserSession> anonymousSessions = new HashMap<String, UserSession>();
-	private UserRepository userRepository;
-	private SessionRepository sessionRepository;
+	private UserDao userRepository;
+	private SessionDao sessionRepository;
 	private JForumConfig config;
 	private int moderatorsOnline;
 
-	public SessionManager(JForumConfig config, SessionRepository sessionRepository, UserRepository userRepository) {
+	public SessionManager(JForumConfig config, SessionDao sessionRepository, UserDao userRepository) {
 		this.config = config;
 		this.userRepository = userRepository;
 		this.sessionRepository = sessionRepository;
@@ -72,15 +67,13 @@ public class SessionManager {
 
 			if (userSession.getUser().getId() == this.config.getInt(ConfigKeys.ANONYMOUS_USER_ID)) {
 				this.anonymousSessions.put(userSession.getSessionId(), userSession);
-			}
-			else {
+			} else {
 				UserSession existing = this.isUserInSession(userSession.getUser().getId());
 
 				if (existing != null) {
 					userSession.setLastVisit(existing.getLastVisit());
 					this.remove(existing.getSessionId());
-				}
-				else {
+				} else {
 					Session session = this.sessionRepository.get(userSession.getUser().getId());
 
 					if (session != null && session.getLastVisit() != null) {
@@ -119,6 +112,7 @@ public class SessionManager {
 
 	/**
 	 * Make sure we'll not add a session that was already registered
+	 *
 	 * @param us
 	 */
 	private void preventDuplicates(UserSession us) {
@@ -137,13 +131,12 @@ public class SessionManager {
 			UserSession userSession = this.getUserSession(sessionId);
 
 			if (userSession.getRoleManager() != null
-				&& userSession.getRoleManager().isModerator() && this.moderatorsOnline > 0) {
+					&& userSession.getRoleManager().isModerator() && this.moderatorsOnline > 0) {
 				this.moderatorsOnline--;
 			}
 
 			this.loggedSessions.remove(sessionId);
-		}
-		else {
+		} else {
 			this.anonymousSessions.remove(sessionId);
 		}
 	}
@@ -227,6 +220,7 @@ public class SessionManager {
 	 * Do a refresh in the user's session. This method will update the
 	 * last visit time for the current user, as well checking for
 	 * authentication if the session is new or the SSO user has changed
+	 *
 	 * @throws IOException
 	 */
 	public UserSession refreshSession(UserSession userSession) {
@@ -244,8 +238,7 @@ public class SessionManager {
 			if (true) {
 				if (isSSOAuthentication) {
 					this.checkSSO(userSession);
-				}
-				else {
+				} else {
 					boolean autoLoginEnabled = this.config.getBoolean(ConfigKeys.AUTO_LOGIN_ENABLED);
 					boolean autoLoginSuccess = autoLoginEnabled && this.checkAutoLogin(userSession);
 
@@ -259,8 +252,7 @@ public class SessionManager {
 			this.add(userSession);
 
 			logger.info("Registered new userSession: " + userSession.getSessionId());
-		}
-		else {
+		} else {
 			// FIXME: Force a reload of the user instance, because if it's kept in the usersession,
 			// changes made to the group (like permissions) won't be seen.
 			userSession.setUser(this.userRepository.get(userSession.getUser().getId()));
@@ -270,7 +262,7 @@ public class SessionManager {
 
 		if (userSession.getUser() == null || userSession.getUser().getId() == 0) {
 			logger.warn("After userSession.ping() -> userSession.getUser returned null or user.id is zero. " +
-				"User is null? " + ( userSession.getUser() == null ) + ". user.id is: "
+					"User is null? " + (userSession.getUser() == null) + ". user.id is: "
 					+ (userSession.getUser() == null ? "getUser() returned null" : userSession.getUser().getId())
 					+ ". As we have a problem, will force the user to become anonymous. Session ID: " + userSession.getSessionId());
 			userSession.becomeAnonymous(anonymousUserId);
@@ -279,8 +271,7 @@ public class SessionManager {
 
 			if (anonymousUser == null) {
 				logger.warn("Could not find the anonymous user in the database. Tried using id " + anonymousUserId);
-			}
-			else {
+			} else {
 				userSession.setUser(anonymousUser);
 			}
 		}
@@ -289,8 +280,7 @@ public class SessionManager {
 
 		if (userSession.getUser() != null) {
 			roleManager.setGroups(userSession.getUser().getGroups());
-		}
-		else {
+		} else {
 			logger.warn("At last step userSession.getUser() still returned null. Ignoring the roles. Session ID: " + userSession.getSessionId());
 		}
 
@@ -301,6 +291,7 @@ public class SessionManager {
 
 	/**
 	 * Persist the user session to the database
+	 *
 	 * @param sessionId the id of the session to persist
 	 */
 	public void storeSession(String sessionId) {
@@ -342,8 +333,7 @@ public class SessionManager {
 			if (!securityHash.equals(uidHash)) {
 				userSession.becomeAnonymous(this.config.getInt(ConfigKeys.ANONYMOUS_USER_ID));
 				return false;
-			}
-			else {
+			} else {
 				userSession.setUser(user);
 				this.configureUserSession(userSession, user);
 				return true;
@@ -357,7 +347,7 @@ public class SessionManager {
 	 * Setup optios and values for the user's session if authentication was ok.
 	 *
 	 * @param userSession The UserSession instance of the user
-	 * @param user The User instance of the authenticated user
+	 * @param user        The User instance of the authenticated user
 	 */
 	private void configureUserSession(UserSession userSession, User user) {
 		userSession.setUser(user);
@@ -368,11 +358,11 @@ public class SessionManager {
 	 * Checks for user authentication using some SSO implementation
 	 *
 	 * @param userSession UserSession
-	 * //@param  TODO
+	 *                    //@param  TODO
 	 */
 	private void checkSSO(UserSession userSession) {
 		try {
-			SSO sso = (SSO)Class.forName(this.config.getValue(ConfigKeys.SSO_IMPLEMENTATION)).newInstance();
+			SSO sso = (SSO) Class.forName(this.config.getValue(ConfigKeys.SSO_IMPLEMENTATION)).newInstance();
 			sso.setConfig(this.config);
 			String username = sso.authenticateUser(userSession.getRequest());
 
@@ -381,19 +371,18 @@ public class SessionManager {
 			if (StringUtils.isEmpty(username)) {
 				logger.warn(String.format("checkSSO found an empty / null username. Going anonymous. Session ID %s", userSession.getSessionId()));
 				userSession.becomeAnonymous(this.config.getInt(ConfigKeys.ANONYMOUS_USER_ID));
-			}
-			else {
+			} else {
 				SSOUtils utils = new SSOUtils(this.userRepository);
 				boolean userExists = utils.userExists(username);
 
 				logger.info(String.format("SSO user %s exists? %s", username, userExists));
 
 				if (!userExists) {
-					String email = (String)userSession.getAttribute(
-						this.config.getValue(ConfigKeys.SSO_EMAIL_ATTRIBUTE));
+					String email = (String) userSession.getAttribute(
+							this.config.getValue(ConfigKeys.SSO_EMAIL_ATTRIBUTE));
 
-					String password = (String)userSession.getAttribute(
-						this.config.getValue(ConfigKeys.SSO_PASSWORD_ATTRIBUTE));
+					String password = (String) userSession.getAttribute(
+							this.config.getValue(ConfigKeys.SSO_PASSWORD_ATTRIBUTE));
 
 					if (email == null) {
 						email = this.config.getValue(ConfigKeys.SSO_DEFAULT_EMAIL);
@@ -409,8 +398,8 @@ public class SessionManager {
 				User user = utils.getUser();
 
 				logger.info(String.format("g: username=%s, jforumUserId=%s",
-					user != null ? user.getUsername() : "returned null",
-					user != null ? user.getId() : "returned null"));
+						user != null ? user.getUsername() : "returned null",
+						user != null ? user.getId() : "returned null"));
 
 				this.configureUserSession(userSession, user);
 
@@ -418,8 +407,7 @@ public class SessionManager {
 					logger.warn("checkSSO -> utils.getUser() returned null or user.id is zero");
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ForumException("Error while executing SSO actions: " + e, e);
 		}

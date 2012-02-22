@@ -11,22 +11,15 @@
 package net.jforum.core.support.hibernate;
 
 
-import java.util.List;
-
-import net.jforum.entities.Attachment;
-import net.jforum.entities.Forum;
-import net.jforum.entities.ModerationLog;
-import net.jforum.entities.PollOption;
-import net.jforum.entities.Post;
-import net.jforum.entities.Topic;
-
+import net.jforum.entities.*;
 import org.apache.commons.lang.ArrayUtils;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.Cache;
-import org.hibernate.cache.QueryCache;
 import org.hibernate.engine.SessionFactoryImplementor;
+
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -39,9 +32,8 @@ public class CacheEvictionRules {
 	public CacheEvictionRules(SessionFactory factory) {
 		if (factory instanceof SessionFactoryImplementor) {
 			this.sessionFactory = factory;
-			this.factoryImplementor = (SessionFactoryImplementor)factory;
-		}
-		else {
+			this.factoryImplementor = (SessionFactoryImplementor) factory;
+		} else {
 			this.sessionFactory = factory;
 			//this.factoryImplementor = (SessionFactoryImplementor)((SpringSessionFactory)factory).getOriginal();
 		}
@@ -62,10 +54,10 @@ public class CacheEvictionRules {
 	 * 		RANKING REPOSITORY
 	 * ****************************
 	 */
-	@AfterReturning("(execution (* net.jforum.repository.Repository.add(..))" +
-		" || execution (* net.jforum.repository.Repository.update(..))" +
-		" || execution (* net.jforum.repository.Repository.remove(..)))" +
-		" && target(net.jforum.repository.RankingRepository)")
+	@AfterReturning("(execution (* net.jforum.repository.Dao.add(..))" +
+			" || execution (* net.jforum.repository.Dao.update(..))" +
+			" || execution (* net.jforum.repository.Dao.remove(..)))" +
+			" && target(net.jforum.repository.RankingDao)")
 	public void rankingChanged() {
 		this.clearCacheRegion(this.factoryImplementor.getQueryCache("rankingDAO"));
 	}
@@ -76,10 +68,10 @@ public class CacheEvictionRules {
 	 * **************************
 	 *
 	 */
-	@AfterReturning("(execution (* net.jforum.repository.Repository.add(..))" +
-		" || execution (* net.jforum.repository.Repository.update(..))" +
-		" || execution (* net.jforum.repository.Repository.remove(..)))" +
-		" && target(net.jforum.repository.SmilieRepository)")
+	@AfterReturning("(execution (* net.jforum.repository.Dao.add(..))" +
+			" || execution (* net.jforum.repository.Dao.update(..))" +
+			" || execution (* net.jforum.repository.Dao.remove(..)))" +
+			" && target(net.jforum.repository.SmilieDao)")
 	public void smilieChanged() {
 		this.clearCacheRegion(this.factoryImplementor.getQueryCache("smilieDAO"));
 	}
@@ -89,7 +81,7 @@ public class CacheEvictionRules {
 	 * 		USER REPOSITORY
 	 * *************************
 	 */
-	@AfterReturning("execution (* net.jforum.repository.Repository.add(..)) && target(net.jforum.repository.UserRepository)")
+	@AfterReturning("execution (* net.jforum.repository.Dao.add(..)) && target(net.jforum.repository.UserDao)")
 	public void newUserRegistered() {
 		this.clearCacheRegion(this.factoryImplementor.getQueryCache("userDAO.getTotalUsers"));
 		this.clearCacheRegion(this.factoryImplementor.getQueryCache("userDAO.getLastRegisteredUser"));
@@ -101,9 +93,9 @@ public class CacheEvictionRules {
 	 * *********************
 	 * Changes to configurations stored in the database are very rare
 	 */
-	@AfterReturning("(execution (* net.jforum.repository.Repository.add(..)) " +
-		" || execution (* net.jforum.repository.Repository.update(..)))" +
-		" && target(net.jforum.repository.ConfigRepository)")
+	@AfterReturning("(execution (* net.jforum.repository.Dao.add(..)) " +
+			" || execution (* net.jforum.repository.Dao.update(..)))" +
+			" && target(net.jforum.repository.ConfigDao)")
 	public void configChanged() {
 		this.clearCacheRegion(this.factoryImplementor.getQueryCache("configDAO"));
 	}
@@ -113,8 +105,8 @@ public class CacheEvictionRules {
 	 *		 TOPIC REPOSITORY
 	 * **************************
 	 */
-	@AfterReturning("(execution (* net.jforum.repository.Repository.update(..)) && args(topic)) " +
-		" && target(net.jforum.repository.TopicRepository)")
+	@AfterReturning("(execution (* net.jforum.repository.Dao.update(..)) && args(topic)) " +
+			" && target(net.jforum.repository.TopicDao)")
 	public void topicUpdated(Topic topic) {
 		this.clearCacheRegion(this.factoryImplementor.getQueryCache("forumDAO.getTopics#" + topic.getForum().getId()));
 	}
@@ -135,7 +127,7 @@ public class CacheEvictionRules {
 				cache.remove("net.jforum.entities.Forum#" + toForumId);
 			}
 
-			Topic topic = (Topic)this.sessionFactory.getCurrentSession().get(Topic.class, topicIds[0]);
+			Topic topic = (Topic) this.sessionFactory.getCurrentSession().get(Topic.class, topicIds[0]);
 			Forum forum = topic.getForum();
 
 			this.clearCacheRegion(this.factoryImplementor.getQueryCache("forumDAO.getTotalPosts#" + forum.getId()));

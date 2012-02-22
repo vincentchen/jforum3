@@ -10,37 +10,35 @@
  */
 package net.jforum.services;
 
-import java.util.Date;
-import java.util.List;
-
 import net.jforum.actions.helpers.AttachedFile;
 import net.jforum.entities.Forum;
 import net.jforum.entities.PollOption;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.TopicRepository;
-import net.jforum.repository.UserRepository;
-
+import net.jforum.repository.ForumDao;
+import net.jforum.repository.PostDao;
+import net.jforum.repository.TopicDao;
+import net.jforum.repository.UserDao;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class TopicService {
-	private TopicRepository topicRepository;
-	private PostRepository postRepository;
-	private ForumRepository forumRepository;
+	private TopicDao topicRepository;
+	private PostDao postRepository;
+	private ForumDao forumRepository;
 	private AttachmentService attachmentService;
 	private PollService pollService;
-	private UserRepository userRepository;
+	private UserDao userRepository;
 
-	public TopicService(TopicRepository topicRepository, PostRepository postRepository,
-		ForumRepository forumRepository, AttachmentService attachmentService, PollService pollService, UserRepository userRepository) {
+	public TopicService(TopicDao topicRepository, PostDao postRepository,
+	                    ForumDao forumRepository, AttachmentService attachmentService, PollService pollService, UserDao userRepository) {
 		this.topicRepository = topicRepository;
 		this.postRepository = postRepository;
 		this.forumRepository = forumRepository;
@@ -54,7 +52,8 @@ public class TopicService {
 	 * Saves a topic, as well the related first post. Date, user and subject
 	 * of the associated post are forced to be the same value used
 	 * by the topic.
-	 * @param topic the topic to save
+	 *
+	 * @param topic       the topic to save
 	 * @param pollOptions
 	 * @param attachments
 	 */
@@ -96,8 +95,9 @@ public class TopicService {
 
 	/**
 	 * Posts a reply to a topic
-	 * @param topic the topic which will receive the reply
-	 * @param post the reply itself
+	 *
+	 * @param topic       the topic which will receive the reply
+	 * @param post        the reply itself
 	 * @param attachments
 	 */
 	public void reply(Topic topic, Post post, List<AttachedFile> attachments) {

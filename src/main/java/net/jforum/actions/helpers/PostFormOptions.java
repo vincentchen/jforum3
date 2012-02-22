@@ -12,6 +12,7 @@ package net.jforum.actions.helpers;
 
 /**
  * General formatting and post / topic information from a form
+ *
  * @author Rafael Steil
  */
 public class PostFormOptions {

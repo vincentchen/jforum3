@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.jforum.entities.BadWord;
-import net.jforum.repository.BadWordRepository;
+import net.jforum.repository.BadWordDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -30,8 +30,8 @@ import br.com.caelum.vraptor.util.test.MockResult;
 public class BadWordControllerActionsTestCase extends AdminTestCase {
 
 	private Mockery context = TestCaseUtils.newMockery();
-	private BadWordRepository repository = context
-			.mock(BadWordRepository.class);
+	private BadWordDao repository = context
+			.mock(BadWordDao.class);
 	private Result mockResult = context.mock(MockResult.class);
 	private BadWordAdminController mockBadWordAdminController = context
 			.mock(BadWordAdminController.class);

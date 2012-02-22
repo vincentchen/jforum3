@@ -11,15 +11,14 @@
 
 package net.jforum.entities.util;
 
-import java.text.MessageFormat;
-
 import net.jforum.entities.Forum;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.text.MessageFormat;
 
 /**
  * Arguments for a search.
- *
+ * <p/>
  * By default, each instance is built with {@link SearchMatchType#AND},
  * {@link SearchSort#DATE}, {@link SearchSortType#DESC} in all forums
  *
@@ -38,6 +37,7 @@ public class SearchParams {
 
 	/**
 	 * Set the forum to filter
+	 *
 	 * @param forum
 	 */
 	public void setForum(Forum forum) {
@@ -46,6 +46,7 @@ public class SearchParams {
 
 	/**
 	 * Set the sort type
+	 *
 	 * @param sortType
 	 */
 	public void setSortType(SearchSortType sortType) {
@@ -54,6 +55,7 @@ public class SearchParams {
 
 	/**
 	 * Set the sort
+	 *
 	 * @param sort
 	 */
 	public void setSort(SearchSort sort) {
@@ -62,6 +64,7 @@ public class SearchParams {
 
 	/**
 	 * Set the result match type
+	 *
 	 * @param matchType
 	 */
 	public void setMatchType(SearchMatchType matchType) {
@@ -70,6 +73,7 @@ public class SearchParams {
 
 	/**
 	 * Set the query itself
+	 *
 	 * @param query
 	 */
 	public void setQuery(String query) {
@@ -78,6 +82,7 @@ public class SearchParams {
 
 	/**
 	 * Set the max number of results to fetch on each iteration
+	 *
 	 * @param max
 	 */
 	public void setMaxResults(int max) {
@@ -86,6 +91,7 @@ public class SearchParams {
 
 	/**
 	 * Set the first record to retrieve
+	 *
 	 * @param start
 	 */
 	public void setStart(int start) {
@@ -94,6 +100,7 @@ public class SearchParams {
 
 	/**
 	 * Return the match type
+	 *
 	 * @return
 	 */
 	public SearchMatchType getMatchType() {
@@ -106,6 +113,7 @@ public class SearchParams {
 
 	/**
 	 * Return the sort type
+	 *
 	 * @return
 	 */
 	public SearchSortType getSortType() {
@@ -114,6 +122,7 @@ public class SearchParams {
 
 	/**
 	 * Return the sort
+	 *
 	 * @return
 	 */
 	public SearchSort getSort() {
@@ -122,6 +131,7 @@ public class SearchParams {
 
 	/**
 	 * Get the number of results to show on each page
+	 *
 	 * @return
 	 */
 	public int getMaxResults() {
@@ -130,6 +140,7 @@ public class SearchParams {
 
 	/**
 	 * Return the forum to filter
+	 *
 	 * @return
 	 */
 	public Forum getForum() {
@@ -159,19 +170,19 @@ public class SearchParams {
 
 	/**
 	 * Builds the query itself.
-	 *
-	 *<p>
+	 * <p/>
+	 * <p>
 	 * This is complicated, so I will explain with examples. It is presumed that
 	 * you know how the Lucene query engine works. The default search field is
 	 * Post.text
 	 * </p>
-	 *
-	 *<p>
+	 * <p/>
+	 * <p>
 	 * query ('and' option off): how to parse a date result: (how to parse a
 	 * date) OR (subject:how subject:to subject:parse subject:a subject:date)
 	 * </p>
-	 *
-	 *<p>
+	 * <p/>
+	 * <p>
 	 * query ('and' option on): how to parse a date result: (+how +to +parse +a
 	 * +date) OR (+subject:how +subject:to +subject:parse +subject:a
 	 * +subject:date)
@@ -185,8 +196,8 @@ public class SearchParams {
 		String text = "";
 		if (StringUtils.isNotEmpty(query)) {
 			text = this.matchType == SearchMatchType.AND
-				? this.query.replaceAll(this.regex, " +")
-				: this.query;
+					? this.query.replaceAll(this.regex, " +")
+					: this.query;
 		}
 
 		String subject = "";

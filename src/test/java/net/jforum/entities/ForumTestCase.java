@@ -11,7 +11,7 @@
 package net.jforum.entities;
 
 import junit.framework.Assert;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.ForumDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class ForumTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private ForumRepository repository = context.mock(ForumRepository.class);
+	private ForumDao repository = context.mock(ForumDao.class);
 
 	@Test
 	public void getTotalTopics() {

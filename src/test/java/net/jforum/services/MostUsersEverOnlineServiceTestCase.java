@@ -12,7 +12,7 @@ package net.jforum.services;
 
 import net.jforum.entities.Config;
 import net.jforum.entities.MostUsersEverOnline;
-import net.jforum.repository.ConfigRepository;
+import net.jforum.repository.ConfigDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.TestCaseUtils;
 
@@ -27,7 +27,7 @@ import org.junit.Test;
  */
 public class MostUsersEverOnlineServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private ConfigRepository repository = context.mock(ConfigRepository.class);
+	private ConfigDao repository = context.mock(ConfigDao.class);
 	private MostUsersEverOnlineService service = new MostUsersEverOnlineService(repository);
 
 	@Test

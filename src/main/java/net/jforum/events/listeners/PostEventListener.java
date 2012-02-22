@@ -12,7 +12,6 @@ package net.jforum.events.listeners;
 
 import net.jforum.entities.Post;
 import net.jforum.events.Event;
-
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -23,9 +22,10 @@ import org.aspectj.lang.annotation.Pointcut;
  */
 @Aspect
 public class PostEventListener extends AbstractListener<Event<Post>, Post> {
-	@Pointcut("target(net.jforum.repository.PostRepository)")
+	@Pointcut("target(net.jforum.repository.PostDao)")
 	@SuppressWarnings("all")
-	private void targetRepository() {}
+	private void targetRepository() {
+	}
 
 	@Before("repositoryAdd() && targetRepository() && args(post)")
 	public void beforeAdd(Post post) {

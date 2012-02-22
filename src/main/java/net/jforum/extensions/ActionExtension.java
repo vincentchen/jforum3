@@ -21,13 +21,13 @@ import java.lang.annotation.Target;
  * @author Bill
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target( ElementType.TYPE )
+@Target(ElementType.TYPE)
 public @interface ActionExtension {
-	
+
 	/**
 	 * the className will be default value
-	 * 
+	 *
 	 * @return extend component name
 	 */
-	public String value() default ""; 
+	public String value() default "";
 }

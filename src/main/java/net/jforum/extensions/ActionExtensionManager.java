@@ -16,5 +16,5 @@ package net.jforum.extensions;
  * @author Bill
  */
 public class ActionExtensionManager {
-	 // TODO
+	// TODO
 }

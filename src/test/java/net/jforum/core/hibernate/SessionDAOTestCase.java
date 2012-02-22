@@ -12,7 +12,7 @@ package net.jforum.core.hibernate;
 
 import junit.framework.Assert;
 import net.jforum.entities.Session;
-import net.jforum.repository.SessionRepository;
+import net.jforum.repository.SessionDao;
 
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import org.junit.Test;
 public class SessionDAOTestCase extends AbstractDAOTestCase<Session> {
 	@Test
 	public void addNew() {
-		SessionRepository dao = this.newDao();
+		SessionDao dao = this.newDao();
 		Assert.assertNull(dao.get(1));
 		this.insert(this.newSession(1), dao);
 		Assert.assertNotNull(dao.get(1));
@@ -30,7 +30,7 @@ public class SessionDAOTestCase extends AbstractDAOTestCase<Session> {
 
 	@Test
 	public void updateDoesNotExistShouldAdd() {
-		SessionRepository dao = this.newDao();
+		SessionDao dao = this.newDao();
 		Assert.assertNull(dao.get(1));
 		this.update(this.newSession(1), dao);
 		Assert.assertNotNull(dao.get(1));
@@ -44,7 +44,7 @@ public class SessionDAOTestCase extends AbstractDAOTestCase<Session> {
 		return session;
 	}
 
-	private SessionRepository newDao() {
-		return new SessionRepository(session());
+	private SessionDao newDao() {
+		return new SessionDao(session());
 	}
 }

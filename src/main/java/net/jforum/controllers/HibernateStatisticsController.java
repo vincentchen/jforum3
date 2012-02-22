@@ -10,15 +10,13 @@
  */
 package net.jforum.controllers;
 
-import net.jforum.actions.helpers.Domain;
-import net.jforum.core.SecurityConstraint;
-import net.jforum.security.AdministrationRule;
-
-import org.hibernate.SessionFactory;
-
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.security.AdministrationRule;
+import org.hibernate.SessionFactory;
 
 /**
  * @author Rafael Steil
@@ -32,7 +30,7 @@ public class HibernateStatisticsController {
 	private final Result result;
 
 	public HibernateStatisticsController(SessionFactory sessionFactory,
-			Result result) {
+	                                     Result result) {
 		this.sessionFactory = sessionFactory;
 		this.result = result;
 	}

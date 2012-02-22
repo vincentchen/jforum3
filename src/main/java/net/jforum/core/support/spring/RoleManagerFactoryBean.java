@@ -13,7 +13,6 @@ package net.jforum.core.support.spring;
 import net.jforum.core.SessionManager;
 import net.jforum.entities.UserSession;
 import net.jforum.security.RoleManager;
-
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.web.context.request.RequestContextHolder;
 

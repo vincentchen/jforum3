@@ -10,34 +10,19 @@
  */
 package net.jforum.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import net.jforum.repository.TopicRepository;
-
+import net.jforum.repository.TopicDao;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Represents every topic in the forum.
@@ -120,13 +105,15 @@ public class Topic implements Serializable {
 	private int movedId;
 
 	@Transient
-	private TopicRepository repository;
+	private TopicDao repository;
 
-	public Topic() {}
+	public Topic() {
+	}
 
 	/**
 	 * sometimes,in HQL, if we just want to load the id of the topic
 	 * rather all the properites, this is quit usefull
+	 *
 	 * @param id
 	 */
 	public Topic(int id) {
@@ -134,7 +121,7 @@ public class Topic implements Serializable {
 	}
 
 	@Autowired
-	public Topic(TopicRepository repository) {
+	public Topic(TopicDao repository) {
 		this.repository = repository;
 	}
 
@@ -142,7 +129,7 @@ public class Topic implements Serializable {
 		this.pendingModeration = status;
 	}
 
-	public void setRepository(TopicRepository repository) {
+	public void setRepository(TopicDao repository) {
 		this.repository = repository;
 	}
 
@@ -155,6 +142,7 @@ public class Topic implements Serializable {
 
 	/**
 	 * Check if this topic was moved to another forum
+	 *
 	 * @return true if it was moved to another forum
 	 */
 	public boolean getHasMoved() {
@@ -179,6 +167,7 @@ public class Topic implements Serializable {
 
 	/**
 	 * Return all posts from this topic
+	 *
 	 * @return all non-pending moderation posts
 	 */
 	public List<Post> getPosts() {
@@ -187,6 +176,7 @@ public class Topic implements Serializable {
 
 	/**
 	 * Get all posts from this topic
+	 *
 	 * @param start the first record to start fetching
 	 * @param count how many records to fetch
 	 * @return all non-pending moderation posts in the specified range
@@ -254,6 +244,7 @@ public class Topic implements Serializable {
 	 * Returns the number of posts in this topic.
 	 * This includes only non-pending moderation posts.
 	 * In fact, the result of this method is a call to {@link #getTotalReplies()} + 1
+	 *
 	 * @return the number of posts
 	 */
 	public int getTotalPosts() {
@@ -430,6 +421,7 @@ public class Topic implements Serializable {
 
 	/**
 	 * Get the first post in this topic
+	 *
 	 * @return the first post
 	 */
 	public Post getFirstPost() {
@@ -453,6 +445,7 @@ public class Topic implements Serializable {
 
 	/**
 	 * Check is this topic is waiting for moderation
+	 *
 	 * @return true if moderation is needed
 	 */
 	public boolean isWaitingModeration() {
@@ -473,11 +466,11 @@ public class Topic implements Serializable {
 	@Override
 	public String toString() {
 		return new StringBuilder(64)
-			.append('[')
-			.append(this.id)
-			.append(", ").append(this.subject)
-			.append(']')
-			.toString();
+				.append('[')
+				.append(this.id)
+				.append(", ").append(this.subject)
+				.append(']')
+				.toString();
 	}
 
 	private void assertRepository() {

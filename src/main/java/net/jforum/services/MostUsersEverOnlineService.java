@@ -10,22 +10,22 @@
  */
 package net.jforum.services;
 
-import java.util.Date;
-
 import net.jforum.entities.Config;
 import net.jforum.entities.MostUsersEverOnline;
-import net.jforum.repository.ConfigRepository;
+import net.jforum.repository.ConfigDao;
 import net.jforum.util.ConfigKeys;
-import br.com.caelum.vraptor.ioc.Component;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class MostUsersEverOnlineService {
-	private ConfigRepository repository;
+	private ConfigDao repository;
 
-	public MostUsersEverOnlineService(ConfigRepository repository) {
+	public MostUsersEverOnlineService(ConfigDao repository) {
 		this.repository = repository;
 	}
 
@@ -45,8 +45,7 @@ public class MostUsersEverOnlineService {
 
 			return most;
 
-		}
-		else {
+		} else {
 			String[] p = config.getValue().split("/");
 			MostUsersEverOnline most = new MostUsersEverOnline();
 
@@ -61,8 +60,7 @@ public class MostUsersEverOnlineService {
 				this.repository.update(config);
 
 				return most;
-			}
-			else {
+			} else {
 				most.setDate(new Date(Long.parseLong(p[0])));
 				most.setTotal(Integer.parseInt(p[1]));
 

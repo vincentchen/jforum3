@@ -10,23 +10,21 @@
  */
 package net.jforum.services;
 
+import net.jforum.entities.Poll;
+import net.jforum.entities.PollOption;
+import net.jforum.entities.Topic;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import net.jforum.entities.Poll;
-import net.jforum.entities.PollOption;
-import net.jforum.entities.Topic;
-
-import org.apache.commons.lang.StringUtils;
-
-import br.com.caelum.vraptor.ioc.Component;
-
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class PollService {
 	public void processChanges(Poll originalPoll, List<PollOption> options) {
 		PollChanges changes = new PollChanges(originalPoll);
@@ -45,21 +43,19 @@ public class PollService {
 
 		topic.getPoll().setStartDate(new Date());
 
-		for (Iterator<PollOption> iterator = pollOptions.iterator(); iterator.hasNext();) {
+		for (Iterator<PollOption> iterator = pollOptions.iterator(); iterator.hasNext(); ) {
 			PollOption option = iterator.next();
 
 			if (StringUtils.isEmpty(option.getText())) {
 				iterator.remove();
-			}
-			else {
+			} else {
 				option.setPoll(topic.getPoll());
 			}
 		}
 
 		if (pollOptions.size() == 0) {
 			topic.setPoll(null);
-		}
-		else {
+		} else {
 			topic.getPoll().setOptions(pollOptions);
 		}
 	}
@@ -92,8 +88,7 @@ public class PollService {
 				if (option.getId() == 0) {
 					this.newOptions.add(option);
 					option.setPoll(this.originalPoll);
-				}
-				else {
+				} else {
 					PollOption originalOption = this.findOption(option.getId(), this.originalPoll.getOptions());
 
 					if (originalOption != null && !StringUtils.isEmpty(option.getText())

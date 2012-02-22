@@ -10,34 +10,32 @@
  */
 package net.jforum.services;
 
-import java.util.Date;
-import java.util.List;
-
 import net.jforum.actions.helpers.AttachedFile;
 import net.jforum.entities.ModerationLog;
 import net.jforum.entities.PollOption;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.TopicRepository;
-
+import net.jforum.repository.PostDao;
+import net.jforum.repository.TopicDao;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class PostService {
-	private PostRepository postRepository;
+	private PostDao postRepository;
 	private AttachmentService attachmentService;
 	private PollService pollService;
-	private TopicRepository topicRepository;
+	private TopicDao topicRepository;
 	private ModerationLogService moderationLogService;
 
-	public PostService(PostRepository postRepository, AttachmentService attachmentService,
-			PollService pollService, TopicRepository topicRepository, ModerationLogService moderationLogService) {
+	public PostService(PostDao postRepository, AttachmentService attachmentService,
+	                   PollService pollService, TopicDao topicRepository, ModerationLogService moderationLogService) {
 		this.postRepository = postRepository;
 		this.attachmentService = attachmentService;
 		this.pollService = pollService;
@@ -47,6 +45,7 @@ public class PostService {
 
 	/**
 	 * Deletes an existing post
+	 *
 	 * @param postId
 	 */
 	public void delete(Post post) {
@@ -56,14 +55,15 @@ public class PostService {
 
 	/**
 	 * Updates an existing post
-	 * @param post the post to update
+	 *
+	 * @param post               the post to update
 	 * @param canChangeTopicType
 	 * @param pollOptions
 	 * @param attachments
 	 * @param moderationLog
 	 */
 	public void update(Post post, boolean canChangeTopicType, List<PollOption> pollOptions,
-			List<AttachedFile> attachments, ModerationLog moderationLog) {
+	                   List<AttachedFile> attachments, ModerationLog moderationLog) {
 		this.applySaveConstraints(post);
 
 		Post currentPost = this.postRepository.get(post.getId());
@@ -96,8 +96,7 @@ public class PostService {
 				// Set a new poll
 				currentTopic.setPoll(post.getTopic().getPoll());
 				this.pollService.associatePoll(currentTopic, pollOptions);
-			}
-			else {
+			} else {
 				// Update existing poll
 				currentTopic.getPoll().setLabel(post.getTopic().getPoll().getLabel());
 				currentTopic.getPoll().setLength(post.getTopic().getPoll().getLength());

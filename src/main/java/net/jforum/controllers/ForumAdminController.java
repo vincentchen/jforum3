@@ -10,18 +10,18 @@
  */
 package net.jforum.controllers;
 
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.entities.Forum;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.CategoryDao;
+import net.jforum.repository.ForumDao;
 import net.jforum.security.AdministrationRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.ForumService;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
 
 /**
  * @author Rafael Steil
@@ -30,14 +30,14 @@ import br.com.caelum.vraptor.Result;
 @Path(Domain.FORUMS_ADMIN)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class ForumAdminController {
-	private CategoryRepository categoryRepository;
-	private ForumRepository forumRepository;
+	private CategoryDao categoryRepository;
+	private ForumDao forumRepository;
 	private ForumService forumService;
 	private final Result result;
 	private final UserSession userSession;
 
-	public ForumAdminController(ForumService service, ForumRepository forumRepository,
-			CategoryRepository categoryRepository, Result result, UserSession userSession) {
+	public ForumAdminController(ForumService service, ForumDao forumRepository,
+	                            CategoryDao categoryRepository, Result result, UserSession userSession) {
 		this.forumService = service;
 		this.categoryRepository = categoryRepository;
 		this.forumRepository = forumRepository;
@@ -51,7 +51,7 @@ public class ForumAdminController {
 	 */
 	public void list() {
 		this.result.include("categories",
-			this.categoryRepository.getAllCategories());
+				this.categoryRepository.getAllCategories());
 	}
 
 	/**
@@ -100,8 +100,7 @@ public class ForumAdminController {
 
 		if (!roleManager.getCanModerateForum(forumId)) {
 			this.result.redirectTo(this).list();
-		}
-		else {
+		} else {
 			this.result.include("forum", this.forumRepository.get(forumId));
 			this.result.include("categories", this.categoryRepository.getAllCategories());
 			this.result.forwardTo(this).add();
@@ -128,8 +127,7 @@ public class ForumAdminController {
 	/**
 	 * Changes the order of the specified category, adding it one level up.
 	 *
-	 * @param forumId
-	 *            the id of the category to change
+	 * @param forumId the id of the category to change
 	 */
 	public void up(int forumId) {
 		RoleManager roleManager = this.userSession.getRoleManager();
@@ -144,8 +142,7 @@ public class ForumAdminController {
 	/**
 	 * Changes the order of the specified category, adding it one level down.
 	 *
-	 * @param forumId
-	 *            the id of the category to change
+	 * @param forumId the id of the category to change
 	 */
 	public void down(int forumId) {
 		RoleManager roleManager = this.userSession.getRoleManager();

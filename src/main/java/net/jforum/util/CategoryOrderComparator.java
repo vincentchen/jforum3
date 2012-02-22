@@ -10,28 +10,24 @@
  */
 package net.jforum.util;
 
-import java.util.Comparator;
-
 import net.jforum.entities.Category;
+
+import java.util.Comparator;
 
 /**
  * @author Rafael Steil
  * @version $Id: CategoryOrderComparator.java,v 1.1.2.1 2007/02/25 18:55:28 rafaelsteil Exp $
  */
-public class CategoryOrderComparator implements Comparator<Category>
-{
-	/** 
+public class CategoryOrderComparator implements Comparator<Category> {
+	/**
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(Category c1, Category c2) 
-	{
+	public int compare(Category c1, Category c2) {
 		if (c1.getDisplayOrder() > c2.getDisplayOrder()) {
 			return 1;
-		}
-		else if (c1.getDisplayOrder() < c2.getDisplayOrder() ) {
+		} else if (c1.getDisplayOrder() < c2.getDisplayOrder()) {
 			return -1;
-		}
-		else {
+		} else {
 			return c1.getName().compareTo(c2.getName());
 		}
 	}

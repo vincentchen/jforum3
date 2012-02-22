@@ -10,17 +10,17 @@
  */
 package net.jforum.controllers;
 
-import net.jforum.actions.helpers.Actions;
-import net.jforum.actions.helpers.Domain;
-import net.jforum.core.SecurityConstraint;
-import net.jforum.entities.Avatar;
-import net.jforum.repository.AvatarRepository;
-import net.jforum.security.AdministrationRule;
-import net.jforum.services.AvatarService;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
+import net.jforum.actions.helpers.Actions;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.entities.Avatar;
+import net.jforum.repository.AvatarDao;
+import net.jforum.security.AdministrationRule;
+import net.jforum.services.AvatarService;
 
 /**
  * @author Bill
@@ -32,11 +32,11 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 public class AvatarAdminController {
 
 	private AvatarService avatarService;
-	private AvatarRepository repository;
+	private AvatarDao repository;
 	private final Result result;
 
-	public AvatarAdminController(Result result, AvatarRepository repository,
-			AvatarService service) {
+	public AvatarAdminController(Result result, AvatarDao repository,
+	                             AvatarService service) {
 		this.result = result;
 		this.repository = repository;
 		this.avatarService = service;
@@ -44,9 +44,8 @@ public class AvatarAdminController {
 
 	/**
 	 * Deletes avatars
-	 * 
-	 * @param avatarId
-	 *            One or many avatar id's for the avatars to be deleted.
+	 *
+	 * @param avatarId One or many avatar id's for the avatars to be deleted.
 	 */
 	public void delete(int... avatarId) {
 		if (avatarId != null) {
@@ -75,12 +74,10 @@ public class AvatarAdminController {
 
 	/**
 	 * Saves a new avatar
-	 * 
-	 * @param avatar
-	 *            The avatar to be saved.
-	 * @param image
-	 *            Vraptor information object carrying info about the uploaded
-	 *            avatar.
+	 *
+	 * @param avatar The avatar to be saved.
+	 * @param image  Vraptor information object carrying info about the uploaded
+	 *               avatar.
 	 */
 	public void addSave(Avatar avatar, UploadedFile image) {
 		this.avatarService.add(avatar, image);
@@ -89,9 +86,8 @@ public class AvatarAdminController {
 
 	/**
 	 * Shows the page to edit a existing avatar
-	 * 
-	 * @param avatarId
-	 *            The avatar id for the avatar to be edited.
+	 *
+	 * @param avatarId The avatar id for the avatar to be edited.
 	 */
 	public void edit(int avatarId) {
 		this.result.include("avatar", this.repository.get(avatarId));

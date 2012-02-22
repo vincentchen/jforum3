@@ -16,8 +16,8 @@ import java.util.List;
 
 import net.jforum.entities.Group;
 import net.jforum.entities.User;
-import net.jforum.repository.GroupRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.GroupDao;
+import net.jforum.repository.UserDao;
 import net.jforum.util.JDBCLoader;
 
 import org.junit.Assert;
@@ -32,8 +32,8 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 	public void changeAllowAvatarState() {
 		new JDBCLoader(this.session().connection()).run("/userdao/changeAllowAvatarState.sql");
 
-		GroupRepository groupDao = this.newGroupDao();
-		UserRepository dao = this.newDao();
+		GroupDao groupDao = this.newGroupDao();
+		UserDao dao = this.newDao();
 
 		Group group1 = groupDao.get(1);
 		Group group2 = groupDao.get(2);
@@ -59,7 +59,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 	public void findByUsernameFilteringByGroup() {
 		new JDBCLoader(this.session().connection()).run("/userdao/findByUsernameFilteringByGroup.sql");
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		User user = dao.get(1);
 
 		List<User> users = dao.findByUserName("user", user.getGroups());
@@ -74,7 +74,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 	public void getAllUsersFilteringByGroup() {
 		new JDBCLoader(this.session().connection()).run("/userdao/getAllUsersFilteringByGroup.sql");
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		User user = dao.get(1);
 
 		List<User> users = dao.getAllUsers(0, 10, user.getGroups());
@@ -90,7 +90,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		user.setUsername("user1");
 		user.setEmail("email1");
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 
 		user = dao.getByEmail("email1");
@@ -100,14 +100,14 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 
 	@Test
 	public void validateLostPasswordHashUsingBadDataExpectFail() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		User user = dao.validateLostPasswordHash("bad username", "bad hash");
 		Assert.assertNull(user);
 	}
 
 	@Test
 	public void validateLostPasswordHashUsingGoodDataExpectSuccess() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 
 		User user = new User();
 		user.setUsername("rafael");
@@ -132,7 +132,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 	@Test
 	public void isUsernaneAvailableTestingUsernameExpectFalse() {
 		User user = new User(); user.setUsername("username1"); user.setEmail("email1");
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 		Assert.assertFalse(dao.isUsernameAvailable("UserNaMe1", "email2"));
 	}
@@ -140,7 +140,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 	@Test
 	public void isUsernaneAvailableTestingEmailExpectFalse() {
 		User user = new User(); user.setUsername("username1"); user.setEmail("email1");
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 		Assert.assertFalse(dao.isUsernameAvailable("UserNaMe2", "eMAil1"));
 	}
@@ -148,7 +148,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 	@Test
 	public void isUsernaneAvailableExpectTrue() {
 		User user = new User(); user.setUsername("username1"); user.setEmail("email1");
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 		Assert.assertTrue(dao.isUsernameAvailable("UserNaMe2", "email2"));
 	}
@@ -169,7 +169,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		User user3 = new User(); user3.setUsername("Something With Amy inside");
 		User user4 = new User(); user4.setUsername("another username");
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 
 		this.insert(user1, dao);
 		this.insert(user3, dao);
@@ -191,7 +191,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 
 		user.addGroup(g);
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 
 		user = dao.get(user.getId());
@@ -207,7 +207,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		Group g2 = new Group(); g2.setName("g2");
 		Group g3 = new Group(); g3.setName("g3");
 
-		GroupRepository groupDao = this.newGroupDao();
+		GroupDao groupDao = this.newGroupDao();
 		groupDao.add(g);
 		groupDao.add(g2);
 		groupDao.add(g3);
@@ -218,7 +218,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		user.addGroup(g);
 		user.addGroup(g2);
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 
 		user = dao.get(user.getId());
@@ -243,7 +243,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		user.setUsername("username1");
 		user.setPassword("password1");
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 
 		Assert.assertNull(dao.validateLogin("a", "b"));
@@ -255,7 +255,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		user.setUsername("username2");
 		user.setPassword("password2");
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		this.insert(user, dao);
 
 		Assert.assertNotNull(dao.validateLogin("username2", "password2"));
@@ -268,7 +268,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		user.setPassword("pwd1");
 		user.setEmail("email1");
 
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 
 		this.insert(user, dao);
 
@@ -282,13 +282,13 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 
 	@Test
 	public void getByUsernameUsingInexistentValueExpectsNull() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		Assert.assertNull(dao.getByUsername("non existent username"));
 	}
 
 	@Test
 	public void getByUsernameExpectsValidUser() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		User u = new User(); u.setUsername("usernameX"); this.insert(u, dao);
 		User u2 = dao.getByUsername("usernameX");
 		Assert.assertNotNull(u2);
@@ -297,7 +297,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 
 	@Test
 	public void geTotalUsers() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		User u1 = new User(); u1.setUsername("u1"); this.insert(u1, dao);
 		User u2 = new User(); u2.setUsername("u1"); this.insert(u2, dao);
 		User u3 = new User(); u3.setUsername("u1"); this.insert(u3, dao);
@@ -308,7 +308,7 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 	@Test
 	@SuppressWarnings("deprecation")
 	public void getLastRegisteredUser() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		User u1 = new User(); u1.setUsername("u1"); u1.setRegistrationDate(new Date(2008, 3, 19, 20, 03, 10)); this.insert(u1, dao);
 		User u2 = new User(); u2.setUsername("u2"); u2.setRegistrationDate(new Date(2008, 3, 5, 7, 19, 10)); this.insert(u2, dao);
 
@@ -321,13 +321,13 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 
 	@Test
 	public void listExpectEmptyList() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 		Assert.assertEquals(0, dao.getAllUsers(0, 10).size());
 	}
 
 	@Test
 	public void listExpectTwoRecords() {
-		UserRepository dao = this.newDao();
+		UserDao dao = this.newDao();
 
 		User u1 = new User(); u1.setUsername("u1"); this.insert(u1, dao);
 		User u2 = new User(); u1.setUsername("u2"); this.insert(u2, dao);
@@ -339,12 +339,12 @@ public class UserDAOTestCase extends AbstractDAOTestCase<User> {
 		Assert.assertTrue(users.contains(u2));
 	}
 
-	private UserRepository newDao() {
-		return new UserRepository(session());
+	private UserDao newDao() {
+		return new UserDao(session());
 	}
 
-	private GroupRepository newGroupDao() {
-		return new GroupRepository(session());
+	private GroupDao newGroupDao() {
+		return new GroupDao(session());
 	}
 }
 

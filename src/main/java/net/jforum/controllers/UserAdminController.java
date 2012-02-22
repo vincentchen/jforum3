@@ -10,22 +10,22 @@
  */
 package net.jforum.controllers;
 
-import java.util.List;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.GroupRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.GroupDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.AdministrationRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.UserService;
 import net.jforum.util.JForumConfig;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -34,15 +34,15 @@ import br.com.caelum.vraptor.Result;
 @Path(Domain.USERS_ADMIN)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class UserAdminController {
-	private UserRepository userRepository;
-	private GroupRepository groupRepository;
+	private UserDao userRepository;
+	private GroupDao groupRepository;
 	private JForumConfig config;
 	private UserService userService;
 	private final Result result;
 	private final UserSession userSession;
 
-	public UserAdminController(UserRepository repository, GroupRepository groupRepository, JForumConfig config,
-			UserService userService, Result result, UserSession userSession) {
+	public UserAdminController(UserDao repository, GroupDao groupRepository, JForumConfig config,
+	                           UserService userService, Result result, UserSession userSession) {
 		this.userRepository = repository;
 		this.groupRepository = groupRepository;
 		this.config = config;
@@ -77,7 +77,7 @@ public class UserAdminController {
 	/**
 	 * Save the groups
 	 *
-	 * @param userId the user id
+	 * @param userId   the user id
 	 * @param groupIds the id of the groups for the user
 	 */
 	public void groupsSave(int userId, int... groupIds) {

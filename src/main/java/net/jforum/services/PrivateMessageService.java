@@ -10,33 +10,32 @@
  */
 package net.jforum.services;
 
-import java.util.Date;
-
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.PrivateMessage;
 import net.jforum.entities.PrivateMessageType;
 import net.jforum.entities.User;
-import net.jforum.repository.PrivateMessageRepository;
-
+import net.jforum.repository.PrivateMessageDao;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.Date;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class PrivateMessageService {
-	private PrivateMessageRepository repository;
+	private PrivateMessageDao repository;
 
-	public PrivateMessageService(PrivateMessageRepository repository) {
+	public PrivateMessageService(PrivateMessageDao repository) {
 		this.repository = repository;
 	}
 
 	/**
 	 * Delete a set of private messages
+	 *
 	 * @param owner the owner of the messages
-	 * @param ids the id of the messages to delete
+	 * @param ids   the id of the messages to delete
 	 */
 	public void delete(User owner, int... ids) {
 		if (ids == null || ids.length == 0) {
@@ -54,11 +53,12 @@ public class PrivateMessageService {
 
 	private boolean canDeleteMessage(User owner, PrivateMessage pm) {
 		return (pm.getToUser().equals(owner) && pm.getType() != PrivateMessageType.SENT)
-			|| (pm.getFromUser().equals(owner) && pm.getType() == PrivateMessageType.SENT);
+				|| (pm.getFromUser().equals(owner) && pm.getType() == PrivateMessageType.SENT);
 	}
 
 	/**
 	 * Send a private message
+	 *
 	 * @param pm the private message to send
 	 */
 	public void send(PrivateMessage pm) {

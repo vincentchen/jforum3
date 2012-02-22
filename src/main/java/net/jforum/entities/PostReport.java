@@ -10,19 +10,8 @@
  */
 package net.jforum.entities;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 /**
  * @author Rafael Steil
@@ -58,7 +47,7 @@ public class PostReport {
 	}
 
 	public PostReport(int id, int postId, String postSubject, int topicId, Date reportDate, String description,
-		String reporterName, int reporterId, String postUser, int postUserId, PostReportStatus status) {
+	                  String reporterName, int reporterId, String postUser, int postUserId, PostReportStatus status) {
 		this.id = id;
 		this.description = description;
 

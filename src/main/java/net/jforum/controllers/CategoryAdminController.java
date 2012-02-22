@@ -10,15 +10,15 @@
  */
 package net.jforum.controllers;
 
-import net.jforum.actions.helpers.Domain;
-import net.jforum.core.SecurityConstraint;
-import net.jforum.entities.Category;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.security.AdministrationRule;
-import net.jforum.services.CategoryService;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.entities.Category;
+import net.jforum.repository.CategoryDao;
+import net.jforum.security.AdministrationRule;
+import net.jforum.services.CategoryService;
 
 /**
  * @author Rafael Steil
@@ -27,12 +27,12 @@ import br.com.caelum.vraptor.Result;
 @Path(Domain.CATEGORIES_ADMIN)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class CategoryAdminController {
-	private CategoryRepository categoryRepository;
+	private CategoryDao categoryRepository;
 	private CategoryService categoryService;
 	private final Result result;
 
-	public CategoryAdminController(CategoryRepository categoryRepository,
-			CategoryService categoryService, Result result) {
+	public CategoryAdminController(CategoryDao categoryRepository,
+	                               CategoryService categoryService, Result result) {
 		this.categoryRepository = categoryRepository;
 		this.categoryService = categoryService;
 		this.result = result;
@@ -90,8 +90,7 @@ public class CategoryAdminController {
 	/**
 	 * Changes the order of the specified category, adding it one level up.
 	 *
-	 * @param categoryId
-	 *            the id of the category to change
+	 * @param categoryId the id of the category to change
 	 */
 	public void up(int categoryId) {
 		this.categoryService.upCategoryOrder(categoryId);
@@ -101,8 +100,7 @@ public class CategoryAdminController {
 	/**
 	 * Changes the order of the specified category, adding it one level down.
 	 *
-	 * @param categoryId
-	 *            the id of the category to change
+	 * @param categoryId the id of the category to change
 	 */
 	public void down(int categoryId) {
 		this.categoryService.downCategoryOrder(categoryId);

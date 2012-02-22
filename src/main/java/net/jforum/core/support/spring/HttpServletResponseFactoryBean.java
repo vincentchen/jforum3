@@ -10,13 +10,12 @@
  */
 package net.jforum.core.support.spring;
 
-import javax.servlet.http.HttpServletResponse;
-
 import net.jforum.util.ConfigKeys;
-
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Rafael Steil

@@ -10,20 +10,10 @@
  */
 package net.jforum.plugins.post;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import net.jforum.entities.Forum;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Bill
@@ -38,10 +28,10 @@ public class ForumLimitedTime implements Serializable {
 	private int id;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "forum_id", updatable = false,unique = true)
+	@JoinColumn(name = "forum_id", updatable = false, unique = true)
 	private Forum forum;
 
-	@Column(name ="limited_time")
+	@Column(name = "limited_time")
 	private long limitedTime;
 
 	/**

@@ -10,16 +10,16 @@
  */
 package net.jforum.security;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.jforum.entities.Forum;
 import net.jforum.entities.Group;
 import net.jforum.entities.Role;
 import net.jforum.entities.User;
 import net.jforum.util.SecurityConstants;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provide access to all roles from a set of groups.
@@ -35,6 +35,7 @@ public class RoleManager {
 	/**
 	 * Set the groups for this role manager
 	 * This will replace any existing group that may exist already
+	 *
 	 * @param groups the groups to add
 	 */
 	public void setGroups(List<Group> groups) {
@@ -49,14 +50,12 @@ public class RoleManager {
 
 					if (existingRole == null) {
 						this.roles.put(role.getName(), new Role(role));
-					}
-					else {
+					} else {
 						// Handle the very special case of read only and reply only
 						if (role.getName().equals(SecurityConstants.FORUM_READ_ONLY)
 								|| role.getName().equals(SecurityConstants.FORUM_REPLY_ONLY)) {
 							existingRole.getRoleValues().retainAll(role.getRoleValues());
-						}
-						else {
+						} else {
 							existingRole.getRoleValues().addAll(role.getRoleValues());
 						}
 					}
@@ -75,7 +74,7 @@ public class RoleManager {
 			for (int forumId : new ArrayList<Integer>(role.getRoleValues())) {
 				for (Group g : groups) {
 					if (g.roleExists(SecurityConstants.FORUM, forumId) && !g.roleExists(roleName, forumId)) {
-						role.getRoleValues().remove((Object)forumId);
+						role.getRoleValues().remove((Object) forumId);
 					}
 				}
 			}
@@ -88,6 +87,7 @@ public class RoleManager {
 
 	/**
 	 * Check if replies should be moderated in some forum
+	 *
 	 * @param forumId the forum id
 	 * @return true if replies should be moderated
 	 */
@@ -97,6 +97,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can download existing attachments from some forum
+	 *
 	 * @param forumId the forum id
 	 * @return true if it can download attachments
 	 */
@@ -106,6 +107,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can add attachments to the messages of some forum
+	 *
 	 * @param forumId the forum id
 	 * @return true if it can add attachments
 	 */
@@ -115,6 +117,7 @@ public class RoleManager {
 
 	/**
 	 * Check if some forum is reply only (no new messages allowed)
+	 *
 	 * @param forumId the forum id
 	 * @return true if the forum id reply only
 	 */
@@ -124,6 +127,7 @@ public class RoleManager {
 
 	/**
 	 * Check if HTML is allowed in the messages of some forum
+	 *
 	 * @param forumId the forum id
 	 * @return true if HTML is allowed
 	 */
@@ -133,6 +137,7 @@ public class RoleManager {
 
 	/**
 	 * Check it is a read only forum
+	 *
 	 * @param forumId the forum id
 	 * @return true if it is a read only forum
 	 */
@@ -142,6 +147,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can vote on existing polls
+	 *
 	 * @return true if it can vote on existing polls
 	 */
 	public boolean getCanVoteOnPolls() {
@@ -150,6 +156,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can create polls
+	 *
 	 * @return true if it can create polls
 	 */
 	public boolean getCanCreatePolls() {
@@ -158,6 +165,7 @@ public class RoleManager {
 
 	/**
 	 * Check if can create sticky and announcement topics
+	 *
 	 * @return true if can create sticky and announcement topics
 	 */
 	public boolean getCanCreateStickyAnnouncementTopics() {
@@ -166,6 +174,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can lock and unlock topics
+	 *
 	 * @return true if it can lock and unlock topics
 	 */
 	public boolean getCanLockUnlockTopics() {
@@ -174,6 +183,7 @@ public class RoleManager {
 
 	/**
 	 * Check if can move topics between forums
+	 *
 	 * @return true if it can move topics
 	 */
 	public boolean getCanMoveTopics() {
@@ -182,6 +192,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can edit any message
+	 *
 	 * @return true if it can edit any message
 	 */
 	public boolean getCanEditPosts() {
@@ -190,6 +201,7 @@ public class RoleManager {
 
 	/**
 	 * Check if can remove any message
+	 *
 	 * @return true if it can remove any message
 	 */
 	public boolean getCanDeletePosts() {
@@ -198,6 +210,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can moderate some forum
+	 *
 	 * @param forumId the forum id
 	 * @return true if it can moderate the forum
 	 */
@@ -207,6 +220,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it can approve messages in moderated forums
+	 *
 	 * @return
 	 */
 	public boolean getCanApproveMessages() {
@@ -215,6 +229,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it is a moderator
+	 *
 	 * @return true if it's a moderator
 	 */
 	public boolean isModerator() {
@@ -223,6 +238,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it has access to the forum
+	 *
 	 * @param forumId the forum id
 	 * @return true if access is allowed
 	 */
@@ -232,6 +248,7 @@ public class RoleManager {
 
 	/**
 	 * Check if it has access to the category
+	 *
 	 * @param categoryId the category id
 	 * @return true if access is allowed
 	 */
@@ -241,7 +258,7 @@ public class RoleManager {
 
 	public boolean isCategoryModerated(List<Forum> forumsOfACategory) {
 		for (Forum forum : forumsOfACategory) {
-			if(this.roleExists(SecurityConstants.MODERATE_FORUM, forum.getId())) {
+			if (this.roleExists(SecurityConstants.MODERATE_FORUM, forum.getId())) {
 				return true;
 			}
 		}
@@ -285,6 +302,7 @@ public class RoleManager {
 
 	/**
 	 * Return all values (if any) associated to a specific role
+	 *
 	 * @param name the role name
 	 * @return the role values (if any)
 	 */

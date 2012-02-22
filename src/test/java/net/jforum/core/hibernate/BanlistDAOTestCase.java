@@ -13,7 +13,7 @@ package net.jforum.core.hibernate;
 import java.util.List;
 
 import net.jforum.entities.Banlist;
-import net.jforum.repository.BanlistRepository;
+import net.jforum.repository.BanlistDao;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import org.junit.Test;
 public class BanlistDAOTestCase extends AbstractDAOTestCase<Banlist> {
 	@Test
 	public void getAllBanlistsExpectEmptyList() {
-		BanlistRepository dao = this.newDao();
+		BanlistDao dao = this.newDao();
 		List<Banlist> banlists = dao.getAllBanlists();
 		Assert.assertNotNull(banlists);
 		Assert.assertEquals(0, banlists.size());
@@ -32,7 +32,7 @@ public class BanlistDAOTestCase extends AbstractDAOTestCase<Banlist> {
 
 	@Test
 	public void getAllBanlistsExpectTwoRecords() {
-		BanlistRepository dao = this.newDao();
+		BanlistDao dao = this.newDao();
 
 		Banlist b1 = new Banlist(); b1.setEmail("email@1"); this.insert(b1, dao);
 		Banlist b2 = new Banlist(); b2.setUserId(3); this.insert(b2, dao);
@@ -44,7 +44,7 @@ public class BanlistDAOTestCase extends AbstractDAOTestCase<Banlist> {
 		Assert.assertEquals(3, banlists.get(1).getUserId());
 	}
 
-	private BanlistRepository newDao() {
-		return new BanlistRepository(session());
+	private BanlistDao newDao() {
+		return new BanlistDao(session());
 	}
 }

@@ -10,18 +10,19 @@
  */
 package net.jforum.actions.interceptors;
 
-import javax.servlet.http.HttpServletRequest;
-
-import net.jforum.core.SecurityConstraint;
-import net.jforum.entities.UserSession;
 import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.ioc.Container;
 import br.com.caelum.vraptor.ioc.RequestScoped;
 import br.com.caelum.vraptor.resource.ResourceMethod;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.entities.UserSession;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Intercepts and process the {@link SecurityConstraint} annotation for methods
+ *
  * @author Rafael Steil
  */
 @Intercepts(after = SessionManagerInterceptor.class)

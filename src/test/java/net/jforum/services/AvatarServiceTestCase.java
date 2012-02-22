@@ -17,7 +17,7 @@ import java.io.IOException;
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Avatar;
 import net.jforum.entities.AvatarType;
-import net.jforum.repository.AvatarRepository;
+import net.jforum.repository.AvatarDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.TestCaseUtils;
@@ -35,7 +35,7 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
  */
 public class AvatarServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private AvatarRepository repository = context.mock(AvatarRepository.class);
+	private AvatarDao repository = context.mock(AvatarDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private AvatarService service = new AvatarService(config, repository);
 

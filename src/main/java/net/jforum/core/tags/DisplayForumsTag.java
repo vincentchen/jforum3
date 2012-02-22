@@ -10,13 +10,12 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.jsp.JspException;
-
 import net.jforum.entities.Forum;
 import net.jforum.security.RoleManager;
+
+import javax.servlet.jsp.JspException;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Rafael Steil

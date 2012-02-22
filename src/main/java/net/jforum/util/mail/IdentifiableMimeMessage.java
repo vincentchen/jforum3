@@ -74,8 +74,7 @@ public class IdentifiableMimeMessage extends MimeMessage {
 	protected void updateMessageID() throws MessagingException {
 		if (this.messageId != null) {
 			this.addHeader("Message-ID", this.messageId);
-		}
-		else {
+		} else {
 			super.updateMessageID();
 		}
 	}

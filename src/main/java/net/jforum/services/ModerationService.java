@@ -10,34 +10,32 @@
  */
 package net.jforum.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.jforum.actions.helpers.ApproveInfo;
 import net.jforum.entities.Forum;
 import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.TopicRepository;
-
+import net.jforum.repository.ForumDao;
+import net.jforum.repository.PostDao;
+import net.jforum.repository.TopicDao;
 import org.apache.commons.lang.ArrayUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class ModerationService {
-	private PostRepository postRepository;
-	private ForumRepository forumRepository;
-	private TopicRepository topicRepository;
+	private PostDao postRepository;
+	private ForumDao forumRepository;
+	private TopicDao topicRepository;
 	private ModerationLogService moderationLogService;
 
-	public ModerationService(PostRepository postRepository, ForumRepository forumRepository, TopicRepository topicRepository,
-			ModerationLogService moderationLogService) {
+	public ModerationService(PostDao postRepository, ForumDao forumRepository, TopicDao topicRepository,
+	                         ModerationLogService moderationLogService) {
 		this.postRepository = postRepository;
 		this.forumRepository = forumRepository;
 		this.topicRepository = topicRepository;
@@ -46,8 +44,9 @@ public class ModerationService {
 
 	/**
 	 * Move a set of topics to another forum
-	 * @param toForumId the id of the new forum
-	 * @param topicIds the id of the topics to move
+	 *
+	 * @param toForumId     the id of the new forum
+	 * @param topicIds      the id of the topics to move
 	 * @param moderationLog
 	 */
 	public void moveTopics(int toForumId, ModerationLog moderationLog, int... topicIds) {
@@ -68,7 +67,8 @@ public class ModerationService {
 
 	/**
 	 * Lock or unlock a set of topics
-	 * @param topicIds the id of the topics to lock or unlock
+	 *
+	 * @param topicIds      the id of the topics to lock or unlock
 	 * @param moderationLog
 	 */
 	public void lockUnlock(int[] topicIds, ModerationLog moderationLog) {
@@ -81,8 +81,7 @@ public class ModerationService {
 
 			if (topic.isLocked()) {
 				topic.unlock();
-			}
-			else {
+			} else {
 				topic.lock();
 			}
 		}
@@ -92,7 +91,8 @@ public class ModerationService {
 
 	/**
 	 * Delete a set of topics.
-	 * @param topics the topics to delete
+	 *
+	 * @param topics        the topics to delete
 	 * @param moderationLog
 	 */
 	public void deleteTopics(List<Topic> topics, ModerationLog moderationLog) {
@@ -108,6 +108,7 @@ public class ModerationService {
 
 	/**
 	 * Process a set of approval data
+	 *
 	 * @param forumId
 	 * @param infos
 	 */
@@ -123,8 +124,7 @@ public class ModerationService {
 				if (post != null) {
 					if (info.approve()) {
 						this.approvePost(post);
-					}
-					else if (info.reject()) {
+					} else if (info.reject()) {
 						this.denyPost(post);
 					}
 				}
@@ -144,8 +144,7 @@ public class ModerationService {
 
 		if (topic.isWaitingModeration()) {
 			topic.setPendingModeration(false);
-		}
-		else {
+		} else {
 			topic.incrementTotalReplies();
 		}
 

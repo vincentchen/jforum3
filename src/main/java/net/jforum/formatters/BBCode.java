@@ -46,7 +46,7 @@ import java.io.Serializable;
 
 /**
  * Represents each bbcode.
- * 
+ *
  * @author Rafael Steil
  */
 public class BBCode implements Serializable {
@@ -57,7 +57,7 @@ public class BBCode implements Serializable {
 
 	/**
 	 * Gets the regex
-	 * 
+	 *
 	 * @return String witht the regex
 	 */
 	public String getRegex() {
@@ -66,7 +66,7 @@ public class BBCode implements Serializable {
 
 	/**
 	 * Gets the replacement string
-	 * 
+	 *
 	 * @return string with the replacement data
 	 */
 	public String getReplace() {
@@ -75,7 +75,7 @@ public class BBCode implements Serializable {
 
 	/**
 	 * Getst the tag name
-	 * 
+	 *
 	 * @return The tag name
 	 */
 	public String getTagName() {
@@ -84,7 +84,7 @@ public class BBCode implements Serializable {
 
 	/**
 	 * Sets the regular expression associated to the tag
-	 * 
+	 *
 	 * @param regex Regular expression string
 	 */
 	public void setRegex(String regex) {
@@ -93,7 +93,7 @@ public class BBCode implements Serializable {
 
 	/**
 	 * Sets the replacement string, to be aplyied when matching the code
-	 * 
+	 *
 	 * @param replace The replacement string data
 	 */
 	public void setReplace(String replace) {
@@ -102,7 +102,7 @@ public class BBCode implements Serializable {
 
 	/**
 	 * Setst the tag name
-	 * 
+	 *
 	 * @param tagName The tag name
 	 */
 	public void setTagName(String tagName) {
@@ -116,7 +116,7 @@ public class BBCode implements Serializable {
 	public boolean alwaysProcess() {
 		return this.alwaysProcess;
 	}
-	
+
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -124,7 +124,7 @@ public class BBCode implements Serializable {
 	public int hashCode() {
 		return (this.getRegex() + this.getReplace() + this.getTagName() + this.alwaysProcess).hashCode();
 	}
-	
+
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -133,15 +133,15 @@ public class BBCode implements Serializable {
 		if (o == this) {
 			return true;
 		}
-		
+
 		if (!(o instanceof BBCode)) {
 			return false;
 		}
-		
-		BBCode code = (BBCode)o;
+
+		BBCode code = (BBCode) o;
 		return code.getTagName().equals(this.getTagName())
-			&& code.getRegex().equals(this.getRegex())
-			&& code.getReplace().equals(this.getReplace())
-			&& code.alwaysProcess() == this.alwaysProcess();
+				&& code.getRegex().equals(this.getRegex())
+				&& code.getReplace().equals(this.getReplace())
+				&& code.alwaysProcess() == this.alwaysProcess();
 	}
 }

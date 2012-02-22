@@ -10,11 +10,11 @@
  */
 package net.jforum.sso;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.jforum.entities.UserSession;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Simple SSO authenticator. This class will try to validate an user by simple checking <code>request.getRemoteUser()</code> is not null.
@@ -25,8 +25,8 @@ public class RemoteUserSSO implements SSO {
 	private JForumConfig config;
 
 	/**
-	 * @see net.jforum.sso.SSO#authenticateUser(net.jforum.context.RequestContext)
 	 * @param request AWebContextRequest * @return String
+	 * @see net.jforum.sso.SSO#authenticateUser(net.jforum.context.RequestContext)
 	 */
 	@Override
 	public String authenticateUser(HttpServletRequest request) {

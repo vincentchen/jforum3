@@ -10,33 +10,34 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.Topic;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.TopicRepository;
-import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.repository.TopicDao;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Check if the user has access to a forum
  * This is intended to be used with {@link SecurityConstraint}, and will check
  * if the current user can access the contents of a forum
+ *
  * @author Rafael Steil
  */
 @Component
 public class AccessForumRule implements AccessRule {
-	private TopicRepository topicRepository;
+	private TopicDao topicRepository;
 
-	public AccessForumRule(TopicRepository topicRepository) {
+	public AccessForumRule(TopicDao topicRepository) {
 		this.topicRepository = topicRepository;
 	}
 
 	/**
 	 * Applies the following rules:
 	 * <ul>
-	 * 	<li> User should have access to the requested topic
+	 * <li> User should have access to the requested topic
 	 * </ul>
 	 * It is expected that the parameter <i>topicId</i> or <i>forumId</i> exists in the request
 	 */
@@ -51,12 +52,10 @@ public class AccessForumRule implements AccessRule {
 
 		if (request.getParameterMap().containsKey("forumId")) {
 			forumId = Integer.parseInt(request.getParameter("forumId"));
-		}
-		else if (request.getParameterMap().containsKey("topicId")) {
+		} else if (request.getParameterMap().containsKey("topicId")) {
 			Topic topic = topicRepository.get(Integer.parseInt(request.getParameter("topicId")));
 			forumId = topic.getForum().getId();
-		}
-		else {
+		} else {
 			throw new AccessRuleException("Could not find topicId in the current request");
 		}
 

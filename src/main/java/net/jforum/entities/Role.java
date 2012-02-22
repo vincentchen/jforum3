@@ -10,15 +10,14 @@
  */
 package net.jforum.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -47,7 +46,8 @@ public class Role {
 	@Fetch(FetchMode.SUBSELECT)
 	private List<Integer> roleValues = new ArrayList<Integer>();
 
-	public Role() { }
+	public Role() {
+	}
 
 	public Role(Role role) {
 		this.id = role.id;
@@ -107,6 +107,7 @@ public class Role {
 
 	/**
 	 * Add a new role value to this role
+	 *
 	 * @param value
 	 */
 	public void addRoleValue(int value) {
@@ -126,7 +127,7 @@ public class Role {
 			return false;
 		}
 
-		return ((Role)o).getId() == this.getId();
+		return ((Role) o).getId() == this.getId();
 	}
 
 	/**

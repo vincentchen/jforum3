@@ -12,24 +12,23 @@ package net.jforum.core.events.post;
 
 import net.jforum.entities.Post;
 import net.jforum.events.EmptyPostEvent;
-import net.jforum.repository.ForumRepository;
-
+import net.jforum.repository.ForumDao;
 import org.hibernate.ObjectNotFoundException;
 
 /**
  * @author Rafael Steil
  */
 public class ForumPostEvent extends EmptyPostEvent {
-	private ForumRepository repository;
+	private ForumDao repository;
 
-	public ForumPostEvent(ForumRepository repository) {
+	public ForumPostEvent(ForumDao repository) {
 		this.repository = repository;
 	}
 
 	/**
 	 * The actions are:
 	 * <ul>
-	 * 	<li> If last post, update forum.lastPost
+	 * <li> If last post, update forum.lastPost
 	 * </ul>
 	 */
 	@Override
@@ -39,8 +38,7 @@ public class ForumPostEvent extends EmptyPostEvent {
 		try {
 			// FIXME: Check TopicPostEvent#handleLastPostDeleted
 			isLastPost = post.equals(post.getForum().getLastPost());
-		}
-		catch (ObjectNotFoundException e) {
+		} catch (ObjectNotFoundException e) {
 			isLastPost = true;
 		}
 

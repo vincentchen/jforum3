@@ -31,21 +31,20 @@ public @interface Extends {
 	/**
 	 * The name of the form parameters that will be parsed
 	 * from the request to be injected as this logic arguments.
-	 *
+	 * <p/>
 	 * If not present, VRaptor will use the argument class name decapitalized
 	 * when searching in the request parameters.
-	 *
+	 * <p/>
 	 * <code>
 	 * void method(SomeClass argument, OtherClass argument2)
 	 * </code>
-	 *
+	 * <p/>
 	 * will look fo servlet request parameters "someClass"
 	 * and "otherClass" repectively.  Or you can name them
 	 * using this annotation attribute.
-	 *
+	 * <p/>
 	 * The array must have length equals to the number of arguments
 	 * that this logic method receives.
-	 *
 	 */
 	public String[] parameters() default {};
 

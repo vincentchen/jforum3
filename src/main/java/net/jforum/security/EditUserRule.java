@@ -10,34 +10,35 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.UserRepository;
-import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.repository.UserDao;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Check if the user can edit his profile
  * This is intended to be used with {@link SecurityConstraint}, and will check
  * if the current user can edit a specific profile
+ *
  * @author Rafael Steil
  */
 @Component
 public class EditUserRule implements AccessRule {
-	private final UserRepository userRepository;
+	private final UserDao userRepository;
 
-	public EditUserRule(UserRepository repository) {
+	public EditUserRule(UserDao repository) {
 		this.userRepository = repository;
 	}
 
 	/**
 	 * Applies the following rules:
 	 * <ul>
-	 * 	<li> User must be logged
-	 * 	<li> His user id must be the same of the profile he wants to edit, or be an administraor
+	 * <li> User must be logged
+	 * <li> His user id must be the same of the profile he wants to edit, or be an administraor
 	 * </ul>
 	 * It is expected that the parameter <i>userId</i> or <i>user.id</i> exists in the request
 	 */
@@ -65,11 +66,9 @@ public class EditUserRule implements AccessRule {
 
 		if (request.getParameterMap().containsKey("userId")) {
 			userId = Integer.parseInt(request.getParameter("userId"));
-		}
-		else if (request.getParameterMap().containsKey("user.id")) {
+		} else if (request.getParameterMap().containsKey("user.id")) {
 			userId = Integer.parseInt(request.getParameter("user.id"));
-		}
-		else {
+		} else {
 			throw new AccessRuleException("Could not find userId or user.id in the current request");
 		}
 

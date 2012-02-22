@@ -12,7 +12,6 @@ package net.jforum.events.listeners;
 
 import net.jforum.entities.Category;
 import net.jforum.events.Event;
-
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -23,9 +22,10 @@ import org.aspectj.lang.annotation.Pointcut;
  */
 @Aspect
 public class CategoryEventListener extends AbstractListener<Event<Category>, Category> {
-	@Pointcut("target(net.jforum.repository.CategoryRepository)")
+	@Pointcut("target(net.jforum.repository.CategoryDao)")
 	@SuppressWarnings("all")
-	private void targetRepository() {}
+	private void targetRepository() {
+	}
 
 	@AfterReturning("repositoryAdd() && targetRepository() && args(category)")
 	public void added(Category category) {
@@ -41,7 +41,7 @@ public class CategoryEventListener extends AbstractListener<Event<Category>, Cat
 	public void updated(Category category) {
 		this.fireUpdated(category);
 	}
-	
+
 	@Before("repositoryRemove() && targetRepository() && args(category)")
 	public void beforeRemove(Category category) {
 		this.fireBeforeRemove(category);

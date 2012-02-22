@@ -12,9 +12,8 @@ package net.jforum.controllers;
 
 import java.util.ArrayList;
 
-import net.jforum.controllers.SmilieAdminController;
 import net.jforum.entities.Smilie;
-import net.jforum.repository.SmilieRepository;
+import net.jforum.repository.SmilieDao;
 import net.jforum.services.SmilieService;
 import net.jforum.util.TestCaseUtils;
 
@@ -31,7 +30,7 @@ import br.com.caelum.vraptor.util.test.MockResult;
  */
 public class SmilieAdminControllerTestCase extends AdminTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private SmilieRepository repository = context.mock(SmilieRepository.class);
+	private SmilieDao repository = context.mock(SmilieDao.class);
 	private SmilieService service = context.mock(SmilieService.class);
 	private Result mockResult = context.mock(MockResult.class);
 	private SmilieAdminController controller = new SmilieAdminController(service,

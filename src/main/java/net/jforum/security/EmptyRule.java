@@ -10,9 +10,9 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.jforum.entities.UserSession;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Rafael Steil

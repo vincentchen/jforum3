@@ -10,46 +10,35 @@
  */
 package net.jforum.services;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import net.jforum.actions.helpers.AttachedFile;
 import net.jforum.core.exceptions.ForumException;
 import net.jforum.entities.Attachment;
 import net.jforum.entities.Post;
-import net.jforum.repository.AttachmentRepository;
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.ImageUtils;
-import net.jforum.util.JForumConfig;
-import net.jforum.util.MD5;
-import net.jforum.util.UploadUtils;
-
+import net.jforum.repository.AttachmentDao;
+import net.jforum.util.*;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
-import br.com.caelum.vraptor.ioc.Component;
+import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class AttachmentService {
-	private static Logger logger = Logger.getLogger(AttachmentService.class);
+	private static Logger logger = LoggerFactory.getLogger(AttachmentService.class);
 
 	private final JForumConfig config;
-	private final AttachmentRepository repository;
+	private final AttachmentDao repository;
 
-	public AttachmentService(JForumConfig config, AttachmentRepository repository) {
+	public AttachmentService(JForumConfig config, AttachmentDao repository) {
 		this.config = config;
 		this.repository = repository;
 	}
@@ -144,7 +133,7 @@ public class AttachmentService {
 
 			for (AttachedFile attachedFile : attachedFiles) {
 				String path = this.config.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR)
-					+ "/" + attachedFile.getAttachment().getPhysicalFilename();
+						+ "/" + attachedFile.getAttachment().getPhysicalFilename();
 
 				attachedFile.getUploadUtils().saveUploadedFile(path);
 
@@ -162,16 +151,15 @@ public class AttachmentService {
 		String extension = attachment.getFileExtension();
 
 		return this.config.getBoolean(ConfigKeys.ATTACHMENTS_IMAGES_CREATE_THUMB)
-			&& ("jpg".equals(extension) || "jpeg".equals(extension) || "gif".equals(extension) || "png".equals(extension));
+				&& ("jpg".equals(extension) || "jpeg".equals(extension) || "gif".equals(extension) || "png".equals(extension));
 	}
 
 	private void createSaveThumb(String path) {
 		try {
 			BufferedImage image = ImageUtils.resizeImage(path, ImageUtils.IMAGE_JPEG,
-				this.config.getInt(ConfigKeys.ATTACHMENTS_IMAGES_MAX_THUMB_W), this.config.getInt(ConfigKeys.ATTACHMENTS_IMAGES_MAX_THUMB_H));
+					this.config.getInt(ConfigKeys.ATTACHMENTS_IMAGES_MAX_THUMB_W), this.config.getInt(ConfigKeys.ATTACHMENTS_IMAGES_MAX_THUMB_H));
 			ImageUtils.saveImage(image, path + "_thumb", ImageUtils.IMAGE_JPEG);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
 	}
@@ -256,8 +244,8 @@ public class AttachmentService {
 		new File(this.config.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir).mkdirs();
 
 		return dir.append(MD5.hash(attachment.getRealFilename() + System.currentTimeMillis()))
-			.append('.').append(attachment.getFileExtension())
-			.toString();
+				.append('.').append(attachment.getFileExtension())
+				.toString();
 	}
 
 	public String buildDownloadPath(Attachment attachment) {

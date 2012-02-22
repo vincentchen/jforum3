@@ -10,22 +10,24 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.jforum.core.SecurityConstraint;
 import net.jforum.entities.UserSession;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Check if determined method can be executed.
  * This is used together with {@link SecurityConstraint} in some actions.
  * <strong>Implementations should be stateless</strong>
+ *
  * @author Rafael Steil
  */
 public interface AccessRule {
 	/**
 	 * Check if the method can be executed
+	 *
 	 * @param userSession the {@link UserSession} of the current user
-	 * @param request the current request
+	 * @param request     the current request
 	 * @return true if method execution is allowed
 	 */
 	public boolean shouldProceed(UserSession userSession, HttpServletRequest request);

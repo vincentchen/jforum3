@@ -15,7 +15,6 @@ import java.util.Arrays;
 
 import junit.framework.Assert;
 import net.jforum.actions.helpers.Actions;
-import net.jforum.controllers.SearchController;
 import net.jforum.entities.Category;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Post;
@@ -23,7 +22,7 @@ import net.jforum.entities.UserSession;
 import net.jforum.entities.util.Pagination;
 import net.jforum.entities.util.SearchParams;
 import net.jforum.entities.util.SearchResult;
-import net.jforum.repository.CategoryRepository;
+import net.jforum.repository.CategoryDao;
 import net.jforum.repository.SearchRepository;
 import net.jforum.security.RoleManager;
 import net.jforum.util.ConfigKeys;
@@ -42,8 +41,8 @@ import br.com.caelum.vraptor.util.test.MockResult;
  */
 public class SearchControllerTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private CategoryRepository categoryRepository = context
-			.mock(CategoryRepository.class);
+	private CategoryDao categoryRepository = context
+			.mock(CategoryDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private SearchRepository searchRepository = context
 			.mock(SearchRepository.class);

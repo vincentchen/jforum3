@@ -10,12 +10,12 @@
  */
 package net.jforum.core;
 
+import net.jforum.security.AccessRule;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import net.jforum.security.AccessRule;
 
 /**
  * @author Rafael Steil
@@ -24,5 +24,6 @@ import net.jforum.security.AccessRule;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Role {
 	public Class<? extends AccessRule> value();
+
 	public boolean displayLogin() default false;
 }

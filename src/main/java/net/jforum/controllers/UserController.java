@@ -10,24 +10,17 @@
  */
 package net.jforum.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.core.SessionManager;
-import net.jforum.entities.Avatar;
-import net.jforum.entities.AvatarType;
-import net.jforum.entities.Post;
-import net.jforum.entities.Ranking;
-import net.jforum.entities.Topic;
-import net.jforum.entities.User;
-import net.jforum.entities.UserSession;
+import net.jforum.entities.*;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.RankingRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.RankingDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.EditUserRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.AvatarService;
@@ -36,13 +29,11 @@ import net.jforum.services.UserService;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.SecurityConstants;
-
 import org.apache.commons.lang.StringUtils;
 
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -50,21 +41,21 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 @Resource
 @Path(Domain.USER)
 public class UserController {
-	private UserRepository userRepository;
+	private UserDao userRepository;
 	private UserService userService;
 	private UserSession userSession;
 	private SessionManager sessionManager;
 	private LostPasswordService lostPasswordService;
 	private JForumConfig config;
 	private AvatarService avatarService;
-	private RankingRepository rankingRepository;
+	private RankingDao rankingRepository;
 	private final Result result;
 	private final HttpServletRequest request;
 
-	public UserController(UserRepository userRepository, UserSession userSession, UserService userService,
-		SessionManager sessionFacade, JForumConfig config, LostPasswordService lostPasswordService,
-		AvatarService avatarService, RankingRepository rankingRepository, Result result,
-		HttpServletRequest request) {
+	public UserController(UserDao userRepository, UserSession userSession, UserService userService,
+	                      SessionManager sessionFacade, JForumConfig config, LostPasswordService lostPasswordService,
+	                      AvatarService avatarService, RankingDao rankingRepository, Result result,
+	                      HttpServletRequest request) {
 		this.userRepository = userRepository;
 		this.userService = userService;
 		this.sessionManager = sessionFacade;
@@ -79,6 +70,7 @@ public class UserController {
 
 	/**
 	 * Shows the page with all registered users
+	 *
 	 * @param page the pagination first record to start showing
 	 */
 	public void list(int page) {
@@ -86,19 +78,17 @@ public class UserController {
 
 		if (!roleManager.isUserListingEnabled()) {
 			this.result.include("users", new ArrayList<User>());
-		}
-		else {
+		} else {
 			Pagination pagination = new Pagination(this.config, page)
-				.forUsers(this.userRepository.getTotalUsers());
+					.forUsers(this.userRepository.getTotalUsers());
 
 			if (roleManager.roleExists(SecurityConstants.INTERACT_OTHER_GROUPS)) {
 				this.result.include("users", this.userRepository.getAllUsers(pagination.getStart(),
-					pagination.getRecordsPerPage()));
-			}
-			else {
+						pagination.getRecordsPerPage()));
+			} else {
 				User currentUser = this.userSession.getUser();
 				this.result.include("users", this.userRepository.getAllUsers(pagination.getStart(),
-					pagination.getRecordsPerPage(), currentUser.getGroups()));
+						pagination.getRecordsPerPage(), currentUser.getGroups()));
 			}
 
 			this.result.include("pagination", pagination);
@@ -139,27 +129,25 @@ public class UserController {
 	/**
 	 * Called from {@link #login(String)}, to validate the user credentials
 	 *
-	 * @param username the username
-	 * @param password the password
+	 * @param username  the username
+	 * @param password  the password
 	 * @param autoLogin autoLogin
 	 */
 	@br.com.caelum.vraptor.Post
 	public void authenticateUser(String username,
-		String password, boolean autoLogin,
-		String returnPath) {
+	                             String password, boolean autoLogin,
+	                             String returnPath) {
 		User user = this.userService.validateLogin(username, password);
 
 		if (user == null) {
 			result.redirectTo(this).login(returnPath, true);
-		}
-		else {
+		} else {
 			this.userSession.setUser(user);
 			this.userSession.becomeLogged();
 
 			if (autoLogin) {
 				this.activateAutoLogin(user);
-			}
-			else {
+			} else {
 				this.removeAutoLoginCookies(this.userSession);
 			}
 
@@ -167,8 +155,7 @@ public class UserController {
 
 			if (!StringUtils.isEmpty(returnPath)) {
 				this.result.redirectTo(returnPath);
-			}
-			else {
+			} else {
 				this.result.redirectTo(ForumController.class).list();
 			}
 		}
@@ -176,6 +163,7 @@ public class UserController {
 
 	/**
 	 * Shows the page to edit the user profile
+	 *
 	 * @param userId the user id
 	 */
 	@SecurityConstraint(EditUserRule.class)
@@ -189,6 +177,7 @@ public class UserController {
 
 	/**
 	 * Updates an existing user
+	 *
 	 * @param user the user to update
 	 */
 	@SecurityConstraint(EditUserRule.class)
@@ -196,12 +185,11 @@ public class UserController {
 
 		Avatar avatar = null;
 
-		if (avatarId != null){
+		if (avatarId != null) {
 			avatar = new Avatar();
 			avatar.setId(avatarId);
 			avatar.setAvatarType(AvatarType.AVATAR_GALLERY);
-		}
-		else if (image != null) {
+		} else if (image != null) {
 			avatar = new Avatar();
 			avatar.setAvatarType(AvatarType.AVATAR_UPLOAD);
 			this.avatarService.add(avatar, image);
@@ -211,8 +199,7 @@ public class UserController {
 
 		if (rankingId == null) {
 			user.setRanking(null);
-		}
-		else {
+		} else {
 			Ranking ranking = new Ranking();
 			ranking.setId(rankingId);
 			user.setRanking(ranking);
@@ -238,6 +225,7 @@ public class UserController {
 
 	/**
 	 * Adds a new user
+	 *
 	 * @param user the user to add
 	 */
 	@br.com.caelum.vraptor.Post
@@ -271,14 +259,14 @@ public class UserController {
 
 	/**
 	 * Shows the profile of some user
+	 *
 	 * @param userId the user to show
 	 */
 	@Path("/profile/{userId}")
 	public void profile(int userId) {
 		if (!this.userSession.getRoleManager().getCanViewProfile()) {
 			this.result.redirectTo(MessageController.class).accessDenied();
-		}
-		else {
+		} else {
 			User userToEdit = this.userRepository.get(userId);
 			this.result.include("user", userToEdit);
 			this.result.include("userTotalTopics", this.userRepository.getTotalTopics(userId));
@@ -296,8 +284,7 @@ public class UserController {
 	public void registrationCompleted() {
 		if (!this.userSession.isLogged()) {
 			this.result.redirectTo(this).insert();
-		}
-		else {
+		} else {
 			this.result.include("user", this.userSession.getUser());
 		}
 	}
@@ -307,7 +294,7 @@ public class UserController {
 	}
 
 	public void lostPasswordSend(String username,
-		String email) {
+	                             String email) {
 
 		boolean success = this.lostPasswordService.send(username, email);
 		this.result.include("success", success);
@@ -315,6 +302,7 @@ public class UserController {
 
 	/**
 	 * Shows the page asking the user a new password
+	 *
 	 * @param hash the validation hash
 	 */
 	public void recoverPassword(String hash) {
@@ -323,19 +311,19 @@ public class UserController {
 
 	/**
 	 * Validate the new password hash
-	 * @param hash the hash received by email
-	 * @param username the username associated with the hash
+	 *
+	 * @param hash        the hash received by email
+	 * @param username    the username associated with the hash
 	 * @param newPassword the new password to set
 	 */
 	public void recoverPasswordValidate(String hash,
-		String username, String newPassword) {
+	                                    String username, String newPassword) {
 		User user = this.userRepository.validateLostPasswordHash(username, hash);
 
 		if (user == null) {
 			this.result.include("error", true);
 			this.result.include("message", "PasswordRecovery.invalidData");
-		}
-		else {
+		} else {
 			user.setPassword(newPassword);
 			this.result.include("message", "PasswordRecovery.ok");
 		}
@@ -343,6 +331,7 @@ public class UserController {
 
 	/**
 	 * Lists all the posts made by an user
+	 *
 	 * @param userId the user id
 	 */
 	public void posts(int userId, int page) {
@@ -359,6 +348,7 @@ public class UserController {
 
 	/**
 	 * Lists all the topics made by an user
+	 *
 	 * @param userId the user id
 	 */
 	public void topics(int userId, int page) {

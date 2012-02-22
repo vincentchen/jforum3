@@ -12,6 +12,7 @@ package net.jforum.util;
 
 /**
  * All configuration keys and system constants.
+ *
  * @author Rafael Steil
  */
 public class ConfigKeys {
@@ -185,10 +186,10 @@ public class ConfigKeys {
 	public static final String POSTS_NEW_DELAY = "posts.new.delay";
 	public static final String LAST_POST_TIME = "last.post.time";
 
-    public static final String LOGIN_IGNORE_XFORWARDEDHOST = "login.ignore.xforwardedhost";
+	public static final String LOGIN_IGNORE_XFORWARDEDHOST = "login.ignore.xforwardedhost";
 	public static final String LOGIN_IGNORE_REFERER = "login.ignore.referer";
 
-    public static final String JFORUM_VERSION_URL = "jforum.version.url";
+	public static final String JFORUM_VERSION_URL = "jforum.version.url";
 	public static final String REQUEST_IGNORE_CAPTCHA = "request.ignore.captcha";
 
 	public static final String MODERATION_LOGGING_ENABLED = "moderation.logging.enabled";
@@ -212,5 +213,6 @@ public class ConfigKeys {
 	public static final String BLOCK_IP = "jforum.block_ip";
 
 
-	private ConfigKeys() { }
+	private ConfigKeys() {
+	}
 }

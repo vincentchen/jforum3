@@ -10,6 +10,9 @@
  */
 package net.jforum.actions.extensions;
 
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Actions;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.controllers.TopicController;
@@ -21,9 +24,6 @@ import net.jforum.extensions.ActionExtension;
 import net.jforum.extensions.Extends;
 import net.jforum.security.AuthenticatedRule;
 import net.jforum.services.TopicWatchService;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
 
 /**
  * Topic watch extension for {@link TopicController}
@@ -67,8 +67,7 @@ public class TopicWatchExtension {
 	/**
 	 * Makes the current logged user watch a specific topic.
 	 *
-	 * @param topicId
-	 *            the id of the topic to watch
+	 * @param topicId the id of the topic to watch
 	 */
 	@SecurityConstraint(value = AuthenticatedRule.class, displayLogin = true)
 	public void watch(int page, int topicId) {
@@ -84,8 +83,7 @@ public class TopicWatchExtension {
 	/**
 	 * Makes the current user to unwatch a specific topic
 	 *
-	 * @param topicId
-	 *            the id of the topic to unwatch
+	 * @param topicId the id of the topic to unwatch
 	 */
 	@SecurityConstraint(value = AuthenticatedRule.class, displayLogin = true)
 	public void unwatch(int page, int topicId) {
@@ -95,6 +93,7 @@ public class TopicWatchExtension {
 		this.watchService.unwatch(topic, userSession.getUser());
 		this.result.redirectTo(this).list(topicId);
 	}
+
 	public void list(int topicId) {
 
 

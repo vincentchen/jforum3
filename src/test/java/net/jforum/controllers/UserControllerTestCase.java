@@ -25,8 +25,8 @@ import net.jforum.entities.Ranking;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.RankingRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.RankingDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.EditUserRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.AvatarService;
@@ -51,7 +51,7 @@ import br.com.caelum.vraptor.util.test.MockResult;
  */
 public class UserControllerTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private UserRepository userRepository = context.mock(UserRepository.class);
+	private UserDao userRepository = context.mock(UserDao.class);
 	private UserSession userSession = context.mock(UserSession.class);
 	private UserService userService = context.mock(UserService.class);
 	private SessionManager sessionManager = context.mock(SessionManager.class);
@@ -60,7 +60,7 @@ public class UserControllerTestCase {
 	private LostPasswordService lostPasswordService = context.mock(LostPasswordService.class);
 	private AvatarService avatarService = context.mock(AvatarService.class);
 	private User user = new User();
-	private RankingRepository rankingRepository = context.mock(RankingRepository.class);
+	private RankingDao rankingRepository = context.mock(RankingDao.class);
 	private Result mockResult = context.mock(MockResult.class);
 	private HttpServletRequest mockRequest = context.mock(HttpServletRequest.class);
 	private UserController mockUserController = context.mock(UserController.class);

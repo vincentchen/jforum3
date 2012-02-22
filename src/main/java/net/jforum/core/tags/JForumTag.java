@@ -10,18 +10,16 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
+import net.jforum.util.ConfigKeys;
+import net.jforum.util.JForumConfig;
+import org.springframework.context.ApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.JForumConfig;
-
-import org.springframework.context.ApplicationContext;
+import java.io.IOException;
 
 /**
  * @author Rafael Steil
@@ -30,7 +28,7 @@ public abstract class JForumTag extends SimpleTagSupport {
 	private static ApplicationContext springContext;
 
 	protected HttpServletRequest request() {
-		return (HttpServletRequest)this.pageContext().getRequest();
+		return (HttpServletRequest) this.pageContext().getRequest();
 	}
 
 	protected void setAttribute(String key, Object value) {
@@ -38,7 +36,7 @@ public abstract class JForumTag extends SimpleTagSupport {
 	}
 
 	protected HttpServletResponse response() {
-		return (HttpServletResponse)this.pageContext().getResponse();
+		return (HttpServletResponse) this.pageContext().getResponse();
 	}
 
 	protected JForumConfig config() {
@@ -55,15 +53,15 @@ public abstract class JForumTag extends SimpleTagSupport {
 
 	protected <T> T getBean(Class<T> beanId) {
 		if (springContext == null) {
-			springContext = (ApplicationContext)this.pageContext().getServletContext().getAttribute(ConfigKeys.SPRING_CONTEXT);
+			springContext = (ApplicationContext) this.pageContext().getServletContext().getAttribute(ConfigKeys.SPRING_CONTEXT);
 		}
 
 		return springContext != null
-			? springContext.getBean(beanId)
-			: null;
+				? springContext.getBean(beanId)
+				: null;
 	}
 
 	protected PageContext pageContext() {
-		return (PageContext)this.getJspContext();
+		return (PageContext) this.getJspContext();
 	}
 }

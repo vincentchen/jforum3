@@ -10,13 +10,14 @@
  */
 package net.jforum.security;
 
+import net.jforum.entities.Topic;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import net.jforum.entities.Topic;
-
 /**
  * Given a list of topics and a rolemanager, filter the topics based on the security roles
+ *
  * @author Rafael Steil
  */
 public class TopicFilter {

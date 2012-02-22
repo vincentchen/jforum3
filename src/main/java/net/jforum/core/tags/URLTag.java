@@ -10,12 +10,11 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
-import java.net.URLEncoder;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.jsp.JspException;
-
-import org.apache.commons.lang.StringUtils;
+import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * Given a desired location, builds the link URL
@@ -39,8 +38,7 @@ public class URLTag extends JForumTag {
 
 		if (!encode) {
 			urlBuilder.append(this.address);
-		}
-		else {
+		} else {
 			if (this.address == null) {
 				this.address = "";
 			}

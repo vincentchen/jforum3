@@ -11,7 +11,7 @@
 package net.jforum.sso;
 
 import net.jforum.entities.User;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.UserDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 public class DefaultLoginAuthenticatorTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private UserRepository repository = context.mock(UserRepository.class);
+	private UserDao repository = context.mock(UserDao.class);
 	private DefaultLoginAuthenticator authenticator = new DefaultLoginAuthenticator(repository);
 
 	@Test

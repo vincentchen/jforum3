@@ -23,9 +23,9 @@ import net.jforum.entities.Post;
 import net.jforum.entities.Smilie;
 import net.jforum.entities.Topic;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.SmilieRepository;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.PostDao;
+import net.jforum.repository.SmilieDao;
+import net.jforum.repository.TopicDao;
 import net.jforum.services.PostService;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
@@ -43,9 +43,9 @@ import br.com.caelum.vraptor.util.test.MockResult;
  */
 public class PostControllerTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private PostRepository postRepository = context.mock(PostRepository.class);
-	private SmilieRepository smilieRepository = context.mock(SmilieRepository.class);
-	private TopicRepository topicRepository = context.mock(TopicRepository.class);
+	private PostDao postRepository = context.mock(PostDao.class);
+	private SmilieDao smilieRepository = context.mock(SmilieDao.class);
+	private TopicDao topicRepository = context.mock(TopicDao.class);
 	private PostService postService = context.mock(PostService.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private UserSession userSession = context.mock(UserSession.class);

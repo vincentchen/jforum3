@@ -42,11 +42,11 @@
  */
 package net.jforum.sso;
 
-import java.util.Map;
-
-import net.jforum.entities.User;
-import net.jforum.repository.UserRepository;
 import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.entities.User;
+import net.jforum.repository.UserDao;
+
+import java.util.Map;
 
 /**
  * Default login authenticator for JForum.
@@ -56,9 +56,9 @@ import br.com.caelum.vraptor.ioc.Component;
  */
 @Component
 public class DefaultLoginAuthenticator implements LoginAuthenticator {
-	private UserRepository repository;
+	private UserDao repository;
 
-	public DefaultLoginAuthenticator(UserRepository repository) {
+	public DefaultLoginAuthenticator(UserDao repository) {
 		this.repository = repository;
 	}
 

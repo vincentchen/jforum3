@@ -15,7 +15,6 @@ import net.jforum.entities.util.SearchParams;
 import net.jforum.entities.util.SearchResult;
 import net.jforum.entities.util.SearchSort;
 import net.jforum.entities.util.SearchSortType;
-
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
@@ -25,13 +24,12 @@ import org.apache.lucene.search.SortField;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.Search;
-
-import br.com.caelum.vraptor.ioc.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Repository
 public class SearchRepository {
 	private final Session session;
 
@@ -50,8 +48,7 @@ public class SearchRepository {
 
 		if (params.getSort() == SearchSort.DATE) {
 			query.setSort(new Sort(new SortField("date", params.getSortType() == SearchSortType.DESC)));
-		}
-		else if (params.getSort() == SearchSort.RELEVANCE) {
+		} else if (params.getSort() == SearchSort.RELEVANCE) {
 			query.setSort(Sort.RELEVANCE);
 		}
 

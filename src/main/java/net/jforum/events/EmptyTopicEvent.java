@@ -17,6 +17,7 @@ import net.jforum.entities.Topic;
  * All methods are empty, as it is destined to be
  * extended by classes that only want to handle
  * one or another event
+ *
  * @author Rafael Steil
  */
 public class EmptyTopicEvent implements Event<Topic> {

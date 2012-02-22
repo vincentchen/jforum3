@@ -12,25 +12,24 @@ package net.jforum.services;
 
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Ranking;
-import net.jforum.repository.RankingRepository;
-
+import net.jforum.repository.RankingDao;
 import org.apache.commons.lang.StringUtils;
-
-import br.com.caelum.vraptor.ioc.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class RankingService {
-	private RankingRepository repository;
+	private RankingDao repository;
 
-	public RankingService(RankingRepository repository) {
+	public RankingService(RankingDao repository) {
 		this.repository = repository;
 	}
 
 	/**
 	 * Add a new ranking
+	 *
 	 * @param ranking
 	 */
 	public void add(Ranking ranking) {
@@ -46,6 +45,7 @@ public class RankingService {
 
 	/**
 	 * Update an existing ranking
+	 *
 	 * @param ranking
 	 */
 	public void update(Ranking ranking) {
@@ -61,6 +61,7 @@ public class RankingService {
 
 	/**
 	 * Deletes a ranking
+	 *
 	 * @param ids
 	 */
 	public void delete(int... ids) {
@@ -74,6 +75,7 @@ public class RankingService {
 
 	/**
 	 * A special ranking should not have a minimum number of posts
+	 *
 	 * @param ranking
 	 */
 	private void normalizeRankingInstance(Ranking ranking) {

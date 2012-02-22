@@ -10,12 +10,12 @@
  */
 package net.jforum.core.support.spring;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Rafael Steil
@@ -26,7 +26,7 @@ public class HttpServletRequestFactoryBean implements FactoryBean {
 	 */
 	public Object getObject() throws Exception {
 		RequestAttributes attributes = RequestContextHolder.currentRequestAttributes();
-		return ((ServletRequestAttributes)attributes).getRequest();
+		return ((ServletRequestAttributes) attributes).getRequest();
 	}
 
 	/**

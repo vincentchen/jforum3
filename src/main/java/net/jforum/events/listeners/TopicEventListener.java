@@ -12,7 +12,6 @@ package net.jforum.events.listeners;
 
 import net.jforum.entities.Topic;
 import net.jforum.events.Event;
-
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -22,9 +21,10 @@ import org.aspectj.lang.annotation.Pointcut;
  */
 @Aspect
 public class TopicEventListener extends AbstractListener<Event<Topic>, Topic> {
-	@Pointcut("target(net.jforum.repository.TopicRepository)")
+	@Pointcut("target(net.jforum.repository.TopicDao)")
 	@SuppressWarnings("all")
-	private void targetRepository() {}
+	private void targetRepository() {
+	}
 
 	@AfterReturning("repositoryAdd() && targetRepository() && args(topic)")
 	public void added(Topic topic) {

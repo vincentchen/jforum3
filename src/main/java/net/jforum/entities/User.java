@@ -10,31 +10,7 @@
  */
 package net.jforum.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import net.jforum.repository.UserRepository;
-
+import net.jforum.repository.UserDao;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicUpdate;
@@ -43,6 +19,10 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author Rafael Steil
@@ -162,7 +142,7 @@ public class User implements Serializable {
 	private boolean viewEmailEnabled = true;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "jforum_user_groups", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
+	@JoinTable(name = "jforum_user_groups", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Group> groups = new ArrayList<Group>();
 
@@ -195,12 +175,13 @@ public class User implements Serializable {
 	private List<Post> posts;
 
 	@Transient
-	private UserRepository userRepository;
+	private UserDao userRepository;
 
-	public User() { }
+	public User() {
+	}
 
 	@Autowired
-	public User(UserRepository userRepository) {
+	public User(UserDao userRepository) {
 		this.userRepository = userRepository;
 	}
 
@@ -530,7 +511,7 @@ public class User implements Serializable {
 	 *
 	 * @return <code>true</code> if the avatar is current user upload
 	 */
-	public boolean isCustomizeAvatar(){
+	public boolean isCustomizeAvatar() {
 		return avatar != null && this.equals(avatar.getUploadedBy());
 	}
 
@@ -922,7 +903,7 @@ public class User implements Serializable {
 
 	private void validateUserRepository() {
 		if (this.userRepository == null) {
-			throw new IllegalStateException("UserRepository was not set");
+			throw new IllegalStateException("UserDao was not set");
 		}
 	}
 }

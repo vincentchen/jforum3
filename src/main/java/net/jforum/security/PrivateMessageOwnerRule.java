@@ -10,23 +10,23 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.PrivateMessage;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.PrivateMessageRepository;
-import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.repository.PrivateMessageDao;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Rafael Steil
  */
 @Component
 public class PrivateMessageOwnerRule implements AccessRule {
-	private PrivateMessageRepository repository;
+	private PrivateMessageDao repository;
 
-	public PrivateMessageOwnerRule(PrivateMessageRepository repository) {
+	public PrivateMessageOwnerRule(PrivateMessageDao repository) {
 		this.repository = repository;
 	}
 

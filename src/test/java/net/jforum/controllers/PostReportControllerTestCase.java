@@ -23,7 +23,7 @@ import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.PaginatedResult;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.PostReportRepository;
+import net.jforum.repository.PostReportDao;
 import net.jforum.security.ModerationRule;
 import net.jforum.security.RoleManager;
 import net.jforum.util.ConfigKeys;
@@ -46,7 +46,7 @@ public class PostReportControllerTestCase {
 	private Mockery mockery = TestCaseUtils.newMockery();
 	private UserSession userSession = mockery.mock(UserSession.class);
 	private RoleManager roleManager = mockery.mock(RoleManager.class);
-	private PostReportRepository repository = mockery.mock(PostReportRepository.class);
+	private PostReportDao repository = mockery.mock(PostReportDao.class);
 	private JForumConfig config = mockery.mock(JForumConfig.class);
 	private Result mockResult = mockery.mock(MockResult.class);
 	private PostReportController mockPostReportController = mockery.mock(PostReportController.class);

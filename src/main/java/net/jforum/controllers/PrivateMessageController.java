@@ -10,9 +10,9 @@
  */
 package net.jforum.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.ActionUtils;
 import net.jforum.actions.helpers.Actions;
 import net.jforum.actions.helpers.Domain;
@@ -20,41 +20,35 @@ import net.jforum.actions.helpers.PostFormOptions;
 import net.jforum.core.Role;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.core.exceptions.ForumException;
-import net.jforum.entities.Group;
-import net.jforum.entities.Post;
-import net.jforum.entities.PrivateMessage;
-import net.jforum.entities.User;
-import net.jforum.entities.UserSession;
-import net.jforum.repository.PrivateMessageRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.entities.*;
+import net.jforum.repository.PrivateMessageDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.AuthenticatedRule;
 import net.jforum.security.PrivateMessageEnabledRule;
 import net.jforum.security.PrivateMessageOwnerRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.PrivateMessageService;
 import net.jforum.util.SecurityConstants;
-
 import org.apache.commons.lang.StringUtils;
 
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
 @Resource
 @Path(Domain.PRIVATE_MESSAGES)
-@SecurityConstraint(multiRoles = { @Role(value = AuthenticatedRule.class, displayLogin = true), @Role(PrivateMessageEnabledRule.class) })
+@SecurityConstraint(multiRoles = {@Role(value = AuthenticatedRule.class, displayLogin = true), @Role(PrivateMessageEnabledRule.class)})
 public class PrivateMessageController {
-	private PrivateMessageRepository repository;
-	private UserRepository userRepository;
+	private PrivateMessageDao repository;
+	private UserDao userRepository;
 	private PrivateMessageService service;
 	private final Result result;
 	private final UserSession userSession;
 
-	public PrivateMessageController(PrivateMessageRepository repository, UserRepository userRepository,
-			PrivateMessageService service, Result result, UserSession userSession) {
+	public PrivateMessageController(PrivateMessageDao repository, UserDao userRepository,
+	                                PrivateMessageService service, Result result, UserSession userSession) {
 		this.repository = repository;
 		this.userRepository = userRepository;
 		this.service = service;
@@ -149,10 +143,10 @@ public class PrivateMessageController {
 	/**
 	 * Send a private message to some user
 	 *
-	 * @param post  the subject and the text
-	 * @param options formatting options
+	 * @param post       the subject and the text
+	 * @param options    formatting options
 	 * @param toUsername recipient username, only necessary if <code>toUserId</code> not set
-	 * @param toUserId recipient id, only necessary if <code>toUsername</code> not set
+	 * @param toUserId   recipient id, only necessary if <code>toUsername</code> not set
 	 */
 	public void sendSave(Post post, PostFormOptions options, String toUsername, int toUserId) {
 		User toUser = this.findToUser(toUserId, toUsername);
@@ -198,8 +192,7 @@ public class PrivateMessageController {
 				}
 
 				this.result.include("users", result);
-			}
-			else {
+			} else {
 				if (roleManager.roleExists(SecurityConstants.INTERACT_OTHER_GROUPS)) {
 					this.result.include("users", this.userRepository.findByUserName(username));
 				} else {

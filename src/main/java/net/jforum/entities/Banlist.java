@@ -10,18 +10,11 @@
  */
 package net.jforum.entities;
 
+import org.apache.commons.lang.StringUtils;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.StringTokenizer;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Rafael Steil
@@ -105,12 +98,10 @@ public class Banlist implements Serializable {
 
 		if (this.matchesUserId(b) || this.matchesEmail(b)) {
 			status = true;
-		}
-		else if (!StringUtils.isEmpty(b.getIp()) && !StringUtils.isEmpty(this.getIp())) {
+		} else if (!StringUtils.isEmpty(b.getIp()) && !StringUtils.isEmpty(this.getIp())) {
 			if (b.getIp().equalsIgnoreCase(this.getIp())) {
 				status = true;
-			}
-			else {
+			} else {
 				status = this.matchIp(b);
 			}
 		}
@@ -189,7 +180,7 @@ public class Banlist implements Serializable {
 			return false;
 		}
 
-		return ((Banlist)o).getId() == this.getId();
+		return ((Banlist) o).getId() == this.getId();
 	}
 
 	/**
@@ -198,10 +189,10 @@ public class Banlist implements Serializable {
 	@Override
 	public String toString() {
 		return new StringBuilder()
-			.append("id=").append(this.getId()).append(',')
-			.append("ip=").append(this.getIp()).append(',')
-			.append("userId=").append(this.getUserId()).append(',')
-			.append("email=").append(this.getEmail())
-			.toString();
+				.append("id=").append(this.getId()).append(',')
+				.append("ip=").append(this.getIp()).append(',')
+				.append("userId=").append(this.getUserId()).append(',')
+				.append("email=").append(this.getEmail())
+				.toString();
 	}
 }

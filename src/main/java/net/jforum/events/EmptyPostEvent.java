@@ -17,33 +17,39 @@ import net.jforum.entities.Post;
  * All methods are empty, as it is destined to be
  * extended by classes that only want to handle
  * one or another event
+ *
  * @author Rafael Steil
  */
 public class EmptyPostEvent implements Event<Post> {
 	/**
 	 * @see net.jforum.events.PostEvent#added(net.jforum.entities.Post)
 	 */
-	public void added(Post post) { }
+	public void added(Post post) {
+	}
 
 	/**
 	 * @see net.jforum.events.PostEvent#deleted(net.jforum.entities.Post)
 	 */
-	public void deleted(Post post) { }
+	public void deleted(Post post) {
+	}
 
 	/**
 	 * @see net.jforum.events.PostEvent#updated(net.jforum.entities.Post)
 	 */
-	public void updated(Post post) { }
+	public void updated(Post post) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#beforeAdd(java.lang.Object)
 	 */
-	public void beforeAdd(Post entity) { }
+	public void beforeAdd(Post entity) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#beforeAdd(java.lang.Object)
 	 */
-	public void beforeDeleted(Post entity) { }
+	public void beforeDeleted(Post entity) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#beforeUpdated(java.lang.Object)

@@ -10,26 +10,26 @@
  */
 package net.jforum.core.events.forum;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.jforum.entities.Forum;
 import net.jforum.entities.Group;
 import net.jforum.entities.UserSession;
 import net.jforum.events.EmptyForumEvent;
-import net.jforum.repository.GroupRepository;
+import net.jforum.repository.GroupDao;
 import net.jforum.services.GroupService;
 import net.jforum.util.SecurityConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
 public class NewForumGroupPermissionsEvent extends EmptyForumEvent {
-	private GroupRepository groupRepository;
+	private GroupDao groupRepository;
 	private GroupService groupService;
 	private final UserSession userSession;
 
-	public NewForumGroupPermissionsEvent(GroupRepository groupRepository, GroupService groupService, UserSession userSession) {
+	public NewForumGroupPermissionsEvent(GroupDao groupRepository, GroupService groupService, UserSession userSession) {
 		this.groupRepository = groupRepository;
 		this.groupService = groupService;
 		this.userSession = userSession;
@@ -39,6 +39,7 @@ public class NewForumGroupPermissionsEvent extends EmptyForumEvent {
 	 * When a new forum is added, set group access automatically.
 	 * Every group which is an Administrator and every user group which is
 	 * Co Administrator will have access by default to the new forum.
+	 *
 	 * @see net.jforum.events.EmptyForumEvent#added(net.jforum.entities.Forum)
 	 */
 	@Override
@@ -63,6 +64,6 @@ public class NewForumGroupPermissionsEvent extends EmptyForumEvent {
 
 	private boolean isGoodCandidate(Group group) {
 		return group.roleExist(SecurityConstants.ADMINISTRATOR)
-			|| group.roleExist(SecurityConstants.CO_ADMINISTRATOR);
+				|| group.roleExist(SecurityConstants.CO_ADMINISTRATOR);
 	}
 }

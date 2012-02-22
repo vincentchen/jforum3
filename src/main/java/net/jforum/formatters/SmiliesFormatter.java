@@ -10,16 +10,14 @@
  */
 package net.jforum.formatters;
 
-import net.jforum.entities.Smilie;
-import net.jforum.repository.SmilieRepository;
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.JForumConfig;
-
-import org.apache.commons.lang.StringUtils;
-
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.Container;
+import net.jforum.entities.Smilie;
+import net.jforum.repository.SmilieDao;
+import net.jforum.util.ConfigKeys;
+import net.jforum.util.JForumConfig;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Rafael Steil
@@ -40,12 +38,12 @@ public class SmiliesFormatter implements Formatter {
 	 */
 	@Override
 	public String format(String text, PostOptions postOptions) {
-		SmilieRepository repository = container.instanceFor(SmilieRepository.class);
+		SmilieDao repository = container.instanceFor(SmilieDao.class);
 
 		if (postOptions.isSmiliesEnabled()) {
 			for (Smilie smilie : repository.getAllSmilies()) {
 				text = StringUtils.replace(text, smilie.getCode(),
-					this.imageTag(smilie.getDiskName(), postOptions.contextPath()));
+						this.imageTag(smilie.getDiskName(), postOptions.contextPath()));
 			}
 		}
 
@@ -54,12 +52,12 @@ public class SmiliesFormatter implements Formatter {
 
 	private String imageTag(String filename, String contextPath) {
 		return new StringBuilder(128)
-			.append("<img src='")
-			.append(contextPath)
-			.append('/')
-			.append(this.config.getValue(ConfigKeys.SMILIE_IMAGE_DIR))
-			.append('/')
-			.append(filename).append("' border='0'/>")
-			.toString();
+				.append("<img src='")
+				.append(contextPath)
+				.append('/')
+				.append(this.config.getValue(ConfigKeys.SMILIE_IMAGE_DIR))
+				.append('/')
+				.append(filename).append("' border='0'/>")
+				.toString();
 	}
 }

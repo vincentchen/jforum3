@@ -41,15 +41,15 @@
  */
 package net.jforum.util.mail;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.jforum.core.exceptions.MailException;
 import net.jforum.entities.User;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Send an email for account activation
@@ -63,19 +63,19 @@ public class ActivationKeySpammer extends Spammer {
 
 	public void prepare(User user) {
 		String url = new StringBuilder()
-			.append(this.buildForumLink())
-			.append("user/activateAccount/")
-			.append(user.getActivationKey())
-			.append('/')
-			.append(user.getId())
-			.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
-			.toString();
+				.append(this.buildForumLink())
+				.append("user/activateAccount/")
+				.append(user.getActivationKey())
+				.append('/')
+				.append(user.getId())
+				.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
+				.toString();
 
 		String manualUrl = new StringBuilder()
-			.append(this.buildForumLink())
-			.append("user/activateManually")
-			.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
-			.toString();
+				.append(this.buildForumLink())
+				.append("user/activateManually")
+				.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
+				.toString();
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("url", url);
@@ -89,6 +89,6 @@ public class ActivationKeySpammer extends Spammer {
 		this.setTemplateParams(params);
 
 		this.prepareMessage(this.getConfig().getValue(ConfigKeys.MAIL_ACTIVATION_KEY_SUBJECT),
-			this.getConfig().getValue(ConfigKeys.MAIL_ACTIVATION_KEY_MESSAGE_FILE));
+				this.getConfig().getValue(ConfigKeys.MAIL_ACTIVATION_KEY_MESSAGE_FILE));
 	}
 }

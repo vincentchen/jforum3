@@ -10,52 +10,29 @@
  */
 package net.jforum.controllers;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import net.jforum.actions.helpers.ActionUtils;
-import net.jforum.actions.helpers.Actions;
-import net.jforum.actions.helpers.AttachedFile;
-import net.jforum.actions.helpers.Domain;
-import net.jforum.actions.helpers.PostFormOptions;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.*;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.core.SessionManager;
 import net.jforum.core.exceptions.ForumException;
-import net.jforum.entities.Attachment;
-import net.jforum.entities.Forum;
-import net.jforum.entities.Poll;
-import net.jforum.entities.PollOption;
-import net.jforum.entities.PollVoter;
-import net.jforum.entities.Post;
-import net.jforum.entities.Topic;
-import net.jforum.entities.User;
-import net.jforum.entities.UserSession;
+import net.jforum.entities.*;
 import net.jforum.entities.util.Pagination;
-import net.jforum.plugins.post.ForumLimitedTimeRepository;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.PollRepository;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.RankingRepository;
-import net.jforum.repository.SmilieRepository;
-import net.jforum.repository.TopicRepository;
-import net.jforum.security.AccessForumRule;
-import net.jforum.security.CreateNewTopicRule;
-import net.jforum.security.DownloadAttachmentRule;
-import net.jforum.security.ReplyTopicRule;
-import net.jforum.security.RoleManager;
+import net.jforum.plugins.post.ForumLimitedTimeDao;
+import net.jforum.repository.*;
+import net.jforum.security.*;
 import net.jforum.services.AttachmentService;
 import net.jforum.services.TopicService;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.URLBuilder;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -63,31 +40,31 @@ import br.com.caelum.vraptor.Result;
 @Resource
 @Path(Domain.TOPICS)
 public class TopicController {
-	private ForumRepository forumRepository;
-	private PostRepository postRepository;
-	private SmilieRepository smilieRepository;
+	private ForumDao forumRepository;
+	private PostDao postRepository;
+	private SmilieDao smilieRepository;
 	private TopicService topicService;
 	private JForumConfig config;
-	private TopicRepository topicRepository;
-	private CategoryRepository categoryRepository;
-	private RankingRepository rankingRepository;
+	private TopicDao topicRepository;
+	private CategoryDao categoryRepository;
+	private RankingDao rankingRepository;
 	private SessionManager sessionManager;
-	private PollRepository pollRepository;
+	private PollDao pollRepository;
 	private AttachmentService attachmentService;
 	private HttpServletRequest request;
-	private final ForumLimitedTimeRepository forumLimitedTimeRepository;
+	private final ForumLimitedTimeDao forumLimitedTimeRepository;
 	private final Result result;
 	private final UserSession userSession;
 
 	public TopicController(Result result, JForumConfig config,
-			TopicService topicService, ForumRepository forumRepository,
-			SmilieRepository smilieRepository, PostRepository postRepository,
-			TopicRepository topicRepository,
-			CategoryRepository categoryRepository,
-			RankingRepository rankingRepository, SessionManager sessionManager,
-			PollRepository pollRepository,
-			ForumLimitedTimeRepository forumLimitedTimeRepository,
-			AttachmentService attachmentService, HttpServletRequest request, UserSession userSession) {
+	                       TopicService topicService, ForumDao forumRepository,
+	                       SmilieDao smilieRepository, PostDao postRepository,
+	                       TopicDao topicRepository,
+	                       CategoryDao categoryRepository,
+	                       RankingDao rankingRepository, SessionManager sessionManager,
+	                       PollDao pollRepository,
+	                       ForumLimitedTimeDao forumLimitedTimeRepository,
+	                       AttachmentService attachmentService, HttpServletRequest request, UserSession userSession) {
 		this.result = result;
 		this.forumRepository = forumRepository;
 		this.smilieRepository = smilieRepository;
@@ -119,8 +96,7 @@ public class TopicController {
 		if (count > postsPerPage) {
 			int page = new Pagination().calculeStartFromCount(count, postsPerPage);
 			url = URLBuilder.build(Domain.TOPICS, Actions.LIST, page, topicId);
-		}
-		else {
+		} else {
 			url = URLBuilder.build(Domain.TOPICS, Actions.LIST, topicId);
 		}
 
@@ -130,8 +106,7 @@ public class TopicController {
 	/**
 	 * Shows the page to quote an existing message
 	 *
-	 * @param postId
-	 *            the id of the post to quote
+	 * @param postId the id of the post to quote
 	 */
 	@SecurityConstraint(ReplyTopicRule.class)
 	public void quote(int postId) {
@@ -175,8 +150,7 @@ public class TopicController {
 	/**
 	 * Shows the message review page
 	 *
-	 * @param topicId
-	 *            the id of the topic being replies
+	 * @param topicId the id of the topic being replies
 	 */
 	@SecurityConstraint(ReplyTopicRule.class)
 	public void replyReview(int topicId) {
@@ -194,10 +168,8 @@ public class TopicController {
 	/**
 	 * Displays the page to preview a message before posting it
 	 *
-	 * @param message
-	 *            the message to preview
-	 * @param options
-	 *            the formatting options
+	 * @param message the message to preview
+	 * @param options the formatting options
 	 */
 	public void preview(String message, PostFormOptions options) {
 		Post post = new Post();
@@ -213,8 +185,7 @@ public class TopicController {
 	/**
 	 * Shows the page to create a new topic
 	 *
-	 * @param forumId
-	 *            the forum where the topic should be created
+	 * @param forumId the forum where the topic should be created
 	 */
 	@SecurityConstraint(CreateNewTopicRule.class)
 	public void add(int forumId) {
@@ -254,8 +225,8 @@ public class TopicController {
 	/**
 	 * Adds a reply to an existing topic.
 	 *
-	 * @param topic the topic the reply is made
-	 * @param post the reply itself
+	 * @param topic   the topic the reply is made
+	 * @param post    the reply itself
 	 * @param options post formatting options
 	 */
 	@SecurityConstraint(ReplyTopicRule.class)
@@ -285,8 +256,7 @@ public class TopicController {
 
 		if (post.isWaitingModeration()) {
 			this.result.redirectTo(MessageController.class).replyWaitingModeration(topic.getId());
-		}
-		else {
+		} else {
 			this.redirecToListing(topic, post);
 		}
 	}
@@ -295,7 +265,7 @@ public class TopicController {
 	 * List all posts from a given topic
 	 *
 	 * @param topicId the id of the topic to show
-	 * @param page the initial page to start showing
+	 * @param page    the initial page to start showing
 	 */
 	@SecurityConstraint(value = AccessForumRule.class, displayLogin = true)
 	@Path("/list/{topicId}")
@@ -354,8 +324,8 @@ public class TopicController {
 	 * Saves a new topic.
 	 *
 	 * @param topic the topic to save.
-	 * @param post the post itself
-	 * @param opti the formatting options
+	 * @param post  the post itself
+	 * @param opti  the formatting options
 	 */
 	@SecurityConstraint(CreateNewTopicRule.class)
 	public void addSave(Topic topic, Post post, PostFormOptions postOptions, List<PollOption> pollOptions) {
@@ -419,9 +389,9 @@ public class TopicController {
 		Pagination pagination = new Pagination(this.config, 0).forTopic(topic);
 
 		StringBuilder url = new StringBuilder(
-			pagination.getTotalPages() > 1
-				? URLBuilder.build(Domain.TOPICS, Actions.LIST,pagination.getTotalPages(), topic.getId())
-				: URLBuilder.build(Domain.TOPICS, Actions.LIST, topic.getId()));
+				pagination.getTotalPages() > 1
+						? URLBuilder.build(Domain.TOPICS, Actions.LIST, pagination.getTotalPages(), topic.getId())
+						: URLBuilder.build(Domain.TOPICS, Actions.LIST, topic.getId()));
 
 		url.append('#').append(post.getId());
 

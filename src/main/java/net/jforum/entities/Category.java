@@ -10,23 +10,14 @@
  */
 package net.jforum.entities;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import net.jforum.repository.CategoryRepository;
-
+import net.jforum.repository.CategoryDao;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -56,12 +47,13 @@ public class Category implements Serializable {
 	private Theme theme;
 
 	@Transient
-	private CategoryRepository repository;
+	private CategoryDao repository;
 
-	public Category() {}
+	public Category() {
+	}
 
 	@Autowired
-	public Category(CategoryRepository repository) {
+	public Category(CategoryDao repository) {
 		this.repository = repository;
 	}
 
@@ -155,7 +147,7 @@ public class Category implements Serializable {
 			return false;
 		}
 
-		return ((Category)o).getId() == this.getId();
+		return ((Category) o).getId() == this.getId();
 	}
 
 	/**
@@ -164,11 +156,11 @@ public class Category implements Serializable {
 	@Override
 	public String toString() {
 		return new StringBuilder(64)
-			.append('[')
-			.append(this.getName())
-			.append(", id=").append(this.getId())
-			.append(", order=").append(this.getDisplayOrder())
-			.toString();
+				.append('[')
+				.append(this.getName())
+				.append(", id=").append(this.getId())
+				.append(", order=").append(this.getDisplayOrder())
+				.toString();
 	}
 
 	public Theme getTheme() {

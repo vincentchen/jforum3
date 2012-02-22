@@ -10,22 +10,22 @@
  */
 package net.jforum.extensions;
 
-import net.jforum.entities.UserSession;
-import net.jforum.repository.PostReportRepository;
-import net.jforum.util.SecurityConstants;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.entities.UserSession;
+import net.jforum.repository.PostReportDao;
+import net.jforum.util.SecurityConstants;
 
 /**
  * @author Rafael Steil
  */
 @Component
 public class PostReportCounterOperation implements RequestOperation {
-	private final PostReportRepository repository;
+	private final PostReportDao repository;
 	private final Result result;
 	private final UserSession userSession;
 
-	public PostReportCounterOperation(PostReportRepository repository, Result result, UserSession userSession) {
+	public PostReportCounterOperation(PostReportDao repository, Result result, UserSession userSession) {
 		this.repository = repository;
 		this.result = result;
 		this.userSession = userSession;

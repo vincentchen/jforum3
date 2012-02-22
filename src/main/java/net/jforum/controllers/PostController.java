@@ -10,34 +10,25 @@
  */
 package net.jforum.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import net.jforum.actions.helpers.ActionUtils;
-import net.jforum.actions.helpers.Actions;
-import net.jforum.actions.helpers.AttachedFile;
-import net.jforum.actions.helpers.Domain;
-import net.jforum.actions.helpers.PostFormOptions;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.*;
 import net.jforum.core.SecurityConstraint;
-import net.jforum.entities.ModerationLog;
-import net.jforum.entities.PollOption;
-import net.jforum.entities.Post;
-import net.jforum.entities.Topic;
-import net.jforum.entities.UserSession;
+import net.jforum.entities.*;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.SmilieRepository;
+import net.jforum.repository.PostDao;
+import net.jforum.repository.SmilieDao;
 import net.jforum.security.ChangePostRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.AttachmentService;
 import net.jforum.services.PostService;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.URLBuilder;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -45,8 +36,8 @@ import br.com.caelum.vraptor.Result;
 @Resource
 @Path(Domain.POSTS)
 public class PostController {
-	private PostRepository postRepository;
-	private SmilieRepository smilieRepository;
+	private PostDao postRepository;
+	private SmilieDao smilieRepository;
 	private PostService postService;
 	private JForumConfig config;
 	private UserSession userSession;
@@ -54,9 +45,9 @@ public class PostController {
 	private HttpServletRequest request;
 	private final Result result;
 
-	public PostController(PostRepository postRepository, SmilieRepository smilieRepository,
-			PostService postService, JForumConfig config, UserSession userSession,
-		AttachmentService attachmentService, HttpServletRequest request, Result result) {
+	public PostController(PostDao postRepository, SmilieDao smilieRepository,
+	                      PostService postService, JForumConfig config, UserSession userSession,
+	                      AttachmentService attachmentService, HttpServletRequest request, Result result) {
 		this.postRepository = postRepository;
 		this.smilieRepository = smilieRepository;
 		this.postService = postService;
@@ -69,6 +60,7 @@ public class PostController {
 
 	/**
 	 * Deletes an existing post
+	 *
 	 * @param postId
 	 */
 	@SecurityConstraint(value = ChangePostRule.class)
@@ -79,8 +71,7 @@ public class PostController {
 
 		if (topic.getTotalPosts() > 0) {
 			this.redirecToListing(topic);
-		}
-		else {
+		} else {
 			//TODO pass zero?
 			this.result.redirectTo(ForumController.class).show(topic.getForum().getId(), 0);
 		}
@@ -88,11 +79,12 @@ public class PostController {
 
 	/**
 	 * Saves an existing message
-	 * @param post the message to save
+	 *
+	 * @param post        the message to save
 	 * @param postOptions the formatting options
 	 */
 	@SecurityConstraint(value = ChangePostRule.class)
-	public void editSave( Post post,  PostFormOptions postOptions, List<PollOption> pollOptions,  ModerationLog moderationLog) {
+	public void editSave(Post post, PostFormOptions postOptions, List<PollOption> pollOptions, ModerationLog moderationLog) {
 
 		ActionUtils.definePostOptions(post, postOptions);
 		post.getTopic().setType(postOptions.getTopicType());
@@ -121,6 +113,7 @@ public class PostController {
 
 	/**
 	 * Shows the page to edit an existing post
+	 *
 	 * @param postId the id of the post to edit
 	 */
 	@SecurityConstraint(value = ChangePostRule.class)
@@ -141,9 +134,9 @@ public class PostController {
 		Pagination pagination = new Pagination(this.config, 0).forTopic(topic);
 
 		final String url = new StringBuilder(pagination.getTotalPages() > 1
-			? URLBuilder.build(Domain.TOPICS, Actions.LIST, pagination.getTotalPages(), topic.getId())
-			: URLBuilder.build(Domain.TOPICS, Actions.LIST, topic.getId()))
-			.toString();
+				? URLBuilder.build(Domain.TOPICS, Actions.LIST, pagination.getTotalPages(), topic.getId())
+				: URLBuilder.build(Domain.TOPICS, Actions.LIST, topic.getId()))
+				.toString();
 
 		this.result.redirectTo(url);
 	}

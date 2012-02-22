@@ -18,6 +18,7 @@ import net.jforum.entities.Topic;
  * All methods are empty, as it is destined to be
  * extended by classes that only want to handle
  * one or another event
+ *
  * @author Rafael Steil
  */
 
@@ -26,27 +27,32 @@ public class EmptyCategoryEvent implements Event<Category> {
 	/**
 	 * @see net.jforum.events.Event#added(Category)
 	 */
-	public void added(Category entity) { }
+	public void added(Category entity) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#deleted(Category)
 	 */
-	public void deleted(Category entity) { }
+	public void deleted(Category entity) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#updated(Category)
 	 */
-	public void updated(Category entity) { }
+	public void updated(Category entity) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#beforeAdd(java.lang.Object)
 	 */
-	public void beforeAdd(Category entity) {}
+	public void beforeAdd(Category entity) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#beforeDeleted(java.lang.Object)
 	 */
-	public void beforeDeleted(Category entity) {}
+	public void beforeDeleted(Category entity) {
+	}
 
 	/**
 	 * @see net.jforum.events.Event#beforeUpdated(java.lang.Object)

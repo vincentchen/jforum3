@@ -10,30 +10,30 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.core.SessionManager;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.Forum;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.ForumRepository;
-import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.repository.ForumDao;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
  * Check if the user can create a new topic.
  * This is intended to be used with {@link SecurityConstraint}, and will check
  * if the current user can create a new topic on a given forum.
+ *
  * @author Rafael Steil
  */
 @Component
 public class CreateNewTopicRule implements AccessRule {
-	private ForumRepository repository;
+	private ForumDao repository;
 	private SessionManager sessionManager;
 
-	public CreateNewTopicRule(ForumRepository repository, SessionManager sessionManager) {
+	public CreateNewTopicRule(ForumDao repository, SessionManager sessionManager) {
 		this.repository = repository;
 		this.sessionManager = sessionManager;
 	}
@@ -41,9 +41,9 @@ public class CreateNewTopicRule implements AccessRule {
 	/**
 	 * Applies the following rules:
 	 * <ul>
-	 * 	<li> User must have access to the forum
-	 * 	<li> Forum should not be read-only and not reply-only
-	 * 	<li> User must be logged or anonymous posts allowed in the forum.
+	 * <li> User must have access to the forum
+	 * <li> Forum should not be read-only and not reply-only
+	 * <li> User must be logged or anonymous posts allowed in the forum.
 	 * </ul>
 	 * It is expected that the parameter <i>forumId</i> or <i>topic.forum.id</i> exists in the request
 	 */
@@ -55,9 +55,9 @@ public class CreateNewTopicRule implements AccessRule {
 		Forum forum = this.repository.get(forumId);
 
 		return roleManager.isForumAllowed(forumId)
-			&& (userSession.isLogged() || forum.isAllowAnonymousPosts())
-			&& (!roleManager.isForumReadOnly(forumId) && !roleManager.isForumReplyOnly(forumId))
-			&& (!roleManager.getPostOnlyWithModeratorOnline() || (roleManager.getPostOnlyWithModeratorOnline() && this.sessionManager.isModeratorOnline()));
+				&& (userSession.isLogged() || forum.isAllowAnonymousPosts())
+				&& (!roleManager.isForumReadOnly(forumId) && !roleManager.isForumReplyOnly(forumId))
+				&& (!roleManager.getPostOnlyWithModeratorOnline() || (roleManager.getPostOnlyWithModeratorOnline() && this.sessionManager.isModeratorOnline()));
 	}
 
 	/**
@@ -68,11 +68,9 @@ public class CreateNewTopicRule implements AccessRule {
 
 		if (request.getParameterMap().containsKey("forumId")) {
 			forumId = Integer.parseInt(request.getParameter("forumId"));
-		}
-		else if (request.getParameterMap().containsKey("topic.forum.id")) {
+		} else if (request.getParameterMap().containsKey("topic.forum.id")) {
 			forumId = Integer.parseInt(request.getParameter("topic.forum.id"));
-		}
-		else {
+		} else {
 			throw new AccessRuleException("Could not find forumId or topic.forum.id in the current request");
 		}
 

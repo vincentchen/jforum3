@@ -11,32 +11,31 @@
 package net.jforum.services;
 
 import net.jforum.entities.User;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.UserDao;
 import net.jforum.util.MD5;
-
 import org.apache.commons.lang.StringUtils;
-
-import br.com.caelum.vraptor.ioc.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class LostPasswordService {
-	private UserRepository userRepository;
+	private UserDao userRepository;
 
-	public LostPasswordService(UserRepository userRepository) {
+	public LostPasswordService(UserDao userRepository) {
 		this.userRepository = userRepository;
 	}
 
 	/**
 	 * Dispatches the email asking for a new password
-	 * @param requestedUser the username who lost the password. This parameter
-	 * is optional if requestedEmail is provided.
+	 *
+	 * @param requestedUser  the username who lost the password. This parameter
+	 *                       is optional if requestedEmail is provided.
 	 * @param requestedEmail the email who lost the password. This parameter
-	 * is optional if requestedUser is provided
+	 *                       is optional if requestedUser is provided
 	 * @return true if the email was sent, or false if no user matching the
-	 * parameters was found.
+	 *         parameters was found.
 	 */
 	public boolean send(String requestedUser, String requestedEmail) {
 		User user = this.findUser(requestedUser, requestedEmail);
@@ -52,14 +51,12 @@ public class LostPasswordService {
 		return true;
 	}
 
-	private User findUser(String username, String email)
-	{
+	private User findUser(String username, String email) {
 		User user = null;
 
 		if (!StringUtils.isEmpty(username)) {
 			user = this.userRepository.getByUsername(username);
-		}
-		else if (!StringUtils.isEmpty(email)) {
+		} else if (!StringUtils.isEmpty(email)) {
 			user = this.userRepository.getByEmail(email);
 		}
 

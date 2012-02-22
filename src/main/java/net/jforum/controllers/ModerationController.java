@@ -10,9 +10,9 @@
  */
 package net.jforum.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.ApproveInfo;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
@@ -20,20 +20,18 @@ import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Topic;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.ModerationLogRepository;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.CategoryDao;
+import net.jforum.repository.ModerationLogDao;
+import net.jforum.repository.TopicDao;
 import net.jforum.security.ModerationRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.ModerationService;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.SecurityConstants;
-
 import org.apache.commons.lang.StringUtils;
 
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -44,18 +42,18 @@ import br.com.caelum.vraptor.Result;
 public class ModerationController {
 	private final RoleManager roleManager;
 	private final ModerationService moderationService;
-	private final CategoryRepository categoryRepository;
-	private final TopicRepository topicRepository;
+	private final CategoryDao categoryRepository;
+	private final TopicDao topicRepository;
 	private final JForumConfig config;
-	private final ModerationLogRepository logRepository;
+	private final ModerationLogDao logRepository;
 	private final UserSession userSession;
 	private final Result result;
 
 	public ModerationController(Result result, RoleManager roleManager,
-			ModerationService moderationService,
-			CategoryRepository categoryRepository,
-			TopicRepository topicRepository, JForumConfig config,
-			ModerationLogRepository logRepository, UserSession userSession) {
+	                            ModerationService moderationService,
+	                            CategoryDao categoryRepository,
+	                            TopicDao topicRepository, JForumConfig config,
+	                            ModerationLogDao logRepository, UserSession userSession) {
 		this.result = result;
 		this.roleManager = roleManager;
 		this.moderationService = moderationService;
@@ -83,17 +81,14 @@ public class ModerationController {
 
 	/**
 	 * Move a set of topics to another forum
-	 * 
-	 * @param toForumId
-	 *            the destination forum
-	 * @param returnUrl
-	 *            the url to redirect after the operation completes
-	 * @param topicIds
-	 *            the id of the topics to move
+	 *
+	 * @param toForumId the destination forum
+	 * @param returnUrl the url to redirect after the operation completes
+	 * @param topicIds  the id of the topics to move
 	 */
 	@SecurityConstraint(ModerationRule.class)
 	public void moveTopics(int toForumId, String returnUrl,
-			ModerationLog moderationLog, int... topicIds) {
+	                       ModerationLog moderationLog, int... topicIds) {
 
 		if (this.roleManager.getCanMoveTopics()) {
 			if (moderationLog != null) {
@@ -110,15 +105,13 @@ public class ModerationController {
 	/**
 	 * Shows the page to ask for the destination forum for a set of topics to
 	 * move
-	 * 
-	 * @param returnUrl
-	 *            the return url to redirect after the operation is done
-	 * @param topicIds
-	 *            the id of the topics to move
+	 *
+	 * @param returnUrl the return url to redirect after the operation is done
+	 * @param topicIds  the id of the topics to move
 	 */
 	@SecurityConstraint(ModerationRule.class)
 	public void askMoveDestination(String returnUrl, int forumId,
-			int... topicIds) {
+	                               int... topicIds) {
 		if (!this.roleManager.getCanMoveTopics()) {
 			this.result.redirectTo(returnUrl);
 		} else {
@@ -132,17 +125,14 @@ public class ModerationController {
 
 	/**
 	 * Lock or unlock a set of topics
-	 * 
-	 * @param forumId
-	 *            the forum
-	 * @param returnUrl
-	 *            the return url, if any
-	 * @param topicIds
-	 *            the id of the topics to lock or unlock
+	 *
+	 * @param forumId   the forum
+	 * @param returnUrl the return url, if any
+	 * @param topicIds  the id of the topics to lock or unlock
 	 */
 	@SecurityConstraint(ModerationRule.class)
 	public void lockUnlock(int forumId, String returnUrl,
-			ModerationLog moderationLog, int[] topicIds) {
+	                       ModerationLog moderationLog, int[] topicIds) {
 
 		if (this.roleManager.getCanLockUnlockTopics()) {
 			if (moderationLog != null) {
@@ -162,15 +152,13 @@ public class ModerationController {
 
 	/**
 	 * Delete a set of topics
-	 * 
-	 * @param forumId
-	 *            the forum
-	 * @param topicIds
-	 *            the id of the topics to delete
+	 *
+	 * @param forumId  the forum
+	 * @param topicIds the id of the topics to delete
 	 */
 	@SecurityConstraint(ModerationRule.class)
 	public void deleteTopics(int forumId, String returnUrl, int[] topicIds,
-			ModerationLog moderationLog) {
+	                         ModerationLog moderationLog) {
 
 		if (this.roleManager.getCanDeletePosts()) {
 			List<Topic> topics = new ArrayList<Topic>();
@@ -197,12 +185,10 @@ public class ModerationController {
 
 	/**
 	 * Approves ou denies currently moderated messages
-	 * 
-	 * @param forumId
-	 *            the forum
-	 * @param info
-	 *            the set of posts to approve or deny, and the respective status
-	 *            of each one
+	 *
+	 * @param forumId the forum
+	 * @param info    the set of posts to approve or deny, and the respective status
+	 *                of each one
 	 */
 	@SecurityConstraint(ModerationRule.class)
 	public void approve(int forumId, List<ApproveInfo> info) {

@@ -42,13 +42,9 @@
  */
 package net.jforum.util;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Vector;
-
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.core.exceptions.ForumException;
-
 import org.apache.commons.lang.StringUtils;
 import org.htmlparser.Attribute;
 import org.htmlparser.Node;
@@ -56,8 +52,10 @@ import org.htmlparser.Tag;
 import org.htmlparser.lexer.Lexer;
 import org.htmlparser.nodes.TextNode;
 
-import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * Process text with html and remove possible malicious tags and attributes.
@@ -119,13 +117,11 @@ public class SafeHtml {
 					this.checkAndValidateAttributes(tag, false);
 
 					sb.append(tag.toHtml());
-				}
-				else {
+				} else {
 					sb.append(node.toHtml());
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new ForumException("Problems while parsing HTML: " + e, e);
 		}
 
@@ -168,11 +164,9 @@ public class SafeHtml {
 					}
 
 					sb.append(node.toHtml());
-				}
-				else if (node instanceof Tag && this.isTagWelcome(node)) {
+				} else if (node instanceof Tag && this.isTagWelcome(node)) {
 					sb.append(node.toHtml());
-				}
-				else {
+				} else {
 					String text = node.toHtml();
 
 					text = StringUtils.replace(text, "<", "&lt;");
@@ -181,8 +175,7 @@ public class SafeHtml {
 					sb.append(text);
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new ForumException("Error while parsing HTML: " + e, e);
 		}
 
@@ -202,7 +195,7 @@ public class SafeHtml {
 			return false;
 		}
 
-		this.checkAndValidateAttributes((Tag)node, true);
+		this.checkAndValidateAttributes((Tag) node, true);
 
 		return true;
 	}
@@ -210,22 +203,21 @@ public class SafeHtml {
 	/**
 	 * Given a tag, check its attributes, removing those unwanted or not secure
 	 *
-	 * @param tag The tag to analyze
+	 * @param tag                       The tag to analyze
 	 * @param checkIfAttributeIsWelcome true if the attribute name should be matched against the list of welcome attributes, set in the main
-	 *            configuration file.
+	 *                                  configuration file.
 	 */
 	@SuppressWarnings("unchecked")
 	private void checkAndValidateAttributes(Tag tag, boolean checkIfAttributeIsWelcome) {
 		Vector<Attribute> newAttributes = new Vector<Attribute>();
 
-		for (Iterator<Attribute> iter = tag.getAttributesEx().iterator(); iter.hasNext();) {
+		for (Iterator<Attribute> iter = tag.getAttributesEx().iterator(); iter.hasNext(); ) {
 			Attribute a = iter.next();
 			String name = a.getName();
 
 			if (name == null) {
 				newAttributes.add(a);
-			}
-			else {
+			} else {
 				name = name.toUpperCase();
 
 				if (a.getValue() == null) {
@@ -267,7 +259,7 @@ public class SafeHtml {
 	/**
 	 * Check if the attribute is safe, checking either its name and value.
 	 *
-	 * @param name the attribute name
+	 * @param name  the attribute name
 	 * @param value the attribute value
 	 * @return true if it is a safe attribute
 	 */
@@ -284,8 +276,7 @@ public class SafeHtml {
 			if (!this.isHrefValid(value)) {
 				return false;
 			}
-		}
-		else if ("STYLE".equals(name)) {
+		} else if ("STYLE".equals(name)) {
 			// It is much more a try to not allow constructions
 			// like style="background-color: url(javascript:xxxx)" than anything else
 			if (value.indexOf('(') > -1) {

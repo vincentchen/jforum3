@@ -43,11 +43,11 @@
  */
 package net.jforum.entities.util;
 
-import java.util.Iterator;
-import java.util.List;
-
 import net.jforum.entities.Post;
 import net.jforum.security.RoleManager;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -61,13 +61,14 @@ public class SearchResult extends PaginatedResult<Post> {
 	 * Apply security filters on the results
 	 * FIXME the best approach would probably be to filter the documents directly in Lucene
 	 * when they are being retrieved. Filtering here *may* mess up some records
+	 *
 	 * @param roleManager the set of roles to be used as filters
 	 * @return the filtered data
 	 */
 	@SuppressWarnings("unchecked")
 	public SearchResult filter(RoleManager roleManager) {
 		for (Iterator iter = this.getResults().iterator(); iter.hasNext(); ) {
-			Post post = (Post)iter.next();
+			Post post = (Post) iter.next();
 
 			if (!roleManager.isForumAllowed(post.getForum().getId())) {
 				iter.remove();

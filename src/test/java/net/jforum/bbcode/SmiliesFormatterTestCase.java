@@ -15,7 +15,7 @@ import java.util.Arrays;
 import net.jforum.entities.Smilie;
 import net.jforum.formatters.PostOptions;
 import net.jforum.formatters.SmiliesFormatter;
-import net.jforum.repository.SmilieRepository;
+import net.jforum.repository.SmilieDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.TestCaseUtils;
@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class SmiliesFormatterTestCase {
 	private Mockery mock = TestCaseUtils.newMockery();
-	private SmilieRepository repository = mock.mock(SmilieRepository.class);
+	private SmilieDao repository = mock.mock(SmilieDao.class);
 	private JForumConfig config = mock.mock(JForumConfig.class);
 
 	@Test

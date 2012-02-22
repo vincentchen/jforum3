@@ -10,19 +10,21 @@
  */
 package net.jforum.core.tags;
 
-import java.util.List;
-
 import net.jforum.entities.Ranking;
 import net.jforum.entities.User;
 
+import java.util.List;
+
 /**
  * Misc functions
+ *
  * @author Rafael Steil
  */
 public class Functions {
 	/**
 	 * Check if a list contains an element
-	 * @param list the list with all elements
+	 *
+	 * @param list    the list with all elements
 	 * @param element the element to search for
 	 * @return true if the element exist in the list
 	 */
@@ -45,8 +47,7 @@ public class Functions {
 		for (Ranking ranking : rankings) {
 			if (user.getTotalPosts() == ranking.getMin() && !ranking.isSpecial()) {
 				return ranking.getTitle();
-			}
-			else if (user.getTotalPosts() > lastRanking.getMin() && user.getTotalPosts() < ranking.getMin()) {
+			} else if (user.getTotalPosts() > lastRanking.getMin() && user.getTotalPosts() < ranking.getMin()) {
 				return lastRanking.getTitle();
 			}
 
@@ -58,11 +59,12 @@ public class Functions {
 
 	/**
 	 * Calcule the last page of something`
-	 * @param totalPosts the total of records
+	 *
+	 * @param totalPosts   the total of records
 	 * @param postsPerPage the number of records per page
 	 * @return the max possible page
 	 */
 	public static int lastPage(int totalPosts, int postsPerPage) {
-		return (int)Math.ceil((double)totalPosts / (double)postsPerPage);
+		return (int) Math.ceil((double) totalPosts / (double) postsPerPage);
 	}
 }

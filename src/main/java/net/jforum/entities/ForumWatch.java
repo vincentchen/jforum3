@@ -10,14 +10,8 @@
  */
 package net.jforum.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * @author Rafael Steil
@@ -35,7 +29,8 @@ public class ForumWatch implements Serializable {
 	@Column(name = "user_id")
 	private int userId;
 
-	public ForumWatch() {}
+	public ForumWatch() {
+	}
 
 	public ForumWatch(int forumId, int userId) {
 		this.setUserId(userId);
@@ -97,9 +92,9 @@ public class ForumWatch implements Serializable {
 			return false;
 		}
 
-		ForumWatch fw = (ForumWatch)o;
+		ForumWatch fw = (ForumWatch) o;
 		return fw.getForumId() == this.getForumId()
-			&& fw.getUserId() == this.getUserId();
+				&& fw.getUserId() == this.getUserId();
 	}
 
 	/**
@@ -108,8 +103,8 @@ public class ForumWatch implements Serializable {
 	@Override
 	public int hashCode() {
 		return new StringBuffer()
-			.append(this.getForumId())
-			.append(this.getUserId())
-			.hashCode();
+				.append(this.getForumId())
+				.append(this.getUserId())
+				.hashCode();
 	}
 }

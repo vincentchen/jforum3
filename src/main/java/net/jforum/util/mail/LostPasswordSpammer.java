@@ -42,15 +42,15 @@
  */
 package net.jforum.util.mail;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.jforum.core.exceptions.MailException;
 import net.jforum.entities.User;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Send an email for lost password requests
@@ -64,11 +64,11 @@ public class LostPasswordSpammer extends Spammer {
 
 	public void prepare(User user, String mailSubject) {
 		String url = new StringBuilder()
-			.append(this.buildForumLink())
-			.append("user/recoverPassword/")
-			.append(user.getActivationKey())
-			.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
-			.toString();
+				.append(this.buildForumLink())
+				.append("user/recoverPassword/")
+				.append(user.getActivationKey())
+				.append(this.getConfig().getValue(ConfigKeys.SERVLET_EXTENSION))
+				.toString();
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("url", url);

@@ -10,13 +10,13 @@
  */
 package net.jforum.controllers;
 
-import net.jforum.actions.helpers.Domain;
-import net.jforum.core.SecurityConstraint;
-import net.jforum.repository.BanlistRepository;
-import net.jforum.security.AdministrationRule;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.repository.BanlistDao;
+import net.jforum.security.AdministrationRule;
 
 /**
  * @author Rafael Steil
@@ -26,10 +26,10 @@ import br.com.caelum.vraptor.Result;
 // @InterceptedBy(ActionSecurityInterceptor.class)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class BanlistAdminController {
-	private BanlistRepository repository;
+	private BanlistDao repository;
 	private final Result result;
 
-	public BanlistAdminController(BanlistRepository repository, Result result) {
+	public BanlistAdminController(BanlistDao repository, Result result) {
 		this.repository = repository;
 		this.result = result;
 	}

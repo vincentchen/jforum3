@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Category;
-import net.jforum.repository.CategoryRepository;
+import net.jforum.repository.CategoryDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -27,7 +27,7 @@ import org.junit.Test;
  */
 public class CategoryServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private CategoryRepository repository = context.mock(CategoryRepository.class);
+	private CategoryDao repository = context.mock(CategoryDao.class);
 	private CategoryService service = new CategoryService(repository);
 
 	@Test

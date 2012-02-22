@@ -10,13 +10,12 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
-
-import javax.servlet.jsp.JspException;
-
 import net.jforum.formatters.Formatter;
 import net.jforum.formatters.PostFormatters;
 import net.jforum.formatters.PostOptions;
+
+import javax.servlet.jsp.JspException;
+import java.io.IOException;
 
 /**
  * @author Rafael Steil

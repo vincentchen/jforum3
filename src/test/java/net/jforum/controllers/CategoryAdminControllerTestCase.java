@@ -13,7 +13,7 @@ package net.jforum.controllers;
 import java.util.ArrayList;
 
 import net.jforum.entities.Category;
-import net.jforum.repository.CategoryRepository;
+import net.jforum.repository.CategoryDao;
 import net.jforum.services.CategoryService;
 import net.jforum.util.TestCaseUtils;
 
@@ -32,8 +32,8 @@ public class CategoryAdminControllerTestCase extends AdminTestCase {
 
 	private Mockery context = TestCaseUtils.newMockery();
 	private CategoryAdminController action;
-	private final CategoryRepository repository = context
-			.mock(CategoryRepository.class);
+	private final CategoryDao repository = context
+			.mock(CategoryDao.class);
 	private final CategoryService service = context.mock(CategoryService.class);
 	private CategoryAdminController mockCategoryAdminController = context
 			.mock(CategoryAdminController.class);

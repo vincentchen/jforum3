@@ -13,7 +13,7 @@ package net.jforum.controllers;
 import java.util.Arrays;
 
 import net.jforum.entities.Ranking;
-import net.jforum.repository.RankingRepository;
+import net.jforum.repository.RankingDao;
 import net.jforum.services.RankingService;
 import net.jforum.util.TestCaseUtils;
 
@@ -31,7 +31,7 @@ import br.com.caelum.vraptor.util.test.MockResult;
 public class RankingAdminControllerTestCase extends AdminTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
 	private RankingAdminController controller;
-	private RankingRepository repository = context.mock(RankingRepository.class);
+	private RankingDao repository = context.mock(RankingDao.class);
 	private RankingService service = context.mock(RankingService.class);
 	private RankingAdminController mockController = context.mock(RankingAdminController.class);
 	private Result mockResult = context.mock(MockResult.class);

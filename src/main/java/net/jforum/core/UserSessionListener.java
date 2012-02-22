@@ -42,14 +42,13 @@
  */
 package net.jforum.core;
 
+import net.jforum.util.ConfigKeys;
+import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-
-import net.jforum.util.ConfigKeys;
-
-import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
 
 /**
  * @author Rafael Steil
@@ -77,21 +76,20 @@ public class UserSessionListener implements HttpSessionListener {
 
 		logger.info("Destroying session " + session.getId());
 
-		ApplicationContext beanFactory = (ApplicationContext)event.getSession().getServletContext()
-			.getAttribute(ConfigKeys.SPRING_CONTEXT);
+		ApplicationContext beanFactory = (ApplicationContext) event.getSession().getServletContext()
+				.getAttribute(ConfigKeys.SPRING_CONTEXT);
 
 		if (beanFactory == null) {
 			logger.warn("Spring Context was not found. This may cause problems with unregistered user sessions");
-		}
-		else {
+		} else {
 			String sessionId = session.getId();
 
 			SessionManager sessionManager = beanFactory.getBean(SessionManager.class);
 
 			try {
 				sessionManager.storeSession(sessionId);
+			} catch (Exception e) {
 			}
-			catch (Exception e) { }
 
 			sessionManager.remove(sessionId);
 		}

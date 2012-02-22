@@ -18,8 +18,8 @@ import net.jforum.entities.Poll;
 import net.jforum.entities.PollOption;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.PostDao;
+import net.jforum.repository.TopicDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -32,10 +32,10 @@ import org.junit.Test;
  */
 public class PostServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private PostRepository postRepository = context.mock(PostRepository.class);
+	private PostDao postRepository = context.mock(PostDao.class);
 	private AttachmentService attachmentService = context.mock(AttachmentService.class);
 	private PollService pollService = context.mock(PollService.class);
-    private TopicRepository topicRepository = context.mock(TopicRepository.class);
+    private TopicDao topicRepository = context.mock(TopicDao.class);
     private ModerationLogService moderationLogService = context.mock(ModerationLogService.class);
     private ModerationLog moderationLog = new ModerationLog();
 	private PostService service = new PostService(postRepository, attachmentService, pollService, topicRepository, moderationLogService);

@@ -10,15 +10,15 @@
  */
 package net.jforum.controllers;
 
-import net.jforum.actions.helpers.Domain;
-import net.jforum.core.SecurityConstraint;
-import net.jforum.entities.Ranking;
-import net.jforum.repository.RankingRepository;
-import net.jforum.security.AdministrationRule;
-import net.jforum.services.RankingService;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.entities.Ranking;
+import net.jforum.repository.RankingDao;
+import net.jforum.security.AdministrationRule;
+import net.jforum.services.RankingService;
 
 /**
  * @author Rafael Steil
@@ -27,12 +27,12 @@ import br.com.caelum.vraptor.Result;
 @Path(Domain.RANKINGS_ADMIN)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class RankingAdminController {
-	private RankingRepository repository;
+	private RankingDao repository;
 	private RankingService service;
 	private final Result result;
 
-	public RankingAdminController(RankingRepository repository,
-			RankingService service, Result result) {
+	public RankingAdminController(RankingDao repository,
+	                              RankingService service, Result result) {
 		this.repository = repository;
 		this.service = service;
 		this.result = result;

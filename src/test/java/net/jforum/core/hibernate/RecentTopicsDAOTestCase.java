@@ -13,7 +13,7 @@ package net.jforum.core.hibernate;
 import java.util.List;
 
 import net.jforum.entities.Topic;
-import net.jforum.repository.RecentTopicsRepository;
+import net.jforum.repository.RecentTopicsDao;
 import net.jforum.util.JDBCLoader;
 
 import org.junit.Assert;
@@ -25,7 +25,7 @@ import org.junit.Test;
 public class RecentTopicsDAOTestCase extends AbstractDAOTestCase<Topic> {
 	@Test
 	public void expectZeroResultsShouldReturnEmptyList() {
-		RecentTopicsRepository dao = this.newDao();
+		RecentTopicsDao dao = this.newDao();
 		List<Topic> list = dao.getNewTopics(10);
 		Assert.assertEquals(0, list.size());
 
@@ -44,7 +44,7 @@ public class RecentTopicsDAOTestCase extends AbstractDAOTestCase<Topic> {
 		this.loadDump("/recenttopics/dump.sql");
 		this.loadDump("/recenttopics/moderation.sql");
 
-		RecentTopicsRepository dao = this.newDao();
+		RecentTopicsDao dao = this.newDao();
 		List<Topic> list = dao.getNewTopics(10);
 
 		Assert.assertEquals(1, list.size());
@@ -55,7 +55,7 @@ public class RecentTopicsDAOTestCase extends AbstractDAOTestCase<Topic> {
 	public void recentTopics() {
 		this.loadDump("/recenttopics/dump.sql");
 
-		RecentTopicsRepository dao = this.newDao();
+		RecentTopicsDao dao = this.newDao();
 		List<Topic> list = dao.getNewTopics(10);
 		Assert.assertEquals(8, list.size());
 
@@ -126,7 +126,7 @@ public class RecentTopicsDAOTestCase extends AbstractDAOTestCase<Topic> {
 		sessionFactory.getCurrentSession().beginTransaction();
 	}
 
-	private RecentTopicsRepository newDao() {
-		return new RecentTopicsRepository(session());
+	private RecentTopicsDao newDao() {
+		return new RecentTopicsDao(session());
 	}
 }

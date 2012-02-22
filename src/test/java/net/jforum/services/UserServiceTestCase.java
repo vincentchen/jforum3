@@ -13,8 +13,8 @@ package net.jforum.services;
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Group;
 import net.jforum.entities.User;
-import net.jforum.repository.GroupRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.GroupDao;
+import net.jforum.repository.UserDao;
 import net.jforum.sso.DefaultLoginAuthenticator;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
@@ -31,8 +31,8 @@ import org.junit.Test;
  */
 public class UserServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private UserRepository repository = context.mock(UserRepository.class);
-	private GroupRepository groupRepository = context.mock(GroupRepository.class);
+	private UserDao repository = context.mock(UserDao.class);
+	private GroupDao groupRepository = context.mock(GroupDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private AvatarService avatarService = context.mock(AvatarService.class);
 	private UserService service = new UserService(repository, groupRepository, config,

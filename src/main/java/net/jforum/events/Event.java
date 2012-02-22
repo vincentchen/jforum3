@@ -13,7 +13,7 @@ package net.jforum.events;
 
 /**
  * Common events.
- *
+ * <p/>
  * Note that events occur inside a transactional context,
  * before a commit, so it is possible that a rollback
  * occur in case of errors. Also, all entities passed
@@ -24,36 +24,42 @@ package net.jforum.events;
 public interface Event<T> {
 	/**
 	 * Execued just before adding an entity
+	 *
 	 * @param entity
 	 */
 	public void beforeAdd(T entity);
 
 	/**
 	 * Executed after an entity was added
+	 *
 	 * @param entity
 	 */
 	public void added(T entity);
 
 	/**
 	 * Executed just before deleted an entity
+	 *
 	 * @param entity
 	 */
 	public void beforeDeleted(T entity);
 
 	/**
 	 * Executed after an entity was deleted
+	 *
 	 * @param entity
 	 */
 	public void deleted(T entity);
 
 	/**
 	 * Execute before an entity is updated
+	 *
 	 * @param entity
 	 */
 	public void beforeUpdated(T entity);
 
 	/**
 	 * Executed after an entity was updated
+	 *
 	 * @param entity
 	 */
 	public void updated(T entity);

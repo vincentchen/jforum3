@@ -10,16 +10,16 @@
  */
 package net.jforum.controllers;
 
-import net.jforum.actions.helpers.Domain;
-import net.jforum.core.SecurityConstraint;
-import net.jforum.entities.Smilie;
-import net.jforum.repository.SmilieRepository;
-import net.jforum.security.AdministrationRule;
-import net.jforum.services.SmilieService;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.entities.Smilie;
+import net.jforum.repository.SmilieDao;
+import net.jforum.security.AdministrationRule;
+import net.jforum.services.SmilieService;
 
 /**
  * @author Rafael Steil
@@ -28,12 +28,12 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 @Path(Domain.SMILIES_ADMIN)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class SmilieAdminController {
-	private SmilieRepository repository;
+	private SmilieDao repository;
 	private SmilieService service;
 	private final Result result;
 
 	public SmilieAdminController(SmilieService service,
-			SmilieRepository repository, Result result) {
+	                             SmilieDao repository, Result result) {
 		this.service = service;
 		this.repository = repository;
 		this.result = result;

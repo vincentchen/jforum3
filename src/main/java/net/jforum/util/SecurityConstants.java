@@ -46,5 +46,6 @@ public class SecurityConstants {
 	public static final String POST_ONLY_WITH_MODERATOR_ONLINE = "post_only_with_moderator_online";
 	public static final String PM_ONLY_TO_MODERATORS = "pm_only_to_moderators";
 
-	private SecurityConstants() {}
+	private SecurityConstants() {
+	}
 }

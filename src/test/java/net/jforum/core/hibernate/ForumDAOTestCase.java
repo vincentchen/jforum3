@@ -19,9 +19,9 @@ import net.jforum.entities.Group;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.util.PaginatedResult;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.PostRepository;
+import net.jforum.repository.CategoryDao;
+import net.jforum.repository.ForumDao;
+import net.jforum.repository.PostDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JDBCLoader;
 import net.jforum.util.JForumConfig;
@@ -42,7 +42,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		new JDBCLoader(sessionFactory.getCurrentSession().connection())
 			.run("/forumdao/moveTopics.sql");
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum toForum = dao.get(2);
 
 		Assert.assertEquals(1, dao.getTotalTopics(toForum));
@@ -63,7 +63,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		Calendar from = Calendar.getInstance();
 		from.set(2008, 5, 11, 14, 50);
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		PaginatedResult<Topic> messages = dao.getNewMessages(from.getTime(), 0, 3);
 
 		Assert.assertEquals(3, messages.getResults().size());
@@ -100,7 +100,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		new JDBCLoader(sessionFactory.getCurrentSession().connection())
 			.run("/topicdao/firstLastPost.sql");
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum f = new Forum(); f.setId(1);
 		Post expectedFirst = new Post(); expectedFirst.setId(2);
 
@@ -113,7 +113,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		new JDBCLoader(sessionFactory.getCurrentSession().connection())
 			.run("/forumdao/getLastPostShouldIgnorePendingModerationPost.sql");
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum forum = dao.get(1);
 		Post expected = new Post(); expected.setId(2);
 		Assert.assertEquals(expected, dao.getLastPost(forum));
@@ -127,7 +127,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		new JDBCLoader(sessionFactory.getCurrentSession().connection())
 			.run("/forumdao/getTopicsShouldIgnoreModeratedExpectThreeResults.sql");
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum forum = dao.get(1);
 
 		List<Topic> topics = dao.getTopics(forum, 0, 10);
@@ -142,7 +142,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 	public void getTopicsPendingModerationExpectTwoResults() {
 		this.createGetTopicsPosts();
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum forum = dao.get(1);
 
 		List<Topic> moderatedTopics = dao.getTopicsPendingModeration(forum);
@@ -159,7 +159,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		Forum f1 = this.newForum();
 		Forum f2 = this.newForum();
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 
 		this.insert(f1, dao);
 		this.insert(f2, dao);
@@ -170,8 +170,8 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 
 	@Test
 	public void getTotalMessage() {
-		ForumRepository forumDao = this.newForumDao();
-		PostRepository postDao = this.newPostDao();
+		ForumDao forumDao = this.newForumDao();
+		PostDao postDao = this.newPostDao();
 		Post p = new Post(); p.setText("x"); p.setSubject("y");
 		postDao.add(p);
 		Assert.assertEquals(1, forumDao.getTotalMessages());
@@ -183,7 +183,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		new JDBCLoader(sessionFactory.getCurrentSession().connection())
 			.run("/forumdao/getTotalPosts.sql");
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum forum = dao.get(1);
 
 		int totalPosts = dao.getTotalPosts(forum);
@@ -196,7 +196,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		new JDBCLoader(sessionFactory.getCurrentSession().connection())
 			.run("/forumdao/getTopicsShouldFetchFromForumAndFromMovedIdExpectTwoResults.sql");
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum forum = new Forum(); forum.setId(1);
 		List<Topic> topics = dao.getTopics(forum, 0, 10);
 		Assert.assertEquals(2, topics.size());
@@ -214,7 +214,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 			one(config).getBoolean(ConfigKeys.QUERY_IGNORE_TOPIC_MOVED); will(returnValue(true));
 		}});
 
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		dao.setJforumConfig(config);
 		Forum forum = new Forum(); forum.setId(1);
 		List<Topic> topics = dao.getTopics(forum, 0, 10);
@@ -233,7 +233,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 
 	@Test
 	public void insert() {
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 
 		Forum f = newForum();
 
@@ -254,14 +254,14 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 
 	@Test
 	public void update() {
-		ForumRepository dao = this.newForumDao();
+		ForumDao dao = this.newForumDao();
 		Forum f = newForum();
 		this.insert(f, dao);
 		f = dao.get(f.getId());
 
 		// We'll change the category as well
 		Category c = new Category(); c.setName("c2");
-		CategoryRepository categoryDao = new CategoryRepository(session());
+		CategoryDao categoryDao = new CategoryDao(session());
 		categoryDao.add(c);
 
 		f.setName("changed");
@@ -290,7 +290,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		f.setDisplayOrder(1);
 
 		// Create the category before creating the forum
-		CategoryRepository categoryDao = new CategoryRepository(session());
+		CategoryDao categoryDao = new CategoryDao(session());
 
 		Category c = new Category();
 		c.setName("c1");
@@ -302,12 +302,12 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 		return f;
 	}
 
-	private ForumRepository newForumDao() {
-		return new ForumRepository(session());
+	private ForumDao newForumDao() {
+		return new ForumDao(session());
 	}
 
-	private PostRepository newPostDao() {
-		return new PostRepository(session());
+	private PostDao newPostDao() {
+		return new PostDao(session());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -316,7 +316,7 @@ public class ForumDAOTestCase extends AbstractDAOTestCase<Forum> {
 			.run("/forumdao/getTopics.sql");
 
 		// Topic 1
-		PostRepository postDao = this.newPostDao();
+		PostDao postDao = this.newPostDao();
 		Post p1 = new Post(); p1.setSubject("p1.1"); p1.setTopic(new Topic() {/**
 			 *
 			 */

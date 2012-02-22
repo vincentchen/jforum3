@@ -10,16 +10,17 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.entities.UserSession;
-import br.com.caelum.vraptor.ioc.Component;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Check if the user can access the Admin Panel.
  * This is intended to be used with {@link SecurityConstraint}, and will check
  * if the current user can access the Administration Panel
+ *
  * @author Rafael Steil
  */
 @Component
@@ -27,13 +28,13 @@ public class AdministrationRule implements AccessRule {
 	/**
 	 * Applies the following rules:
 	 * <ul>
-	 * 	<li> Must must be logged
-	 * 	<li> Should be an Administrator
+	 * <li> Must must be logged
+	 * <li> Should be an Administrator
 	 * </ul>
 	 */
 	@Override
 	public boolean shouldProceed(UserSession userSession, HttpServletRequest request) {
 		return userSession.isLogged()
-			&& (userSession.getRoleManager().isAdministrator() || userSession.getRoleManager().isCoAdministrator());
+				&& (userSession.getRoleManager().isAdministrator() || userSession.getRoleManager().isCoAdministrator());
 	}
 }

@@ -13,7 +13,7 @@ package net.jforum.core.events.post;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.ForumDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class ForumPostEventTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private ForumRepository repository = context.mock(ForumRepository.class);
+	private ForumDao repository = context.mock(ForumDao.class);
 	private ForumPostEvent event = new ForumPostEvent(repository);
 
 	@Test

@@ -10,14 +10,14 @@
  */
 package net.jforum.util;
 
+import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.core.exceptions.ForumException;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import net.jforum.core.exceptions.ForumException;
-import br.com.caelum.vraptor.ioc.Component;
 
 /**
  * @author Rafael Steil
@@ -37,6 +37,7 @@ public class I18n {
 
 	/**
 	 * Changes the deafult language for the entire board
+	 *
 	 * @param newDefaultLanguage
 	 */
 	public void changeBoardDefaultLanguage(String newDefaultLanguage) {
@@ -51,6 +52,7 @@ public class I18n {
 	 * Loads a new Language. If <code>language</code> is either null or empty, or if it is already loaded, the
 	 * method will return without executing any code.
 	 * The language file will be merged with the default board language
+	 *
 	 * @param language The language to load
 	 */
 	public void load(String language) {
@@ -59,12 +61,12 @@ public class I18n {
 
 	/**
 	 * Gets a I18N message.
-	 * @param key The message name to retrieve. Must be a valid entry into the file specified by
-	 * <code>i18n.file</code> property.
-	 * @param language The locale name to retrieve the messages from
-	 * @param args Parameters needed by some messages. The messages with extra parameters are formated according to
-	 * {@link java.text.MessageFormat}specification
 	 *
+	 * @param key      The message name to retrieve. Must be a valid entry into the file specified by
+	 *                 <code>i18n.file</code> property.
+	 * @param language The locale name to retrieve the messages from
+	 * @param args     Parameters needed by some messages. The messages with extra parameters are formated according to
+	 *                 {@link java.text.MessageFormat}specification
 	 * @return String With the message
 	 */
 	public String getFormattedMessage(String key, String language, Object[] args) {
@@ -72,10 +74,10 @@ public class I18n {
 	}
 
 	/**
-	 * @see #getMessage(String, String, Object[])
-	 * @param key String
+	 * @param key  String
 	 * @param args Object
 	 * @return String
+	 * @see #getMessage(String, String, Object[])
 	 */
 	public String getFormattedMessage(String key, Object... args) {
 		return this.getFormattedMessage(key, this.defaultLocaleName, args);
@@ -87,10 +89,11 @@ public class I18n {
 
 	/**
 	 * Gets an I18n message.
-	 * @param key The message name to retrieve. Must be a valid entry into the file specified by <code>i18n.file</code> property.
+	 *
+	 * @param key      The message name to retrieve. Must be a valid entry into the file specified by <code>i18n.file</code> property.
 	 * @param language The locale name to load the message from. If it is not loaded yet,
-	 * a load operation will be automatically called. In case of failure to find the
-	 * requested message in such locale, the default board locale will be used.
+	 *                 a load operation will be automatically called. In case of failure to find the
+	 *                 requested message in such locale, the default board locale will be used.
 	 * @return String With the localized message
 	 */
 	public String getMessage(String key, String language) {
@@ -106,6 +109,7 @@ public class I18n {
 
 	/**
 	 * Gets an I18n message from the default board locale.
+	 *
 	 * @param key the message key
 	 * @return string with the localized message
 	 */
@@ -156,17 +160,17 @@ public class I18n {
 	private void loadLocales() {
 		try {
 			this.localeNames.load(this.getClass().getResourceAsStream("/jforumConfig/languages/locales.properties"));
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ForumException(e);
 		}
 	}
 
 	/**
 	 * Load a language file
-	 * @param language the language name to load
+	 *
+	 * @param language  the language name to load
 	 * @param mergeWith if not null, merge the language file with the language
-	 * specified in this parameter
+	 *                  specified in this parameter
 	 */
 	private void loadLanguage(String language, String mergeWith) {
 		Properties p = new Properties();
@@ -181,8 +185,7 @@ public class I18n {
 
 		try {
 			p.load(this.getClass().getResourceAsStream("/jforumConfig/languages/" + this.localeNames.getProperty(language)));
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ForumException(e);
 		}
 

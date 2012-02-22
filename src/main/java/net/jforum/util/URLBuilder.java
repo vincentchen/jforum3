@@ -13,6 +13,7 @@ package net.jforum.util;
 public class URLBuilder {
 	/**
 	 * Builds an URL by adding a '/' between each argument, and ".page" in the end
+	 *
 	 * @param args The parts of the URL to build
 	 * @return the URL
 	 */

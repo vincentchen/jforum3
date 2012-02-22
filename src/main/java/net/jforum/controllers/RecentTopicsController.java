@@ -10,18 +10,18 @@
  */
 package net.jforum.controllers;
 
-import java.util.List;
-
-import net.jforum.actions.helpers.Domain;
-import net.jforum.entities.Topic;
-import net.jforum.entities.UserSession;
-import net.jforum.repository.RecentTopicsRepository;
-import net.jforum.security.TopicFilter;
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.JForumConfig;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.entities.Topic;
+import net.jforum.entities.UserSession;
+import net.jforum.repository.RecentTopicsDao;
+import net.jforum.security.TopicFilter;
+import net.jforum.util.ConfigKeys;
+import net.jforum.util.JForumConfig;
+
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -29,12 +29,12 @@ import br.com.caelum.vraptor.Result;
 @Resource
 @Path(Domain.RECENT_TOPICS)
 public class RecentTopicsController {
-	private final RecentTopicsRepository repository;
+	private final RecentTopicsDao repository;
 	private final JForumConfig config;
 	private final UserSession userSession;
 	private final Result result;
 
-	public RecentTopicsController(RecentTopicsRepository repository, JForumConfig config, UserSession userSession, Result result) {
+	public RecentTopicsController(RecentTopicsDao repository, JForumConfig config, UserSession userSession, Result result) {
 		this.repository = repository;
 		this.config = config;
 		this.userSession = userSession;

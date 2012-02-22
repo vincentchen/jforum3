@@ -10,21 +10,20 @@
  */
 package net.jforum.controllers;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.security.AdministrationRule;
 import net.jforum.services.ConfigService;
 import net.jforum.util.JForumConfig;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Jose Donizetti de Brito Junior
@@ -63,7 +62,7 @@ public class ConfigController {
 
 		List<String> localesList = new ArrayList<String>();
 
-		for (Enumeration<?> e = locales.keys(); e.hasMoreElements();) {
+		for (Enumeration<?> e = locales.keys(); e.hasMoreElements(); ) {
 			localesList.add((String) e.nextElement());
 		}
 

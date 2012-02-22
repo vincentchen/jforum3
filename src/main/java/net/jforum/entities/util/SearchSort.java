@@ -12,6 +12,7 @@ package net.jforum.entities.util;
 
 /**
  * Ordering of a search, indented to be used with {@link SearchParams}
+ *
  * @author Rafael Steil
  */
 public enum SearchSort {

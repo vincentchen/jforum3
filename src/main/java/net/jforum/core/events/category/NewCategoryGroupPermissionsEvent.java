@@ -10,27 +10,27 @@
  */
 package net.jforum.core.events.category;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.jforum.entities.Category;
 import net.jforum.entities.Group;
 import net.jforum.entities.UserSession;
 import net.jforum.events.EmptyCategoryEvent;
-import net.jforum.repository.GroupRepository;
+import net.jforum.repository.GroupDao;
 import net.jforum.services.GroupService;
 import net.jforum.util.SecurityConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
 public class NewCategoryGroupPermissionsEvent extends EmptyCategoryEvent {
-	private GroupRepository groupRepository;
+	private GroupDao groupRepository;
 	private GroupService groupService;
 	private final UserSession userSession;
 
-	public NewCategoryGroupPermissionsEvent(GroupRepository groupRepository, GroupService groupService,
-		UserSession userSession) {
+	public NewCategoryGroupPermissionsEvent(GroupDao groupRepository, GroupService groupService,
+	                                        UserSession userSession) {
 		this.groupRepository = groupRepository;
 		this.groupService = groupService;
 		this.userSession = userSession;
@@ -40,6 +40,7 @@ public class NewCategoryGroupPermissionsEvent extends EmptyCategoryEvent {
 	 * When a new category is added, set group access automatically.
 	 * Every group which is an Administrator and every user group which is
 	 * Co Administrator will have access by default to the new category.
+	 *
 	 * @see net.jforum.events.EmptyCategoryEvent#added(net.jforum.entities.Category)
 	 */
 	@Override
@@ -64,6 +65,6 @@ public class NewCategoryGroupPermissionsEvent extends EmptyCategoryEvent {
 
 	private boolean isGoodCandidate(Group group) {
 		return group.roleExist(SecurityConstants.ADMINISTRATOR)
-			|| group.roleExist(SecurityConstants.CO_ADMINISTRATOR);
+				|| group.roleExist(SecurityConstants.CO_ADMINISTRATOR);
 	}
 }

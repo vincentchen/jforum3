@@ -10,29 +10,28 @@
  */
 package net.jforum.services;
 
-import java.util.List;
-
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Forum;
-import net.jforum.repository.ForumRepository;
-
+import net.jforum.repository.ForumDao;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class ForumService {
-	private ForumRepository repository;
+	private ForumDao repository;
 
-	public ForumService(ForumRepository repository) {
+	public ForumService(ForumDao repository) {
 		this.repository = repository;
 	}
 
 	/**
 	 * Add a new forum
+	 *
 	 * @param forum
 	 */
 	public void add(Forum forum) {
@@ -47,6 +46,7 @@ public class ForumService {
 
 	/**
 	 * Updates the information of an existing forum
+	 *
 	 * @param forum
 	 */
 	public void update(Forum forum) {
@@ -69,6 +69,7 @@ public class ForumService {
 
 	/**
 	 * Deletes on or more forums
+	 *
 	 * @param ids
 	 */
 	public void delete(int... ids) {
@@ -83,6 +84,7 @@ public class ForumService {
 
 	/**
 	 * Changes the forum order one level up
+	 *
 	 * @param forumId
 	 */
 	public void upForumOrder(int forumId) {
@@ -91,6 +93,7 @@ public class ForumService {
 
 	/**
 	 * Changes the forum order one level down
+	 *
 	 * @param forumId
 	 */
 	public void downForumOrder(int forumId) {
@@ -99,7 +102,8 @@ public class ForumService {
 
 	/**
 	 * Changes the order of the specified forum, adding it one level or one level down
-	 * @param up if true, sets the forum one level up. If false, one level down
+	 *
+	 * @param up      if true, sets the forum one level up. If false, one level down
 	 * @param forumId the id of the category to change
 	 */
 	private void processOrdering(boolean up, int forumId) {

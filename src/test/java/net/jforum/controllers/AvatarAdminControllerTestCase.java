@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import net.jforum.actions.helpers.Actions;
 import net.jforum.entities.Avatar;
-import net.jforum.repository.AvatarRepository;
+import net.jforum.repository.AvatarDao;
 import net.jforum.services.AvatarService;
 import net.jforum.util.TestCaseUtils;
 
@@ -28,7 +28,7 @@ import br.com.caelum.vraptor.util.test.MockResult;
 
 public class AvatarAdminControllerTestCase extends AdminTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private AvatarRepository repository = context.mock(AvatarRepository.class);
+	private AvatarDao repository = context.mock(AvatarDao.class);
 	private AvatarService service = context.mock(AvatarService.class);
 	private Result mockResult = context.mock(MockResult.class);
 	private AvatarAdminController mockAdminController = context

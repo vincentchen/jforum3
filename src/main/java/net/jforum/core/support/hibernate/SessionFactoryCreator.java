@@ -10,16 +10,15 @@
  */
 package net.jforum.core.support.hibernate;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
+import br.com.caelum.vraptor.ioc.Component;
+import br.com.caelum.vraptor.ioc.ComponentFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.springframework.context.ApplicationContext;
 
-import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.ComponentFactory;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * @author Rafael Steil

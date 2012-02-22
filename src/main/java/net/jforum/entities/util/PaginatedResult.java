@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Hold pagination aware data
+ *
  * @author Rafael Steil
  */
 public class PaginatedResult<T> {

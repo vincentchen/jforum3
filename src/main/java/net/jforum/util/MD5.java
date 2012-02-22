@@ -10,10 +10,10 @@
  */
 package net.jforum.util;
 
+import net.jforum.core.exceptions.ForumException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import net.jforum.core.exceptions.ForumException;
 
 /**
  * Encodes a string using MD5 hashing
@@ -43,13 +43,11 @@ public class MD5 {
 			for (byte element : hash) {
 				if ((0xff & element) < 0x10) {
 					hexString.append('0').append(Integer.toHexString((0xFF & element)));
-				}
-				else {
+				} else {
 					hexString.append(Integer.toHexString(0xFF & element));
 				}
 			}
-		}
-		catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException e) {
 			throw new ForumException(e);
 		}
 

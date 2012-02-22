@@ -10,14 +10,14 @@
  */
 package net.jforum.core.support.hibernate;
 
-import java.util.Properties;
-import java.util.Set;
-
 import org.hibernate.HibernateException;
 import org.hibernate.cache.CacheException;
 import org.hibernate.cache.StandardQueryCache;
 import org.hibernate.cache.UpdateTimestampsCache;
 import org.hibernate.cfg.Settings;
+
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * @author Rafael Steil

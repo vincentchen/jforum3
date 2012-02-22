@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Smilie;
-import net.jforum.repository.SmilieRepository;
+import net.jforum.repository.SmilieDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.TestCaseUtils;
@@ -34,7 +34,7 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
  */
 public class SmilieServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private SmilieRepository repository = context.mock(SmilieRepository.class);
+	private SmilieDao repository = context.mock(SmilieDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private SmilieService service = new SmilieService(repository, config);
 

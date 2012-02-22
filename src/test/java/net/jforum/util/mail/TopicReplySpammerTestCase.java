@@ -16,7 +16,7 @@ import java.util.List;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.TopicDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.TestCaseUtils;
 
@@ -33,7 +33,7 @@ import com.dumbster.smtp.SmtpMessage;
  */
 public class TopicReplySpammerTestCase extends MailTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private TopicRepository repository = context.mock(TopicRepository.class);
+	private TopicDao repository = context.mock(TopicDao.class);
 
 	@Test
 	public void send() {

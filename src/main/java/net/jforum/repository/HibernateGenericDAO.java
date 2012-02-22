@@ -10,28 +10,26 @@
  */
 package net.jforum.repository;
 
-import java.lang.reflect.ParameterizedType;
-
-
 import org.hibernate.Session;
+
+import java.lang.reflect.ParameterizedType;
 
 /**
  * @author Rafael Steil
  */
-public class HibernateGenericDAO<T> implements Repository<T> {
+public class HibernateGenericDAO<T> implements Dao<T> {
 	protected Class<T> persistClass;
 	protected final Session session;
 
 	@SuppressWarnings("unchecked")
 	public HibernateGenericDAO(Session session) {
 		this.session = session;
-		this.persistClass = (Class<T>)((ParameterizedType)this.getClass()
-			.getGenericSuperclass()).getActualTypeArguments()[0];
+		this.persistClass = (Class<T>) ((ParameterizedType) this.getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	/**
-	 *
-	 * @see net.jforum.repository.Repository#remove(java.lang.Object)
+	 * @see Dao#remove(java.lang.Object)
 	 */
 	@Override
 	public void remove(T entity) {
@@ -39,16 +37,16 @@ public class HibernateGenericDAO<T> implements Repository<T> {
 	}
 
 	/**
-	 * @see net.jforum.repository.Repository#get(int)
+	 * @see Dao#get(int)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public T get(int id) {
-		return (T)session.get(this.persistClass, id);
+		return (T) session.get(this.persistClass, id);
 	}
 
 	/**
-	 * @see net.jforum.repository.Repository#add(java.lang.Object)
+	 * @see Dao#add(java.lang.Object)
 	 */
 	@Override
 	public void add(T entity) {
@@ -56,7 +54,7 @@ public class HibernateGenericDAO<T> implements Repository<T> {
 	}
 
 	/**
-	 * @see net.jforum.repository.Repository#update(java.lang.Object)
+	 * @see Dao#update(java.lang.Object)
 	 */
 	@Override
 	public void update(T entity) {

@@ -10,10 +10,10 @@
  */
 package net.jforum.sso;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.jforum.entities.UserSession;
 import net.jforum.util.JForumConfig;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Rafael Steil

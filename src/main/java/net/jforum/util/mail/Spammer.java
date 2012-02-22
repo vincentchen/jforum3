@@ -12,33 +12,19 @@ package net.jforum.util.mail;
 
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.TemplateEngine;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import net.jforum.core.exceptions.MailException;
 import net.jforum.entities.User;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.util.*;
 
 /**
  * Dispatch emails to the world.
@@ -93,8 +79,8 @@ public abstract class Spammer {
 		this.password = this.config.getValue(ConfigKeys.MAIL_SMTP_PASSWORD);
 
 		messageFormat = this.config.getValue(ConfigKeys.MAIL_MESSSAGE_FORMAT).equals("html")
-			? MESSAGE_HTML
-			: MESSAGE_TEXT;
+				? MESSAGE_HTML
+				: MESSAGE_TEXT;
 
 		this.session = Session.getInstance(mailProperties);
 	}
@@ -103,12 +89,10 @@ public abstract class Spammer {
 		try {
 			if (this.config.getBoolean(ConfigKeys.MAIL_SMTP_AUTH)) {
 				this.dispatchAuthenticatedMessage();
-			}
-			else {
+			} else {
 				this.dispatchAnonymousMessage();
 			}
-		}
-		catch (MessagingException e) {
+		} catch (MessagingException e) {
 			logger.error("Error while dispatching the message." + e, e);
 		}
 
@@ -138,7 +122,7 @@ public abstract class Spammer {
 			}
 
 			this.message.setRecipient(Message.RecipientType.TO, address);
-			Transport.send(this.message, new Address[] { address });
+			Transport.send(this.message, new Address[]{address});
 
 			if (sendDelay > 0) {
 				this.waitUntilNextMessage(sendDelay);
@@ -149,7 +133,7 @@ public abstract class Spammer {
 	private void dispatchAuthenticatedMessage() throws NoSuchProviderException {
 		if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
 			int batchSize = this.config.getInt(ConfigKeys.MAIL_BATCH_SIZE);
-			int total = (int)Math.ceil((double)this.users.size() / (double)batchSize);
+			int total = (int) Math.ceil((double) this.users.size() / (double) batchSize);
 
 			Iterator<User> iterator = this.users.iterator();
 
@@ -188,23 +172,21 @@ public abstract class Spammer {
 					}
 
 					this.message.setRecipient(Message.RecipientType.TO, address);
-					transport.sendMessage(this.message, new Address[] { address });
+					transport.sendMessage(this.message, new Address[]{address});
 
 					if (sendDelay > 0) {
 						this.waitUntilNextMessage(sendDelay);
 					}
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.error("Errow while sending emails: " + e, e);
 			throw new MailException(e);
-		}
-		finally {
+		} finally {
 			try {
 				transport.close();
+			} catch (Exception e) {
 			}
-			catch (Exception e) { }
 		}
 	}
 
@@ -215,8 +197,7 @@ public abstract class Spammer {
 			String text = this.processTemplate();
 
 			this.defineMessageText(text);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new MailException(e);
 		}
 	}
@@ -224,8 +205,7 @@ public abstract class Spammer {
 	private void waitUntilNextMessage(int sendDelay) {
 		try {
 			Thread.sleep(sendDelay);
-		}
-		catch (InterruptedException ie) {
+		} catch (InterruptedException ie) {
 			logger.error("Error while Thread.sleep." + ie, ie);
 		}
 	}
@@ -233,15 +213,14 @@ public abstract class Spammer {
 	/**
 	 * Prepares the mail message for sending.
 	 *
-	 * @param subject the subject of the email
+	 * @param subject     the subject of the email
 	 * @param messageFile the path to the mail message template
 	 * @throws MailException
 	 */
 	protected void prepareMessage(String subject, String messageFile) throws MailException {
 		if (this.messageId == null) {
 			this.message = new MimeMessage(session);
-		}
-		else {
+		} else {
 			this.message = new IdentifiableMimeMessage(session);
 			((IdentifiableMimeMessage) this.message).setMessageId(this.messageId);
 		}
@@ -266,8 +245,7 @@ public abstract class Spammer {
 				String text = this.processTemplate();
 				this.defineMessageText(text);
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new MailException(e);
 		}
 	}
@@ -282,8 +260,7 @@ public abstract class Spammer {
 
 		if (messageFormat == MESSAGE_TEXT) {
 			this.message.setText(text);
-		}
-		else {
+		} else {
 			String charset = this.config.getValue(ConfigKeys.MAIL_CHARSET);
 			this.message.setContent(text.replaceAll("\n", "<br />"), "text/html; charset=" + charset);
 		}
@@ -309,7 +286,7 @@ public abstract class Spammer {
 	 */
 	protected String processTemplate() throws Exception {
 		return this.templateEngine.createTemplate(this.templateFile)
-			.make(this.templateParams).toString();
+				.make(this.templateParams).toString();
 	}
 
 	/**

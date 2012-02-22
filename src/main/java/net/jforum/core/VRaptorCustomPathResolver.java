@@ -10,11 +10,11 @@
  */
 package net.jforum.core;
 
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.JForumConfig;
 import br.com.caelum.vraptor.http.FormatResolver;
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.view.DefaultPathResolver;
+import net.jforum.util.ConfigKeys;
+import net.jforum.util.JForumConfig;
 
 @Component
 public class VRaptorCustomPathResolver extends DefaultPathResolver {

@@ -10,36 +10,17 @@
  */
 package net.jforum.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.search.annotations.DateBridge;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Resolution;
-import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.*;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -57,8 +38,8 @@ public class Post implements Serializable {
 	private int id;
 
 	@Column(name = "post_date")
-	@Field(index=Index.NO, store=Store.NO)
-	@DateBridge(resolution=Resolution.MINUTE)
+	@Field(index = Index.NO, store = Store.NO)
+	@DateBridge(resolution = Resolution.MINUTE)
 	private Date date;
 
 	@Column(name = "post_text")
@@ -111,7 +92,7 @@ public class Post implements Serializable {
 	private User user;
 
 	@OneToMany(mappedBy = "post")
-	@Cascade({ CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	private List<Attachment> attachments = new ArrayList<Attachment>();
 	@Transient
 	private boolean notifyReplies;
@@ -233,9 +214,8 @@ public class Post implements Serializable {
 	/**
 	 * Sets the status for BB code in the message
 	 *
-	 * @param bbCodeEnabled
-	 *            <code>true</code> or <code>false</code>, depending the
-	 *            intention
+	 * @param bbCodeEnabled <code>true</code> or <code>false</code>, depending the
+	 *                      intention
 	 */
 	public void setBbCodeEnabled(boolean bbCodeEnabled) {
 		this.bbCodeEnabled = bbCodeEnabled;
@@ -244,9 +224,8 @@ public class Post implements Serializable {
 	/**
 	 * Sets the status for HTML code in the message
 	 *
-	 * @param htmlEnabled
-	 *            <code>true</code> or <code>false</code>, depending the
-	 *            intention
+	 * @param htmlEnabled <code>true</code> or <code>false</code>, depending the
+	 *                    intention
 	 */
 	public void setHtmlEnabled(boolean htmlEnabled) {
 		this.htmlEnabled = htmlEnabled;
@@ -255,8 +234,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the id for the message
 	 *
-	 * @param id
-	 *            The id
+	 * @param id The id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -265,9 +243,8 @@ public class Post implements Serializable {
 	/**
 	 * Sets the status for signatures in the message
 	 *
-	 * @param signatureEnabled
-	 *            <code>true</code> or <code>false</code>, depending the
-	 *            intention
+	 * @param signatureEnabled <code>true</code> or <code>false</code>, depending the
+	 *                         intention
 	 */
 	public void setSignatureEnabled(boolean signatureEnabled) {
 		this.signatureEnabled = signatureEnabled;
@@ -276,9 +253,8 @@ public class Post implements Serializable {
 	/**
 	 * Sets the status for smilies in the message
 	 *
-	 * @param smiliesEnabled
-	 *            <code>true</code> or <code>false</code>, depending the
-	 *            intention
+	 * @param smiliesEnabled <code>true</code> or <code>false</code>, depending the
+	 *                       intention
 	 */
 	public void setSmiliesEnabled(boolean smiliesEnabled) {
 		this.smiliesEnabled = smiliesEnabled;
@@ -287,8 +263,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the time the message was sent
 	 *
-	 * @param date
-	 *            The time
+	 * @param date The time
 	 */
 	public void setDate(Date date) {
 		this.date = date;
@@ -297,8 +272,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the id of the topic that the message belongs to
 	 *
-	 * @param topic
-	 *            The id of the topic
+	 * @param topic The id of the topic
 	 */
 	public void setTopic(Topic topic) {
 		this.topic = topic;
@@ -307,8 +281,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the User that sent the message
 	 *
-	 * @param user
-	 *            The user Id
+	 * @param user The user Id
 	 */
 	public void setUser(User user) {
 		this.user = user;
@@ -326,8 +299,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the text of the post
 	 *
-	 * @param text
-	 *            The text to set
+	 * @param text The text to set
 	 */
 	public void setText(String text) {
 		this.text = text;
@@ -345,8 +317,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the subject for the message
 	 *
-	 * @param subject
-	 *            The subject to set
+	 * @param subject The subject to set
 	 */
 	public void setSubject(String subject) {
 		this.subject = subject;
@@ -355,8 +326,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the IP of the user
 	 *
-	 * @param userIp
-	 *            The IP address of the user
+	 * @param userIp The IP address of the user
 	 */
 	public void setUserIp(String userIp) {
 		this.userIp = userIp;
@@ -370,8 +340,7 @@ public class Post implements Serializable {
 	}
 
 	/**
-	 * @param hasAttachments
-	 *            The hasAttachments to set.
+	 * @param hasAttachments The hasAttachments to set.
 	 */
 	public void setHasAttachments(boolean hasAttachments) {
 		this.hasAttachments = hasAttachments;
@@ -385,8 +354,7 @@ public class Post implements Serializable {
 	}
 
 	/**
-	 * @param editDate
-	 *            the editDate to set
+	 * @param editDate the editDate to set
 	 */
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
@@ -458,6 +426,7 @@ public class Post implements Serializable {
 	public void setHasEditTimeExpired(Boolean hasEditTimeExpired) {
 		this.hasEditTimeExpired = hasEditTimeExpired;
 	}
+
 	public void calculateHasEditTimeExpired(long limitedTime, Date now) {
 		this.hasEditTimeExpired = now.getTime() - date.getTime() > limitedTime;
 	}

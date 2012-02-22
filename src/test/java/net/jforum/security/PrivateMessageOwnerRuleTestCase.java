@@ -19,7 +19,7 @@ import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.PrivateMessage;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.PrivateMessageRepository;
+import net.jforum.repository.PrivateMessageDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -35,7 +35,7 @@ public class PrivateMessageOwnerRuleTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
 	private UserSession userSession = context.mock(UserSession.class);
 	private HttpServletRequest request = context.mock(HttpServletRequest.class);
-	private PrivateMessageRepository repository = context.mock(PrivateMessageRepository.class);
+	private PrivateMessageDao repository = context.mock(PrivateMessageDao.class);
 	private PrivateMessageOwnerRule rule = new PrivateMessageOwnerRule(repository);
 	private Map<String, String> parameters = new HashMap<String, String>() {/**
 		 *

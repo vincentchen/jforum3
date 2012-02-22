@@ -10,12 +10,12 @@
  */
 package net.jforum.actions.interceptors;
 
-import net.jforum.extensions.ActionExtensionManager;
-import net.jforum.extensions.Extends;
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
+import net.jforum.extensions.ActionExtensionManager;
+import net.jforum.extensions.Extends;
 
 /**
  * @author Rafael Steil

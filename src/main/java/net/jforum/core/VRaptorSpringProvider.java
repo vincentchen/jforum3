@@ -10,17 +10,15 @@
  */
 package net.jforum.core;
 
-import javax.servlet.ServletContext;
-
-import net.jforum.core.support.hibernate.SessionFactoryCreator;
-import net.jforum.util.ConfigKeys;
-
-import org.springframework.web.context.ConfigurableWebApplicationContext;
-
 import br.com.caelum.vraptor.ComponentRegistry;
 import br.com.caelum.vraptor.ioc.spring.SpringProvider;
 import br.com.caelum.vraptor.util.hibernate.HibernateTransactionInterceptor;
 import br.com.caelum.vraptor.util.hibernate.SessionCreator;
+import net.jforum.core.support.hibernate.SessionFactoryCreator;
+import net.jforum.util.ConfigKeys;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
+
+import javax.servlet.ServletContext;
 
 /**
  * @author Rafael Steil

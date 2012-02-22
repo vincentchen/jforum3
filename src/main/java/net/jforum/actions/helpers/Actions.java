@@ -40,5 +40,6 @@ public class Actions {
 	public static final String POSTS = "posts";
 	public static final String TOPICS = "topics";
 
-	private Actions() {}
+	private Actions() {
+	}
 }

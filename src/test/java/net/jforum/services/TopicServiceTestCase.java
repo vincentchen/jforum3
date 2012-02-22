@@ -19,10 +19,9 @@ import net.jforum.entities.PollOption;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.TopicRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.*;
+import net.jforum.repository.PostDao;
+import net.jforum.repository.UserDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -36,12 +35,12 @@ import org.junit.Test;
  */
 public class TopicServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private TopicRepository topicRepository = context.mock(TopicRepository.class);
-	private PostRepository postRepository = context.mock(PostRepository.class);
-	private ForumRepository forumRepository = context.mock(ForumRepository.class);
+	private TopicDao topicRepository = context.mock(TopicDao.class);
+	private PostDao postRepository = context.mock(PostDao.class);
+	private ForumDao forumRepository = context.mock(ForumDao.class);
 	private PollService pollService = context.mock(PollService.class);
 	private AttachmentService attachmentService = context.mock(AttachmentService.class);
-    private UserRepository userRepository = context.mock(UserRepository.class);
+    private UserDao userRepository = context.mock(UserDao.class);
 	private TopicService topicService = new TopicService(topicRepository, postRepository, forumRepository, attachmentService, pollService, userRepository);
 
 	@Test

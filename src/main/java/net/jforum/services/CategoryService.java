@@ -10,29 +10,28 @@
  */
 package net.jforum.services;
 
-import java.util.List;
-
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Category;
-import net.jforum.repository.CategoryRepository;
-
+import net.jforum.repository.CategoryDao;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class CategoryService {
-	private CategoryRepository repository;
+	private CategoryDao repository;
 
-	public CategoryService(CategoryRepository repository) {
+	public CategoryService(CategoryDao repository) {
 		this.repository = repository;
 	}
 
 	/**
 	 * Adds a new category
+	 *
 	 * @param category
 	 * @throws ValidationException if the instance is not good for saving
 	 */
@@ -48,6 +47,7 @@ public class CategoryService {
 
 	/**
 	 * Deletes on or more categories
+	 *
 	 * @param ids
 	 */
 	public void delete(int... ids) {
@@ -61,6 +61,7 @@ public class CategoryService {
 
 	/**
 	 * Updates an existing category
+	 *
 	 * @param category
 	 */
 	public void update(Category category) {
@@ -75,6 +76,7 @@ public class CategoryService {
 
 	/**
 	 * Changes the category order one level up
+	 *
 	 * @param categoryId
 	 */
 	public void upCategoryOrder(int categoryId) {
@@ -83,6 +85,7 @@ public class CategoryService {
 
 	/**
 	 * Changes the category order one level down
+	 *
 	 * @param categoryId
 	 */
 	public void downCategoryOrder(int categoryId) {
@@ -92,7 +95,8 @@ public class CategoryService {
 	/**
 	 * Changes the order of the specified category, adding it
 	 * one level or one level down
-	 * @param up if true, sets the category one level up. If false, one level down
+	 *
+	 * @param up         if true, sets the category one level up. If false, one level down
 	 * @param categoryId the id of the category to change
 	 */
 	private void processOrdering(boolean up, int categoryId) {

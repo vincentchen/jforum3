@@ -13,7 +13,7 @@ package net.jforum.controllers;
 import java.util.ArrayList;
 
 import net.jforum.entities.Banlist;
-import net.jforum.repository.BanlistRepository;
+import net.jforum.repository.BanlistDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -31,8 +31,8 @@ public class BanlistAdminControllerTestCase extends AdminTestCase {
 
 	private Mockery context = TestCaseUtils.newMockery();
 	private BanlistAdminController component;
-	private BanlistRepository repository = context
-			.mock(BanlistRepository.class);
+	private BanlistDao repository = context
+			.mock(BanlistDao.class);
 	private Result mockResult = context.mock(MockResult.class);
 
 	public BanlistAdminControllerTestCase() {

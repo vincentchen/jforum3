@@ -10,16 +10,14 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
-
-import javax.servlet.jsp.JspException;
-
 import net.jforum.entities.Post;
 import net.jforum.formatters.Formatter;
 import net.jforum.formatters.PostFormatters;
 import net.jforum.formatters.PostOptions;
-
 import org.apache.commons.lang.StringUtils;
+
+import javax.servlet.jsp.JspException;
+import java.io.IOException;
 
 /**
  * @author Rafael Steil
@@ -49,8 +47,8 @@ public class DisplayFormattedMessageTag extends JForumTag {
 
 		String text = post.getText();
 		PostOptions options = new PostOptions(this.post.isHtmlEnabled(),
-			this.post.isSmiliesEnabled(), this.post.isBbCodeEnabled(),
-			this.post.isSignatureEnabled(), this.request().getContextPath());
+				this.post.isSmiliesEnabled(), this.post.isBbCodeEnabled(),
+				this.post.isSignatureEnabled(), this.request().getContextPath());
 
 		for (Formatter formatter : formatters) {
 			text = formatter.format(text, options);

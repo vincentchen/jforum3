@@ -42,11 +42,11 @@
  */
 package net.jforum.util.mail;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.jforum.entities.Topic;
 import net.jforum.util.MD5;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Represents the In-Reply-To and Message-ID mail header.
@@ -68,23 +68,23 @@ public class MessageId {
 	/**
 	 * Constructs the Message-ID header. The form is "&lt;postId.topicId.forumId.randomNumber@jforum&gt;".
 	 *
-	 * @param postId the post id of this message
+	 * @param postId  the post id of this message
 	 * @param topicId the topic id of this message
 	 * @param forumId the forum id of this message
 	 * @return the Message-ID header
 	 */
 	public static String buildMessageId(int postId, int topicId, int forumId) {
 		return new StringBuffer()
-			.append('<')
-			.append(postId)
-			.append('.')
-			.append(topicId)
-			.append('.')
-			.append(forumId)
-			.append('.')
-			.append(System.currentTimeMillis())
-			.append(MD5.hash(Long.toString(System.currentTimeMillis())))
-			.append("@jforum>").toString();
+				.append('<')
+				.append(postId)
+				.append('.')
+				.append(topicId)
+				.append('.')
+				.append(forumId)
+				.append('.')
+				.append(System.currentTimeMillis())
+				.append(MD5.hash(Long.toString(System.currentTimeMillis())))
+				.append("@jforum>").toString();
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class MessageId {
 	 * The form is "&lt;topicFirstPostId.topicId.forumId.randomNumber@jforum&gt;".
 	 *
 	 * @param topic The topic we're replying to. It should have at least the
-	 * values for {@link Topic#getFirstPostId()}, {@link Topic#getId()} and {@link Topic#getForumId()}
+	 *              values for {@link Topic#getFirstPostId()}, {@link Topic#getId()} and {@link Topic#getForumId()}
 	 * @return the In-Reply-To header
 	 */
 	public static String buildInReplyTo(Topic topic) {
@@ -117,8 +117,8 @@ public class MessageId {
 
 				try {
 					messageId.topicId = Integer.parseInt(s);
+				} catch (Exception e) {
 				}
-				catch (Exception e) { }
 			}
 		}
 

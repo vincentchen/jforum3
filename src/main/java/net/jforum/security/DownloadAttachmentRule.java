@@ -10,14 +10,14 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.entities.Attachment;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.AttachmentRepository;
+import net.jforum.repository.AttachmentDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
-import br.com.caelum.vraptor.ioc.Component;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Rafael Steil
@@ -25,9 +25,9 @@ import br.com.caelum.vraptor.ioc.Component;
 @Component
 public class DownloadAttachmentRule implements AccessRule {
 	private final JForumConfig config;
-	private final AttachmentRepository repository;
+	private final AttachmentDao repository;
 
-	public DownloadAttachmentRule(JForumConfig config, AttachmentRepository repository) {
+	public DownloadAttachmentRule(JForumConfig config, AttachmentDao repository) {
 		this.config = config;
 		this.repository = repository;
 	}
@@ -44,7 +44,7 @@ public class DownloadAttachmentRule implements AccessRule {
 		Attachment attachment = this.repository.get(Integer.parseInt(request.getParameter("attachmentId")));
 
 		if (!userSession.getRoleManager().isAttachmentsAlllowed(attachment.getPost().getForum().getId())
-			&& !userSession.getRoleManager().getCanDownloadAttachments(attachment.getPost().getForum().getId())) {
+				&& !userSession.getRoleManager().getCanDownloadAttachments(attachment.getPost().getForum().getId())) {
 			return false;
 		}
 

@@ -27,8 +27,8 @@ import net.jforum.entities.Role;
 import net.jforum.entities.Session;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.SessionRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.SessionDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.RoleManager;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
@@ -47,12 +47,12 @@ import org.junit.Test;
  */
 public class SessionManagerTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private UserRepository userRepository = context.mock(UserRepository.class);
+	private UserDao userRepository = context.mock(UserDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private HttpServletRequest request = context.mock(HttpServletRequest.class);
 	private HttpServletResponse response = context.mock(HttpServletResponse.class);
 	private HttpSession httpSession = context.mock(HttpSession.class);
-	private SessionRepository sessionRepository = context.mock(SessionRepository.class);
+	private SessionDao sessionRepository = context.mock(SessionDao.class);
 	private SessionManager manager = new SessionManager(config, userRepository, sessionRepository);
 	private States state = context.states("state");
 	private States refreshState = context.states("refresh");

@@ -11,7 +11,7 @@
 package net.jforum.sso;
 
 import net.jforum.entities.User;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.UserDao;
 
 /**
  * General utilities to use with SSO.
@@ -22,9 +22,9 @@ public class SSOUtils {
 	private String username;
 	private boolean exists = true;
 	private User user;
-	private UserRepository userRepository;
+	private UserDao userRepository;
 
-	public SSOUtils(UserRepository userRepository) {
+	public SSOUtils(UserDao userRepository) {
 		this.userRepository = userRepository;
 	}
 
@@ -33,7 +33,7 @@ public class SSOUtils {
 	 *
 	 * @param username The username to check
 	 * @return <code>true</code> if the user exists. If <code>false</code> is
-	 * returned, then you can insert the user by calling {@link #register(String, String)}
+	 *         returned, then you can insert the user by calling {@link #register(String, String)}
 	 * @see #register(String, String)
 	 * @see #getUser()
 	 */
@@ -50,9 +50,9 @@ public class SSOUtils {
 	 * Registers a new user. This method should be used together with {@link #userExists(String)}.
 	 *
 	 * @param password the user's password. It <em>should</em> be the
-	 * real / final password. In other words, the data passed as
-	 * password is the data that'll be written to the database
-	 * @param email the user's email
+	 *                 real / final password. In other words, the data passed as
+	 *                 password is the data that'll be written to the database
+	 * @param email    the user's email
 	 * @see #getUser()
 	 */
 	public void register(String password, String email) {

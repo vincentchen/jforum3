@@ -1,13 +1,5 @@
 package net.jforum.core.support.hibernate;
 
-import java.io.Serializable;
-import java.sql.Connection;
-import java.util.Map;
-import java.util.Set;
-
-import javax.naming.NamingException;
-import javax.naming.Reference;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Interceptor;
 import org.hibernate.SessionFactory;
@@ -18,6 +10,13 @@ import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.metadata.CollectionMetadata;
 import org.hibernate.stat.Statistics;
 import org.springframework.context.ApplicationContext;
+
+import javax.naming.NamingException;
+import javax.naming.Reference;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Rafael Steil
@@ -43,126 +42,126 @@ public class SpringSessionFactory implements SessionFactory {
 
 	@Override
 	public Session openSession(Interceptor interceptor) throws HibernateException {
-        return original.openSession(interceptor);
-    }
+		return original.openSession(interceptor);
+	}
 
-    @Override
+	@Override
 	public Session openSession(Connection connection, Interceptor interceptor) {
-        return original.openSession(connection, interceptor);
-    }
+		return original.openSession(connection, interceptor);
+	}
 
-    @Override
+	@Override
 	public Session getCurrentSession() throws HibernateException {
-        return original.getCurrentSession();
-    }
+		return original.getCurrentSession();
+	}
 
 	@Override
 	@SuppressWarnings("rawtypes")
 	public ClassMetadata getClassMetadata(Class aClass) throws HibernateException {
-        return original.getClassMetadata(aClass);
-    }
+		return original.getClassMetadata(aClass);
+	}
 
-    @Override
+	@Override
 	public ClassMetadata getClassMetadata(String s) throws HibernateException {
-        return original.getClassMetadata(s);
-    }
+		return original.getClassMetadata(s);
+	}
 
-    @Override
+	@Override
 	public CollectionMetadata getCollectionMetadata(String s) throws HibernateException {
-        return original.getCollectionMetadata(s);
-    }
+		return original.getCollectionMetadata(s);
+	}
 
-    @Override
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Map getAllClassMetadata() throws HibernateException {
-        return original.getAllClassMetadata();
-    }
+		return original.getAllClassMetadata();
+	}
 
-    @Override
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Map getAllCollectionMetadata() throws HibernateException {
-        return original.getAllCollectionMetadata();
-    }
+		return original.getAllCollectionMetadata();
+	}
 
-    @Override
+	@Override
 	public Statistics getStatistics() {
-        return original.getStatistics();
-    }
+		return original.getStatistics();
+	}
 
-    @Override
+	@Override
 	public void close() throws HibernateException {
-        original.close();
-    }
+		original.close();
+	}
 
-    @Override
+	@Override
 	public boolean isClosed() {
-        return original.isClosed();
-    }
+		return original.isClosed();
+	}
 
 	@Override
 	@SuppressWarnings("rawtypes")
 	public void evict(Class aClass) throws HibernateException {
-        original.evict(aClass);
-    }
+		original.evict(aClass);
+	}
 
 	@Override
 	@SuppressWarnings("rawtypes")
 	public void evict(Class aClass, Serializable serializable) throws HibernateException {
-        original.evict(aClass, serializable);
-    }
+		original.evict(aClass, serializable);
+	}
 
-    @Override
+	@Override
 	public void evictEntity(String s) throws HibernateException {
-        original.evictEntity(s);
-    }
+		original.evictEntity(s);
+	}
 
-    @Override
+	@Override
 	public void evictEntity(String s, Serializable serializable) throws HibernateException {
-        original.evictEntity(s, serializable);
-    }
+		original.evictEntity(s, serializable);
+	}
 
-    @Override
+	@Override
 	public void evictCollection(String s) throws HibernateException {
-        original.evictCollection(s);
-    }
+		original.evictCollection(s);
+	}
 
-    @Override
+	@Override
 	public void evictCollection(String s, Serializable serializable) throws HibernateException {
-        original.evictCollection(s, serializable);
-    }
+		original.evictCollection(s, serializable);
+	}
 
-    @Override
+	@Override
 	public void evictQueries() throws HibernateException {
-        original.evictQueries();
-    }
+		original.evictQueries();
+	}
 
-    @Override
+	@Override
 	public void evictQueries(String s) throws HibernateException {
-        original.evictQueries(s);
-    }
+		original.evictQueries(s);
+	}
 
-    @Override
+	@Override
 	public StatelessSession openStatelessSession() {
-        return original.openStatelessSession();
-    }
+		return original.openStatelessSession();
+	}
 
-    @Override
+	@Override
 	public StatelessSession openStatelessSession(Connection connection) {
-        return original.openStatelessSession(connection);
-    }
+		return original.openStatelessSession(connection);
+	}
 
 	@Override
 	public Set<?> getDefinedFilterNames() {
-        return original.getDefinedFilterNames();
-    }
+		return original.getDefinedFilterNames();
+	}
 
-    @Override
+	@Override
 	public FilterDefinition getFilterDefinition(String s) throws HibernateException {
-        return original.getFilterDefinition(s);
-    }
+		return original.getFilterDefinition(s);
+	}
 
-    @Override
+	@Override
 	public Reference getReference() throws NamingException {
-        return original.getReference();
-    }
+		return original.getReference();
+	}
 }

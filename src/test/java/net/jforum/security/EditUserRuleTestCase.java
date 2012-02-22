@@ -19,7 +19,7 @@ import junit.framework.Assert;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.UserDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -34,7 +34,7 @@ public class EditUserRuleTestCase {
 	private UserSession userSession = context.mock(UserSession.class);
 	private HttpServletRequest request = context.mock(HttpServletRequest.class);
 	private RoleManager roleManager = context.mock(RoleManager.class);
-    private UserRepository userRepository = context.mock(UserRepository.class);
+    private UserDao userRepository = context.mock(UserDao.class);
 	private EditUserRule rule = new EditUserRule(userRepository);
 	private Map<String, String> parameterMap = new HashMap<String, String>() {/**
 		 *

@@ -10,14 +10,14 @@
  */
 package net.jforum.controllers;
 
-import net.jforum.actions.helpers.Domain;
-import net.jforum.core.SecurityConstraint;
-import net.jforum.entities.Theme;
-import net.jforum.repository.ThemeRepository;
-import net.jforum.security.AdministrationRule;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import net.jforum.actions.helpers.Domain;
+import net.jforum.core.SecurityConstraint;
+import net.jforum.entities.Theme;
+import net.jforum.repository.ThemeDao;
+import net.jforum.security.AdministrationRule;
 
 /**
  * @author Rafael Steil
@@ -27,10 +27,10 @@ import br.com.caelum.vraptor.Result;
 // @InterceptedBy(ActionSecurityInterceptor.class)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class ThemeController {
-	private final ThemeRepository repository;
+	private final ThemeDao repository;
 	private final Result result;
 
-	public ThemeController(Result result, ThemeRepository repository) {
+	public ThemeController(Result result, ThemeDao repository) {
 		this.result = result;
 		this.repository = repository;
 	}

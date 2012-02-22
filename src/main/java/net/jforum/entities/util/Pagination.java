@@ -20,6 +20,7 @@ import net.jforum.util.JForumConfig;
 
 /**
  * Information about pagination
+ *
  * @author Rafael Steil
  */
 public class Pagination {
@@ -32,7 +33,8 @@ public class Pagination {
 	private String baseUrl;
 	private JForumConfig config;
 
-	public Pagination() {}
+	public Pagination() {
+	}
 
 	public Pagination(JForumConfig config, int page) {
 		this.config = config;
@@ -40,9 +42,9 @@ public class Pagination {
 	}
 
 	/**
-	 * @param totalRecords the total number of records
+	 * @param totalRecords   the total number of records
 	 * @param recordsPerPage how many records show per page
-	 * @param id the number of the first record to start showing
+	 * @param id             the number of the first record to start showing
 	 */
 	public Pagination(long totalRecords, int recordsPerPage, int page, String baseUrl, int id) {
 		this.recordsPerPage = recordsPerPage;
@@ -56,6 +58,7 @@ public class Pagination {
 
 	/**
 	 * Create pagination for user listing
+	 *
 	 * @param totalUsers the total of users
 	 * @return the pagination instance
 	 */
@@ -73,6 +76,7 @@ public class Pagination {
 
 	/**
 	 * Create pagination for user listing
+	 *
 	 * @param totalRecords the total of users
 	 * @return the pagination instance
 	 */
@@ -90,6 +94,7 @@ public class Pagination {
 
 	/**
 	 * Create pagination for search
+	 *
 	 * @param totalRecords the total of records
 	 * @return the proper pagination instance
 	 */
@@ -107,6 +112,7 @@ public class Pagination {
 
 	/**
 	 * Create pagination for post reports
+	 *
 	 * @param totalRecords the total of records
 	 * @return
 	 */
@@ -124,6 +130,7 @@ public class Pagination {
 
 	/**
 	 * Create pagination for new messages
+	 *
 	 * @param totalRecords the total of records
 	 * @return the proper pagination instance
 	 */
@@ -141,6 +148,7 @@ public class Pagination {
 
 	/**
 	 * Create pagination for a forum
+	 *
 	 * @param forum the forum
 	 * @return the proper pagination instance
 	 */
@@ -158,6 +166,7 @@ public class Pagination {
 
 	/**
 	 * Create pagination for a topic
+	 *
 	 * @param topic the topic
 	 * @return the proper pagination instance
 	 */
@@ -265,11 +274,12 @@ public class Pagination {
 	public int calculeStartFromCount(int count, int recordsPerPage) {
 		return count / recordsPerPage + (count % recordsPerPage > 0 ? 1 : 0);
 	}
+
 	public int calculeStart(int page, int recordsPerPage) {
 		return page <= 1 ? 0 : (page - 1) * recordsPerPage;
 	}
 
 	private int calculeTotalPages() {
-		return (int)Math.ceil((double)this.totalRecords / (double)this.recordsPerPage);
+		return (int) Math.ceil((double) this.totalRecords / (double) this.recordsPerPage);
 	}
 }

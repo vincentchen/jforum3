@@ -42,12 +42,12 @@
  */
 package net.jforum.util;
 
+import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
+import net.jforum.core.exceptions.ForumException;
+
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import net.jforum.core.exceptions.ForumException;
-import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 
 /**
  * @author Rafael Steil
@@ -77,18 +77,15 @@ public class UploadUtils {
 			while ((c = inputStream.read(b)) != -1) {
 				outputStream.write(b, 0, c);
 			}
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ForumException(e);
-		}
-		finally {
+		} finally {
 			try {
 				outputStream.flush();
 				outputStream.close();
 
 				inputStream.close();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 			}
 		}
 	}

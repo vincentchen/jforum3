@@ -22,9 +22,9 @@ import net.jforum.entities.Topic;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.CategoryDao;
+import net.jforum.repository.ForumDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.AccessForumRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.MostUsersEverOnlineService;
@@ -48,9 +48,9 @@ import br.com.caelum.vraptor.util.test.MockResult;
  */
 public class ForumControllerTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private CategoryRepository categoryRepository = context.mock(CategoryRepository.class);
-	private ForumRepository forumRepository = context.mock(ForumRepository.class);
-	private UserRepository userRepository = context.mock(UserRepository.class);
+	private CategoryDao categoryRepository = context.mock(CategoryDao.class);
+	private ForumDao forumRepository = context.mock(ForumDao.class);
+	private UserDao userRepository = context.mock(UserDao.class);
 	private SessionManager sessionManager = context.mock(SessionManager.class);
 	private MostUsersEverOnlineService mostUsersEverOnlineService = context.mock(MostUsersEverOnlineService.class);
 	private JForumConfig config = context.mock(JForumConfig.class);

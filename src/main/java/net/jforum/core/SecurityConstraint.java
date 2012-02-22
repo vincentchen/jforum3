@@ -10,22 +10,25 @@
  */
 package net.jforum.core;
 
+import net.jforum.security.AccessRule;
+import net.jforum.security.EmptyRule;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.jforum.security.AccessRule;
-import net.jforum.security.EmptyRule;
-
 /**
  * Used to enforce security rules in action's methods
+ *
  * @author Rafael Steil
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface SecurityConstraint {
 	public Class<? extends AccessRule> value() default EmptyRule.class;
+
 	public boolean displayLogin() default false;
+
 	public Role[] multiRoles() default {};
 }

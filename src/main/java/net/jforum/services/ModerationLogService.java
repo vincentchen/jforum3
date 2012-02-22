@@ -10,29 +10,29 @@
  */
 package net.jforum.services;
 
-import java.util.Date;
-import java.util.List;
-
 import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
-import net.jforum.repository.ModerationLogRepository;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.ModerationLogDao;
+import net.jforum.repository.TopicDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
-import br.com.caelum.vraptor.ioc.Component;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class ModerationLogService {
 	private final JForumConfig config;
-	private final ModerationLogRepository repository;
-	private final TopicRepository topicRepository;
+	private final ModerationLogDao repository;
+	private final TopicDao topicRepository;
 
-	public ModerationLogService(JForumConfig config, ModerationLogRepository repository, TopicRepository topicRepository) {
+	public ModerationLogService(JForumConfig config, ModerationLogDao repository, TopicDao topicRepository) {
 		this.config = config;
 		this.repository = repository;
 		this.topicRepository = topicRepository;
@@ -54,7 +54,7 @@ public class ModerationLogService {
 		if (this.isLoggingEnabled(log)) {
 			for (int topicId : topicIds) {
 				ModerationLog ml = this.createModerationLog(log.getType(), log.getUser(), log.getDescription(),
-					this.topicRepository.get(topicId).getUser());
+						this.topicRepository.get(topicId).getUser());
 
 				ml.setTopicId(topicId);
 
@@ -67,7 +67,7 @@ public class ModerationLogService {
 		if (this.isLoggingEnabled(log)) {
 			for (int topicId : topicIds) {
 				ModerationLog ml = this.createModerationLog(log.getType(), log.getUser(), log.getDescription(),
-					this.topicRepository.get(topicId).getUser());
+						this.topicRepository.get(topicId).getUser());
 
 				ml.setTopicId(topicId);
 

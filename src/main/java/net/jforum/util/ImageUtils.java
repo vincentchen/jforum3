@@ -42,14 +42,7 @@
  */
 package net.jforum.util;
 
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Locale;
+import net.jforum.core.exceptions.ForumException;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -57,8 +50,13 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.ImageOutputStream;
-
-import net.jforum.core.exceptions.ForumException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * Utilities methods for image manipulation.
@@ -76,17 +74,16 @@ public class ImageUtils {
 	/**
 	 * Resizes an image
 	 *
-	 * @param imgName The image name to resize. Must be the complet path to the file
-	 * @param type int
-	 * @param maxWidth The image's max width
+	 * @param imgName   The image name to resize. Must be the complet path to the file
+	 * @param type      int
+	 * @param maxWidth  The image's max width
 	 * @param maxHeight The image's max height
 	 * @return A resized <code>BufferedImage</code>
 	 */
 	public static BufferedImage resizeImage(String imgName, int type, int maxWidth, int maxHeight) {
 		try {
 			return resizeImage(ImageIO.read(new File(imgName)), type, maxWidth, maxHeight);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ForumException(e);
 		}
 	}
@@ -94,11 +91,11 @@ public class ImageUtils {
 	/**
 	 * Resizes an image.
 	 *
-	 * @param image The image to resize
-	 * @param maxWidth The image's max width
+	 * @param image     The image to resize
+	 * @param maxWidth  The image's max width
 	 * @param maxHeight The image's max height
+	 * @param type      int
 	 * @return A resized <code>BufferedImage</code>
-	 * @param type int
 	 */
 	public static BufferedImage resizeImage(BufferedImage image, int type, int maxWidth, int maxHeight) {
 		Dimension largestDimension = new Dimension(maxWidth, maxHeight);
@@ -112,8 +109,7 @@ public class ImageUtils {
 		if (imageWidth > maxWidth || imageHeight > maxHeight) {
 			if ((float) largestDimension.width / largestDimension.height > aspectRatio) {
 				largestDimension.width = (int) Math.ceil(largestDimension.height * aspectRatio);
-			}
-			else {
+			} else {
 				largestDimension.height = (int) Math.ceil(largestDimension.width / aspectRatio);
 			}
 
@@ -127,16 +123,15 @@ public class ImageUtils {
 	/**
 	 * Saves an image to the disk.
 	 *
-	 * @param image The image to save
+	 * @param image      The image to save
 	 * @param toFileName The filename to use
-	 * @param type The image type. Use <code>ImageUtils.IMAGE_JPEG</code> to save as JPEG images, or <code>ImageUtils.IMAGE_PNG</code> to save as PNG.
+	 * @param type       The image type. Use <code>ImageUtils.IMAGE_JPEG</code> to save as JPEG images, or <code>ImageUtils.IMAGE_PNG</code> to save as PNG.
 	 * @return <code>false</code> if no appropriate writer is found
 	 */
 	public static boolean saveImage(BufferedImage image, String toFileName, int type) {
 		try {
 			return ImageIO.write(image, type == IMAGE_JPEG ? "jpg" : "png", new File(toFileName));
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ForumException(e);
 		}
 	}
@@ -144,9 +139,9 @@ public class ImageUtils {
 	/**
 	 * Compress and save an image to the disk. Currently this method only supports JPEG images.
 	 *
-	 * @param image The image to save
+	 * @param image      The image to save
 	 * @param toFileName The filename to use
-	 * @param type The image type. Use <code>ImageUtils.IMAGE_JPEG</code> to save as JPEG images, or <code>ImageUtils.IMAGE_PNG</code> to save as PNG.
+	 * @param type       The image type. Use <code>ImageUtils.IMAGE_JPEG</code> to save as JPEG images, or <code>ImageUtils.IMAGE_PNG</code> to save as PNG.
 	 */
 	public static void saveCompressedImage(BufferedImage image, String toFileName, int type) {
 		try {
@@ -171,8 +166,7 @@ public class ImageUtils {
 			ios.flush();
 			writer.dispose();
 			ios.close();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ForumException(e);
 		}
 	}
@@ -184,16 +178,15 @@ public class ImageUtils {
 	 * createHeadlessSmoothBufferedImage method.
 	 *
 	 * @param image The image to convert
-	 * @param w The desired image width
-	 * @param h The desired image height
+	 * @param w     The desired image width
+	 * @param h     The desired image height
+	 * @param type  int
 	 * @return The converted image
-	 * @param type int
 	 */
 	public static BufferedImage createHeadlessBufferedImage(BufferedImage image, int type, int width, int height) {
 		if (type == ImageUtils.IMAGE_PNG && hasAlpha(image)) {
 			type = BufferedImage.TYPE_INT_ARGB;
-		}
-		else {
+		} else {
 			type = BufferedImage.TYPE_INT_RGB;
 		}
 
@@ -214,16 +207,15 @@ public class ImageUtils {
 	 * resulting image will be smoothly scaled using bilinear filtering.
 	 *
 	 * @param source The image to convert
-	 * @param w The desired image width
-	 * @param h The desired image height
+	 * @param w      The desired image width
+	 * @param h      The desired image height
+	 * @param type   int
 	 * @return The converted image
-	 * @param type int
 	 */
 	public static BufferedImage createHeadlessSmoothBufferedImage(BufferedImage source, int type, int width, int height) {
 		if (type == ImageUtils.IMAGE_PNG && hasAlpha(source)) {
 			type = BufferedImage.TYPE_INT_ARGB;
-		}
-		else {
+		} else {
 			type = BufferedImage.TYPE_INT_RGB;
 		}
 
@@ -301,8 +293,7 @@ public class ImageUtils {
 			pg.grabPixels();
 
 			return pg.getColorModel().hasAlpha();
-		}
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			return false;
 		}
 	}

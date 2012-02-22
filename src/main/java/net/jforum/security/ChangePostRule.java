@@ -10,24 +10,24 @@
  */
 package net.jforum.security;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.ioc.Component;
 import net.jforum.core.SessionManager;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.Post;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.PostRepository;
-import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.repository.PostDao;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Rafael Steil
  */
 @Component
 public class ChangePostRule implements AccessRule {
-	private final PostRepository repository;
+	private final PostDao repository;
 	private final SessionManager sessionManager;
 
-	public ChangePostRule(PostRepository repository, SessionManager sessionManager) {
+	public ChangePostRule(PostDao repository, SessionManager sessionManager) {
 		this.repository = repository;
 		this.sessionManager = sessionManager;
 	}
@@ -50,7 +50,7 @@ public class ChangePostRule implements AccessRule {
 			return true;
 		}
 
-		if(roleManager.getPostOnlyWithModeratorOnline() && !sessionManager.isModeratorOnline()) {
+		if (roleManager.getPostOnlyWithModeratorOnline() && !sessionManager.isModeratorOnline()) {
 			return false;
 		}
 
@@ -62,11 +62,9 @@ public class ChangePostRule implements AccessRule {
 
 		if (request.getParameterMap().containsKey("postId")) {
 			postId = Integer.parseInt(request.getParameter("postId"));
-		}
-		else if (request.getParameterMap().containsKey("post.id")) {
+		} else if (request.getParameterMap().containsKey("post.id")) {
 			postId = Integer.parseInt(request.getParameter("post.id"));
-		}
-		else {
+		} else {
 			throw new AccessRuleException("Could not find postId or post.id in the current request");
 		}
 

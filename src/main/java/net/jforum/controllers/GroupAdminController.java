@@ -10,27 +10,21 @@
  */
 package net.jforum.controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.entities.Group;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.GroupRepository;
+import net.jforum.repository.CategoryDao;
+import net.jforum.repository.GroupDao;
 import net.jforum.security.AdministrationRule;
 import net.jforum.security.RoleManager;
 import net.jforum.services.GroupService;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * @author Rafael Steil
@@ -39,16 +33,16 @@ import br.com.caelum.vraptor.Result;
 @Path(Domain.GROUPS_ADMIN)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class GroupAdminController {
-	private GroupRepository groupRepository;
-	private CategoryRepository categoryRepository;
+	private GroupDao groupRepository;
+	private CategoryDao categoryRepository;
 	private GroupService service;
 	private final Result result;
 	private final UserSession userSession;
 	private final HttpServletRequest request;
 
-	public GroupAdminController(GroupService service, GroupRepository repository,
-			CategoryRepository categoryRepository, Result result, UserSession userSession,
-			HttpServletRequest request) {
+	public GroupAdminController(GroupService service, GroupDao repository,
+	                            CategoryDao categoryRepository, Result result, UserSession userSession,
+	                            HttpServletRequest request) {
 		this.service = service;
 		this.groupRepository = repository;
 		this.categoryRepository = categoryRepository;
@@ -68,8 +62,7 @@ public class GroupAdminController {
 
 		if (!roleManager.isAdministrator() && !roleManager.isGroupManager(groupId)) {
 			this.result.redirectTo(this).list();
-		}
-		else {
+		} else {
 			this.result.include("group", group);
 			this.result.include("groups", this.groupRepository.getAllGroups());
 			this.result.include("categories", this.categoryRepository.getAllCategories());
@@ -83,7 +76,7 @@ public class GroupAdminController {
 	/**
 	 * Save the permissions for this group
 	 *
-	 * @param groupId the id of the group to save
+	 * @param groupId     the id of the group to save
 	 * @param permissions the set of permissions of this group
 	 */
 	public void permissionsSave(int groupId) {
@@ -97,20 +90,19 @@ public class GroupAdminController {
 	}
 
 	private Map<String, Map<String, List<?>>> extractPermissiosnFromRequest() {
-		Map<String, Map<String, List<?>>> m = new HashMap<String, Map<String,List<?>>>();
+		Map<String, Map<String, List<?>>> m = new HashMap<String, Map<String, List<?>>>();
 		m.put("boolean", new HashMap<String, List<?>>());
 		m.put("multiple", new HashMap<String, List<?>>());
 
 		for (Enumeration<?> e = request.getParameterNames(); e.hasMoreElements(); ) {
-			String fieldName = (String)e.nextElement();
+			String fieldName = (String) e.nextElement();
 
 			if (fieldName.startsWith("role_")) {
 				String key = fieldName.substring(7);
 
 				if (fieldName.startsWith("role_b$")) {
 					m.get("boolean").put(key, Arrays.asList("true".equals(request.getParameter(fieldName))));
-				}
-				else {
+				} else {
 					List<Integer> l = new ArrayList<Integer>();
 					for (String v : request.getParameterValues(fieldName)) {
 						l.add(Integer.parseInt(v));
@@ -144,8 +136,7 @@ public class GroupAdminController {
 	/**
 	 * Delete one or more groups
 	 *
-	 * @param groupId
-	 *            the id of the groups to delete
+	 * @param groupId the id of the groups to delete
 	 */
 	public void delete(int... groupId) {
 		RoleManager roleManager = this.userSession.getRoleManager();
@@ -167,8 +158,7 @@ public class GroupAdminController {
 
 		if (!roleManager.isAdministrator() && !roleManager.isGroupManager(groupId)) {
 			this.result.redirectTo(this).list();
-		}
-		else {
+		} else {
 			this.result.include("group", this.groupRepository.get(groupId));
 			this.result.forwardTo(this).add();
 		}

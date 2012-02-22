@@ -1,22 +1,20 @@
 package net.jforum.controllers;
 
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Actions;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.Pagination;
 import net.jforum.entities.util.SearchParams;
 import net.jforum.entities.util.SearchResult;
-import net.jforum.repository.CategoryRepository;
+import net.jforum.repository.CategoryDao;
 import net.jforum.repository.SearchRepository;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.queryParser.ParseException;
-
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
 
 /**
  * @author Filipe Sabella
@@ -27,13 +25,13 @@ import br.com.caelum.vraptor.Result;
 public class SearchController {
 	private JForumConfig config;
 	private SearchRepository searchRepository;
-	private CategoryRepository categoryRepository;
+	private CategoryDao categoryRepository;
 	private UserSession userSession;
 	private final Result result;
 
-	public SearchController(CategoryRepository categoryRepository,
-			JForumConfig config, SearchRepository searchRepository,
-			UserSession userSession, Result result) {
+	public SearchController(CategoryDao categoryRepository,
+	                        JForumConfig config, SearchRepository searchRepository,
+	                        UserSession userSession, Result result) {
 		this.categoryRepository = categoryRepository;
 		this.config = config;
 		this.searchRepository = searchRepository;

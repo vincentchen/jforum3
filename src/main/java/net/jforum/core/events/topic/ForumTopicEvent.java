@@ -13,24 +13,23 @@ package net.jforum.core.events.topic;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
 import net.jforum.events.EmptyTopicEvent;
-import net.jforum.repository.ForumRepository;
-
+import net.jforum.repository.ForumDao;
 import org.hibernate.ObjectNotFoundException;
 
 /**
  * @author Rafael Steil
  */
 public class ForumTopicEvent extends EmptyTopicEvent {
-	private ForumRepository repository;
+	private ForumDao repository;
 
-	public ForumTopicEvent(ForumRepository repository) {
+	public ForumTopicEvent(ForumDao repository) {
 		this.repository = repository;
 	}
 
 	/**
 	 * The actions are:
 	 * <ul>
-	 * 	<li> If topic.lastPost == forum.lastPost, update forum.lastPost
+	 * <li> If topic.lastPost == forum.lastPost, update forum.lastPost
 	 * </ul>
 	 */
 	@Override
@@ -41,10 +40,9 @@ public class ForumTopicEvent extends EmptyTopicEvent {
 		try {
 			// FIXME: Check TopiPostEvent#handleLastPostDeleted
 			topicMatches = forum.getLastPost() == null
-				? true
-				: forum.getLastPost().getTopic().equals(topic);
-		}
-		catch (ObjectNotFoundException e) {
+					? true
+					: forum.getLastPost().getTopic().equals(topic);
+		} catch (ObjectNotFoundException e) {
 			topicMatches = true;
 		}
 

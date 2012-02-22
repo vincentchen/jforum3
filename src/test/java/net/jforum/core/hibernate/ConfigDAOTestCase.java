@@ -11,7 +11,7 @@
 package net.jforum.core.hibernate;
 
 import net.jforum.entities.Config;
-import net.jforum.repository.ConfigRepository;
+import net.jforum.repository.ConfigDao;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,7 +23,7 @@ import org.junit.Test;
 public class ConfigDAOTestCase extends AbstractDAOTestCase<Config> {
 	@Test
 	public void update() {
-		ConfigRepository dao = this.newDao();
+		ConfigDao dao = this.newDao();
 		Config c = this.newConfig("k1", "v1"); this.insert(c, dao);
 		c = dao.get(c.getId());
 		c.setValue("new value");
@@ -35,14 +35,14 @@ public class ConfigDAOTestCase extends AbstractDAOTestCase<Config> {
 
 	@Test
 	public void getByNameUsingInvalidKeyExpectsNul() {
-		ConfigRepository dao = this.newDao();
+		ConfigDao dao = this.newDao();
 		Assert.assertNull(dao.getByName("some invalid key name"));
 	}
 
 	@Test
 	public void getByNameExpectSuccess() {
 
-		ConfigRepository dao = this.newDao();
+		ConfigDao dao = this.newDao();
 		Config c = this.newConfig("k1", "v1"); this.insert(c, dao);
 		Config loaded = dao.getByName("k1");
 		Assert.assertNotNull(loaded);
@@ -53,7 +53,7 @@ public class ConfigDAOTestCase extends AbstractDAOTestCase<Config> {
 
 	@Test
 	public void insert() {
-		ConfigRepository dao = this.newDao();
+		ConfigDao dao = this.newDao();
 		Config c = this.newConfig("name1", "value1"); this.insert(c, dao);
 
 		Assert.assertTrue(c.getId() > 0);
@@ -72,7 +72,7 @@ public class ConfigDAOTestCase extends AbstractDAOTestCase<Config> {
 		return c;
 	}
 
-	private ConfigRepository newDao() {
-		return new ConfigRepository(session());
+	private ConfigDao newDao() {
+		return new ConfigDao(session());
 	}
 }

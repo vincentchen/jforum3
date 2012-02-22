@@ -10,26 +10,7 @@
  */
 package net.jforum.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import net.jforum.repository.ForumRepository;
-
+import net.jforum.repository.ForumDao;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.search.annotations.ContainedIn;
@@ -37,6 +18,11 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -84,16 +70,17 @@ public class Forum implements Serializable {
 	private boolean unread;
 
 	@Transient
-	private ForumRepository repository;
+	private ForumDao repository;
 
-	public Forum() {}
+	public Forum() {
+	}
 
 	public Forum(int id) {
 		this.id = id;
 	}
 
 	@Autowired
-	public Forum(ForumRepository repository) {
+	public Forum(ForumDao repository) {
 		this.repository = repository;
 	}
 
@@ -107,6 +94,7 @@ public class Forum implements Serializable {
 
 	/**
 	 * Get the last post in this forum
+	 *
 	 * @return the last post of this forum
 	 */
 	public Post getLastPost() {
@@ -128,14 +116,14 @@ public class Forum implements Serializable {
 
 	/**
 	 * Get the moderators of this forum
+	 *
 	 * @return the moderators
 	 */
 	public List<Group> getModerators() {
 		if (this.isModerated()) {
 			this.assertRepository();
 			return this.repository.getModerators(this);
-		}
-		else {
+		} else {
 			return new ArrayList<Group>();
 		}
 	}
@@ -249,6 +237,7 @@ public class Forum implements Serializable {
 
 	/**
 	 * Get the total of posts in this forum
+	 *
 	 * @return the total of posts
 	 */
 	public int getTotalPosts() {
@@ -258,6 +247,7 @@ public class Forum implements Serializable {
 
 	/**
 	 * Gets the total number of topics posted in the forum
+	 *
 	 * @return int value with the total number of the topics
 	 */
 	public int getTotalTopics() {
@@ -266,7 +256,7 @@ public class Forum implements Serializable {
 	}
 
 	/**
-	 * @see {@link ForumRepository#getTopics(Forum, int, int)}
+	 * @see {@link ForumDao#getTopics(Forum, int, int)}
 	 */
 	public List<Topic> getTopics(int start, int count) {
 		this.assertRepository();
@@ -274,14 +264,13 @@ public class Forum implements Serializable {
 	}
 
 	/**
-	 * @see {@link ForumRepository#getTopicsPendingModeration(Forum)}
+	 * @see {@link ForumDao#getTopicsPendingModeration(Forum)}
 	 */
 	public List<Topic> getTopicsPendingModeration() {
 		if (this.isModerated()) {
 			this.assertRepository();
 			return this.repository.getTopicsPendingModeration(this);
-		}
-		else {
+		} else {
 			return new ArrayList<Topic>();
 		}
 	}
@@ -317,10 +306,10 @@ public class Forum implements Serializable {
 	@Override
 	public String toString() {
 		return new StringBuilder(64)
-			.append('[').append(this.getName())
-			.append(", id=").append(this.getId())
-			.append(", order=").append(this.getDisplayOrder())
-			.append(']').toString();
+				.append('[').append(this.getName())
+				.append(", id=").append(this.getId())
+				.append(", order=").append(this.getDisplayOrder())
+				.append(']').toString();
 	}
 
 	private void assertRepository() {

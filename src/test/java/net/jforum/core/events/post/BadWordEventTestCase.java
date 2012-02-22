@@ -16,7 +16,7 @@ import junit.framework.Assert;
 import net.jforum.entities.BadWord;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.BadWordRepository;
+import net.jforum.repository.BadWordDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public class BadWordEventTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private BadWordRepository repository = context.mock(BadWordRepository.class);
+	private BadWordDao repository = context.mock(BadWordDao.class);
 	private BadWordEvent event = new BadWordEvent(repository);
 
 	@Test

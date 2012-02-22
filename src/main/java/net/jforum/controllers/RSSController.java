@@ -10,15 +10,15 @@
  */
 package net.jforum.controllers;
 
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Actions;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.entities.UserSession;
 import net.jforum.services.RSSService;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
 
 /**
  * @author Rafael Steil
@@ -32,7 +32,7 @@ public class RSSController {
 	private final Result result;
 
 	public RSSController(Result result, RSSService rssService,
-			UserSession userSession, JForumConfig config) {
+	                     UserSession userSession, JForumConfig config) {
 		this.result = result;
 		this.rssService = rssService;
 		this.userSession = userSession;
@@ -47,8 +47,7 @@ public class RSSController {
 	public void forumTopics(int forumId) {
 		if (!this.isRSSEnabled() || !this.userSession.getRoleManager().isForumAllowed(forumId)) {
 			this.result.forwardTo(MessageController.class).accessDenied();
-		}
-		else {
+		} else {
 			String contents = this.rssService.forForum(forumId);
 			this.result.include("contents", contents);
 			this.result.forwardTo(Actions.RSS);

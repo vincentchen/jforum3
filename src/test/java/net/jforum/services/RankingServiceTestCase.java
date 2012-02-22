@@ -12,7 +12,7 @@ package net.jforum.services;
 
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Ranking;
-import net.jforum.repository.RankingRepository;
+import net.jforum.repository.RankingDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -25,7 +25,7 @@ import org.junit.Test;
  */
 public class RankingServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private RankingRepository repository = context.mock(RankingRepository.class);
+	private RankingDao repository = context.mock(RankingDao.class);
 	private RankingService service = new RankingService(repository);
 
 	@Test

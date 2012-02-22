@@ -12,15 +12,15 @@ package net.jforum.core.events.topic;
 
 import net.jforum.entities.Topic;
 import net.jforum.events.EmptyTopicEvent;
-import net.jforum.repository.TopicWatchRepository;
+import net.jforum.repository.TopicWatchDao;
 
 /**
  * @author Rafael Steil
  */
 public class TopicWatchTopicEvent extends EmptyTopicEvent {
-	private TopicWatchRepository repository;
+	private TopicWatchDao repository;
 
-	public TopicWatchTopicEvent(TopicWatchRepository repository) {
+	public TopicWatchTopicEvent(TopicWatchDao repository) {
 		this.repository = repository;
 	}
 

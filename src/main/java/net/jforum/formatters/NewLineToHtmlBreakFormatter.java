@@ -10,13 +10,13 @@
  */
 package net.jforum.formatters;
 
-import org.apache.commons.lang.StringUtils;
-
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Convertes each \n to &lt;br&gt;
+ *
  * @author Rafael Steil
  */
 @Component

@@ -10,37 +10,35 @@
  */
 package net.jforum.services;
 
-import java.util.Date;
-
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Avatar;
 import net.jforum.entities.AvatarType;
 import net.jforum.entities.Group;
 import net.jforum.entities.User;
-import net.jforum.repository.GroupRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.GroupDao;
+import net.jforum.repository.UserDao;
 import net.jforum.sso.LoginAuthenticator;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.MD5;
-
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.Date;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class UserService {
-	private UserRepository userRepository;
-	private GroupRepository groupRepository;
+	private UserDao userRepository;
+	private GroupDao groupRepository;
 	private JForumConfig config;
 	private LoginAuthenticator loginAuthenticator;
 	private AvatarService avatarService;
 
-	public UserService(UserRepository userReposistory, GroupRepository groupRepository,
-		JForumConfig config, LoginAuthenticator loginAuthenticator, AvatarService avatarService) {
+	public UserService(UserDao userReposistory, GroupDao groupRepository,
+	                   JForumConfig config, LoginAuthenticator loginAuthenticator, AvatarService avatarService) {
 		this.userRepository = userReposistory;
 		this.groupRepository = groupRepository;
 		this.config = config;
@@ -50,8 +48,9 @@ public class UserService {
 
 	/**
 	 * Add a new user
+	 *
 	 * @param user the user to add. The password should be in
-	 * plain text, as it hashed internaly before persisting.
+	 *             plain text, as it hashed internaly before persisting.
 	 */
 	public void add(User user) {
 		this.performAddValidations(user);
@@ -76,6 +75,7 @@ public class UserService {
 
 	/**
 	 * Updates an existing user
+	 *
 	 * @param user
 	 */
 	public void update(User user, boolean changeUsername) {
@@ -110,6 +110,7 @@ public class UserService {
 
 	/**
 	 * Create a security hash to be used as extra security for auto logins.
+	 *
 	 * @param userId the id of the user to generate the hash
 	 * @return the hash
 	 */
@@ -120,6 +121,7 @@ public class UserService {
 
 	/**
 	 * Generate a hash based on the security hash of an user
+	 *
 	 * @param securityHash the user's current security hash
 	 * @return the hash
 	 */
@@ -154,6 +156,7 @@ public class UserService {
 
 	/**
 	 * Authenticates an user
+	 *
 	 * @param username the username
 	 * @param password the password, in plain text
 	 * @return an instance of an {@link User}, of null if authentication failed
@@ -164,6 +167,7 @@ public class UserService {
 
 	/**
 	 * Save the gropus for the user
+	 *
 	 * @param userId
 	 * @param groupIds
 	 */

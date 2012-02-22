@@ -23,10 +23,9 @@ import net.jforum.entities.Forum;
 import net.jforum.entities.PollOption;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.ConfigRepository;
-import net.jforum.repository.RankingRepository;
-import net.jforum.repository.SmilieRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.*;
+import net.jforum.repository.SmilieDao;
+import net.jforum.repository.UserDao;
 import net.jforum.services.CategoryService;
 import net.jforum.services.ForumService;
 import net.jforum.services.GroupService;
@@ -79,7 +78,7 @@ public class CacheEvictionRulesTestCase extends AbstractDependencyInjectionSprin
 
 	private void runRankingRepository(String methodName) throws Exception {
 		this.expectQueryCacheEviction("rankingDAO");
-		this.executeTargetMethod(RankingRepository.class, methodName);
+		this.executeTargetMethod(RankingDao.class, methodName);
 		context.assertIsSatisfied();
 	}
 
@@ -102,7 +101,7 @@ public class CacheEvictionRulesTestCase extends AbstractDependencyInjectionSprin
 
 	private void runSmilieRepository(String methodName) throws Exception {
 		this.expectQueryCacheEviction("smilieDAO");
-		this.executeTargetMethod(SmilieRepository.class, methodName);
+		this.executeTargetMethod(SmilieDao.class, methodName);
 		context.assertIsSatisfied();
 	}
 
@@ -115,7 +114,7 @@ public class CacheEvictionRulesTestCase extends AbstractDependencyInjectionSprin
 		this.expectQueryCacheEviction("userDAO.getTotalUsers");
 		this.expectQueryCacheEviction("userDAO.getLastRegisteredUser");
 
-		this.executeTargetMethod(UserRepository.class, "add");
+		this.executeTargetMethod(UserDao.class, "add");
 
 		context.assertIsSatisfied();
 	}
@@ -135,7 +134,7 @@ public class CacheEvictionRulesTestCase extends AbstractDependencyInjectionSprin
 
 	private void runConfigRepositoryAddOrUpdate(String methodName) throws Exception {
 		this.expectQueryCacheEviction("configDAO");
-		this.executeTargetMethod(ConfigRepository.class, methodName);
+		this.executeTargetMethod(ConfigDao.class, methodName);
 		context.assertIsSatisfied();
 	}
 

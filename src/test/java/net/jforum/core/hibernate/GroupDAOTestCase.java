@@ -14,7 +14,7 @@ import java.util.List;
 
 import net.jforum.entities.Group;
 import net.jforum.entities.Role;
-import net.jforum.repository.GroupRepository;
+import net.jforum.repository.GroupDao;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import org.junit.Test;
 public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 	@Test
 	public void removeAllPermissions() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 		Group group = this.newGroup();
 
 		Role r1 = new Role(); r1.setName("r1");
@@ -50,7 +50,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 
 	@Test
 	public void clearAllRolesInsertOneNewUseJustOneUpdate() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 		Group group = this.newGroup();
 
 		Role role = new Role(); role.setName("r2");
@@ -77,7 +77,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 
 	@Test
 	public void addRoleWithoutRoleValue() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 		Group group = this.newGroup();
 		this.insert(group, dao);
 
@@ -93,7 +93,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 
 	@Test
 	public void addTwoRolesOneWithRoleValues() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 		Group group = this.newGroup();
 		this.insert(group, dao);
 
@@ -125,7 +125,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 
 	@Test
 	public void insert() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 		Group group = this.newGroup();
 
 		this.insert(group, dao);
@@ -140,7 +140,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 
 	@Test
 	public void update() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 		Group g = this.newGroup();
 		this.insert(g, dao);
 
@@ -159,7 +159,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 
 	@Test
 	public void delete() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 		Group parent = this.newGroup();
 
 		this.insert(parent, dao);
@@ -174,7 +174,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 
 	@Test
 	public void allGroups() {
-		GroupRepository dao = this.newDao();
+		GroupDao dao = this.newDao();
 
 		Group g1 = new Group(); g1.setName("g1"); this.insert(g1, dao);
 		Group g2 = new Group(); g1.setName("g2"); this.insert(g2, dao);
@@ -193,7 +193,7 @@ public class GroupDAOTestCase extends AbstractDAOTestCase<Group> {
 		return group;
 	}
 
-	private GroupRepository newDao() {
-		return new GroupRepository(session());
+	private GroupDao newDao() {
+		return new GroupDao(session());
 	}
 }

@@ -10,12 +10,12 @@
  */
 package net.jforum.extensions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -30,7 +30,7 @@ public class RequestOperationChain implements ApplicationContextAware {
 
 	public void callAllOperations() {
 		for (String operationClassName : this.operations) {
-			RequestOperation operation = (RequestOperation)this.applicationContext.getBean(operationClassName);
+			RequestOperation operation = (RequestOperation) this.applicationContext.getBean(operationClassName);
 			operation.execute();
 		}
 	}

@@ -10,24 +10,22 @@
  */
 package net.jforum.core.tags;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.Locale;
+import org.apache.taglibs.standard.resources.Resources;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-
-import org.apache.taglibs.standard.resources.Resources;
+import java.io.*;
+import java.util.Locale;
 
 /**
  * @author Bill
  *
  */
-/** Wraps responses to allow us to retrieve results as Strings. */
+
+/**
+ * Wraps responses to allow us to retrieve results as Strings.
+ */
 public class ImportResponseWrapper extends HttpServletResponseWrapper {
 
 	// ************************************************************
@@ -51,65 +49,91 @@ public class ImportResponseWrapper extends HttpServletResponseWrapper {
 
 	// ************************************************************
 	// Data
-	/** Default character encoding for response. */
+	/**
+	 * Default character encoding for response.
+	 */
 	public static final String DEFAULT_ENCODING = "ISO-8859-1";
 
 	private String charEncoding = null; // 'charEncoding' attrib.
 
-	/** The Writer we convey. */
+	/**
+	 * The Writer we convey.
+	 */
 	private StringWriter sw = new StringWriter();
 
-	/** A buffer, alternatively, to accumulate bytes. */
+	/**
+	 * A buffer, alternatively, to accumulate bytes.
+	 */
 	private ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-	/** A ServletOutputStream we convey, tied to this Writer. */
+	/**
+	 * A ServletOutputStream we convey, tied to this Writer.
+	 */
 	private ServletOutputStream sos = new ServletOutputStream() {
 		public void write(int b) throws IOException {
 			bos.write(b);
 		}
 	};
 
-	/** 'True' if getWriter() was called; false otherwise. */
+	/**
+	 * 'True' if getWriter() was called; false otherwise.
+	 */
 	private boolean isWriterUsed;
 
-	/** 'True if getOutputStream() was called; false otherwise. */
+	/**
+	 * 'True if getOutputStream() was called; false otherwise.
+	 */
 	private boolean isStreamUsed;
 
-	/** The HTTP status set by the target. */
+	/**
+	 * The HTTP status set by the target.
+	 */
 	private int status = 200;
 
 	// ************************************************************
 	// Constructor and methods
 
-	/** Constructs a new ImportResponseWrapper. */
+	/**
+	 * Constructs a new ImportResponseWrapper.
+	 */
 	public ImportResponseWrapper(HttpServletResponse response) {
 		super(response);
 	}
 
-	/** Returns a Writer designed to buffer the output. */
+	/**
+	 * Returns a Writer designed to buffer the output.
+	 */
 	public PrintWriter getWriter() {
-		if (isStreamUsed)
+		if (isStreamUsed) {
 			throw new IllegalStateException(Resources
 					.getMessage("IMPORT_ILLEGAL_STREAM"));
+		}
 		isWriterUsed = true;
 		return new PrintWriter(sw);
 	}
 
-	/** Returns a ServletOutputStream designed to buffer the output. */
+	/**
+	 * Returns a ServletOutputStream designed to buffer the output.
+	 */
 	public ServletOutputStream getOutputStream() {
-		if (isWriterUsed)
+		if (isWriterUsed) {
 			throw new IllegalStateException(Resources
 					.getMessage("IMPORT_ILLEGAL_WRITER"));
+		}
 		isStreamUsed = true;
 		return sos;
 	}
 
-	/** Has no effect. */
+	/**
+	 * Has no effect.
+	 */
 	public void setContentType(String x) {
 		// ignore
 	}
 
-	/** Has no effect. */
+	/**
+	 * Has no effect.
+	 */
 	public void setLocale(Locale x) {
 		// ignore
 	}
@@ -137,14 +161,16 @@ public class ImportResponseWrapper extends HttpServletResponseWrapper {
 	// not simply toString() because we need to throw
 	// UnsupportedEncodingException
 	public String getString() throws UnsupportedEncodingException {
-		if (isWriterUsed)
+		if (isWriterUsed) {
 			return sw.toString();
-		else if (isStreamUsed) {
-			if (charEncoding != null && !charEncoding.equals(""))
+		} else if (isStreamUsed) {
+			if (charEncoding != null && !charEncoding.equals("")) {
 				return bos.toString(charEncoding);
-			else
+			} else {
 				return bos.toString(DEFAULT_ENCODING);
-		} else
+			}
+		} else {
 			return ""; // target didn't write anything
+		}
 	}
 }

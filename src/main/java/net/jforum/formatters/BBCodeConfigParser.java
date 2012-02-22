@@ -42,18 +42,18 @@
  */
 package net.jforum.formatters;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import net.jforum.core.exceptions.ForumException;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 /**
  * Parses the bb_config.xml file
+ *
  * @author Rafael Steil
  */
 public class BBCodeConfigParser extends DefaultHandler {
@@ -64,7 +64,7 @@ public class BBCodeConfigParser extends DefaultHandler {
 
 	/**
 	 * @param configFile bb_config.xml itself
-	 * @param formatter the formatter that will handle the file contents
+	 * @param formatter  the formatter that will handle the file contents
 	 */
 	public BBCodeConfigParser(BBConfigFormatter formatter) {
 		this.formatter = formatter;
@@ -74,8 +74,7 @@ public class BBCodeConfigParser extends DefaultHandler {
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(getClass().getResourceAsStream("/bb_config.xml"), this);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new ForumException(e);
 		}
 	}
@@ -110,12 +109,10 @@ public class BBCodeConfigParser extends DefaultHandler {
 	public void endElement(String uri, String localName, String tag) {
 		if (tag.equals("tag")) {
 			this.formatter.addBb(this.bb);
-		}
-		else if (this.tagName.equals("replace")) {
+		} else if (this.tagName.equals("replace")) {
 			this.bb.setReplace(this.sb.toString().trim());
 			this.sb.delete(0, this.sb.length());
-		}
-		else if (this.tagName.equals("regex")) {
+		} else if (this.tagName.equals("regex")) {
 			this.bb.setRegex(this.sb.toString().trim());
 			this.sb.delete(0, this.sb.length());
 		}

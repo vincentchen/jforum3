@@ -10,40 +10,40 @@
  */
 package net.jforum.plugins.post;
 
-import javax.servlet.http.HttpServletRequest;
-
-import net.jforum.controllers.PostController;
-import net.jforum.core.SessionManager;
-import net.jforum.entities.Forum;
-import net.jforum.entities.Post;
-import net.jforum.entities.UserSession;
-import net.jforum.repository.PostRepository;
-import net.jforum.security.RoleManager;
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.JForumConfig;
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
+import net.jforum.controllers.PostController;
+import net.jforum.core.SessionManager;
+import net.jforum.entities.Forum;
+import net.jforum.entities.Post;
+import net.jforum.entities.UserSession;
+import net.jforum.repository.PostDao;
+import net.jforum.security.RoleManager;
+import net.jforum.util.ConfigKeys;
+import net.jforum.util.JForumConfig;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Apply minimum time constraints between each posting, to avoid spamming
  */
 @Intercepts
 public class PostEditInterceptor implements Interceptor {
-	private final ForumLimitedTimeRepository repository;
-	private final PostRepository postRepository;
+	private final ForumLimitedTimeDao repository;
+	private final PostDao postRepository;
 	private final JForumConfig config;
 	private final HttpServletRequest request;
 	private final Result result;
 	private final UserSession userSession;
 	private final SessionManager sessionManager;
 
-	public PostEditInterceptor(PostRepository postRepository, ForumLimitedTimeRepository repository,
-			JForumConfig config, HttpServletRequest request, Result result,
-			UserSession userSession, SessionManager sessionManager) {
+	public PostEditInterceptor(PostDao postRepository, ForumLimitedTimeDao repository,
+	                           JForumConfig config, HttpServletRequest request, Result result,
+	                           UserSession userSession, SessionManager sessionManager) {
 		this.postRepository = postRepository;
 		this.repository = repository;
 		this.config = config;
@@ -56,8 +56,8 @@ public class PostEditInterceptor implements Interceptor {
 	@Override
 	public boolean accepts(ResourceMethod method) {
 		return this.config.getBoolean(ConfigKeys.FORUM_TIME_LIMITED_ENABLE, false)
-			&& method.getResource().getType().equals(PostController.class)
-			&& method.getMethod().getName().equals("edit");
+				&& method.getResource().getType().equals(PostController.class)
+				&& method.getMethod().getName().equals("edit");
 	}
 
 	@Override

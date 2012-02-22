@@ -15,12 +15,14 @@ import net.jforum.entities.PrivateMessage;
 
 /**
  * General utilities methods to be used by the components
+ *
  * @author Rafael Steil
  */
 public class ActionUtils {
 	/**
 	 * Given a {@link PostFormOptions}, copy it to the respective {@link Post}
-	 * @param post the post to be updated
+	 *
+	 * @param post    the post to be updated
 	 * @param options the options to be set
 	 */
 	public static void definePostOptions(Post post, PostFormOptions options) {
@@ -35,7 +37,8 @@ public class ActionUtils {
 
 	/**
 	 * Given a {@link PostFormOptions}, copy it to the respective {@link PrivateMessage}
-	 * @param pm the private message to be updated
+	 *
+	 * @param pm      the private message to be updated
 	 * @param options the options to be set
 	 */
 	public static void definePrivateMessageOptions(PrivateMessage pm, PostFormOptions options) {

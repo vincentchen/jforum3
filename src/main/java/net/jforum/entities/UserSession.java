@@ -10,6 +10,14 @@
  */
 package net.jforum.entities;
 
+import net.jforum.security.RoleManager;
+import net.jforum.util.ConfigKeys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -18,21 +26,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.jforum.security.RoleManager;
-import net.jforum.util.ConfigKeys;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Stores information about an user's session.
+ *
  * @author Rafael Steil
  */
-public class UserSession  {
+public class UserSession {
 	private static final Logger logger = LoggerFactory.getLogger(UserSession.class);
 	private User user = new User(null);
 	private RoleManager roleManager;
@@ -51,6 +50,7 @@ public class UserSession  {
 	/**
 	 * Flag a specific topic as "read" by the user
 	 * It will be ignored if the user is not logged
+	 *
 	 * @param topicId the id of the topic to mark as read
 	 */
 	public void markTopicAsRead(int topicId) {
@@ -65,8 +65,9 @@ public class UserSession  {
 
 	/**
 	 * Check if the user has read a specific topic.o
+	 *
 	 * @param topic the topic. Check will be made against <code>topic.lastPost.date</code>
-	 * @return  true if the topic is read or if the user is not logged.
+	 * @return true if the topic is read or if the user is not logged.
 	 */
 	public boolean isTopicRead(Topic topic) {
 		if (!this.isLogged()) {
@@ -88,6 +89,7 @@ public class UserSession  {
 	 * Check if there are unread messages in a specific forum
 	 * FIXME this currently only checks for the time of the last message in the forum.
 	 * A correct implementation should check all posts in the forum (while not hurting performance)
+	 *
 	 * @param forum the forum to check
 	 * @return true if there are no unread messages in the forum, or if the user is not logged
 	 */
@@ -134,33 +136,32 @@ public class UserSession  {
 			return ip;
 		}
 
-        ip = request.getHeader("x-forwarded-for");
+		ip = request.getHeader("x-forwarded-for");
 
-        if (ip == null) {
-        	return request.getRemoteAddr();
-        }
-        else {
-        	// Process the IP to keep the last IP (real ip of the computer on the net)
-            StringTokenizer tokenizer = new StringTokenizer(ip, ",");
+		if (ip == null) {
+			return request.getRemoteAddr();
+		} else {
+			// Process the IP to keep the last IP (real ip of the computer on the net)
+			StringTokenizer tokenizer = new StringTokenizer(ip, ",");
 
-            // Ignore all tokens, except the last one
-            for (int i = 0; i < tokenizer.countTokens() -1 ; i++) {
-            	tokenizer.nextElement();
-            }
+			// Ignore all tokens, except the last one
+			for (int i = 0; i < tokenizer.countTokens() - 1; i++) {
+				tokenizer.nextElement();
+			}
 
-            ip = tokenizer.nextToken().trim();
+			ip = tokenizer.nextToken().trim();
 
-            if (ip.equals("")) {
-            	ip = null;
-            }
-        }
+			if (ip.equals("")) {
+				ip = null;
+			}
+		}
 
-        // If the ip is still null, we put 0.0.0.0 to avoid null values
-        if (ip == null) {
-        	ip = "0.0.0.0";
-        }
+		// If the ip is still null, we put 0.0.0.0 to avoid null values
+		if (ip == null) {
+			ip = "0.0.0.0";
+		}
 
-        return ip;
+		return ip;
 	}
 
 	public User getUser() {
@@ -173,9 +174,8 @@ public class UserSession  {
 		if (user == null) {
 			try {
 				throw new RuntimeException("userSession.setUser with null value. See the stack trace for more information about the call stack. Session ID: "
-					+ this.sessionId);
-			}
-			catch (RuntimeException e) {
+						+ this.sessionId);
+			} catch (RuntimeException e) {
 				Writer writer = new StringWriter();
 				PrintWriter printWriter = new PrintWriter(writer);
 				e.printStackTrace(printWriter);
@@ -274,6 +274,7 @@ public class UserSession  {
 	public boolean isLogged() {
 		return "1".equals(this.getAttribute(ConfigKeys.LOGGED));
 	}
+
 	/**
 	 * Gets a cookie by its name.
 	 *
@@ -297,7 +298,7 @@ public class UserSession  {
 	/**
 	 * Add or update a cookie. This method adds a cookie, serializing its value using XML.
 	 *
-	 * @param name The cookie name.
+	 * @param name  The cookie name.
 	 * @param value The cookie value
 	 */
 	public void addCookie(String name, String value) {
@@ -317,6 +318,7 @@ public class UserSession  {
 
 	/**
 	 * Removes a cookie
+	 *
 	 * @param name the name of the cookie to remove
 	 */
 	public void removeCookie(String name) {
@@ -333,6 +335,7 @@ public class UserSession  {
 
 	/**
 	 * Convert this instance to a {@link Session}
+	 *
 	 * @return
 	 */
 	public Session asSession() {
@@ -360,7 +363,7 @@ public class UserSession  {
 			return false;
 		}
 
-		return this.getSessionId().equals(((UserSession)o).getSessionId());
+		return this.getSessionId().equals(((UserSession) o).getSessionId());
 	}
 
 	/**

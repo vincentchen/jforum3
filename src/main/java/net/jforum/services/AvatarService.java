@@ -10,34 +10,29 @@
  */
 package net.jforum.services;
 
+import net.jforum.core.exceptions.ForumException;
+import net.jforum.core.exceptions.ValidationException;
+import net.jforum.entities.Avatar;
+import net.jforum.entities.AvatarType;
+import net.jforum.repository.AvatarDao;
+import net.jforum.util.*;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.jforum.core.exceptions.ForumException;
-import net.jforum.core.exceptions.ValidationException;
-import net.jforum.entities.Avatar;
-import net.jforum.entities.AvatarType;
-import net.jforum.repository.AvatarRepository;
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.ImageInfo;
-import net.jforum.util.JForumConfig;
-import net.jforum.util.MD5;
-import net.jforum.util.UploadUtils;
-import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
-import br.com.caelum.vraptor.ioc.Component;
-
 /**
  * @author Bill
  */
-@Component
+@Service
 public class AvatarService {
-	private AvatarRepository repository;
+	private AvatarDao repository;
 	private JForumConfig config;
 
-	public AvatarService(JForumConfig config, AvatarRepository repository) {
+	public AvatarService(JForumConfig config, AvatarDao repository) {
 		this.config = config;
 		this.repository = repository;
 	}
@@ -172,8 +167,7 @@ public class AvatarService {
 
 		if (avatar.getAvatarType() == AvatarType.AVATAR_UPLOAD) {
 			avatarConfigKey = ConfigKeys.AVATAR_UPLOAD_DIR;
-		}
-		else if (avatar.getAvatarType() == AvatarType.AVATAR_GALLERY) {
+		} else if (avatar.getAvatarType() == AvatarType.AVATAR_GALLERY) {
 			avatarConfigKey = ConfigKeys.AVATAR_GALLERY_DIR;
 		}
 
@@ -225,8 +219,7 @@ public class AvatarService {
 
 			try {
 				ii.setInput(new FileInputStream(file));
-			}
-			catch (FileNotFoundException e) {
+			} catch (FileNotFoundException e) {
 				throw new ForumException(e);
 			}
 
@@ -239,8 +232,7 @@ public class AvatarService {
 
 			// check the image size
 			this.checkImageSize(avatar);
-		}
-		catch (ValidationException e) {
+		} catch (ValidationException e) {
 			file.delete();
 			throw e;
 		}
@@ -262,7 +254,7 @@ public class AvatarService {
 			UploadUtils upload = new UploadUtils(uploadedFile);
 
 			String imageName = String.format("%s.%s", MD5.hash(uploadedFile.getFileName() + System.currentTimeMillis()),
-				upload.getExtension());
+					upload.getExtension());
 
 			String filePath = String.format("%s/%s/%s", this.config.getApplicationPath(), this.config.getValue(configKey), imageName);
 
@@ -298,11 +290,10 @@ public class AvatarService {
 
 		if (avatarConfigKey == null) {
 			return null;
-		}
-		else {
+		} else {
 			String imageName = avatar.getFileName();
 			String imageFilePath = String.format("%s/%s/%s", this.config.getApplicationPath(),
-				this.config.getValue(avatarConfigKey), imageName);
+					this.config.getValue(avatarConfigKey), imageName);
 
 			return new File(imageFilePath);
 		}

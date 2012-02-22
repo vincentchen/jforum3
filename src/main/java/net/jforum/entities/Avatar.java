@@ -10,23 +10,12 @@
  */
 package net.jforum.entities;
 
-import java.io.Serializable;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Bill
@@ -65,8 +54,8 @@ public class Avatar implements Serializable {
 		this.users = users;
 	}
 
-	public User getUploadedBy(){
-		if (avatarType == AvatarType.AVATAR_UPLOAD && users != null && users.size( ) == 1) {
+	public User getUploadedBy() {
+		if (avatarType == AvatarType.AVATAR_UPLOAD && users != null && users.size() == 1) {
 			return users.iterator().next();
 		}
 

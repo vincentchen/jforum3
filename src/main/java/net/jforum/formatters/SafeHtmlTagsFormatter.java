@@ -10,9 +10,9 @@
  */
 package net.jforum.formatters;
 
-import net.jforum.util.SafeHtml;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.util.SafeHtml;
 
 /**
  * @author Rafael Steil

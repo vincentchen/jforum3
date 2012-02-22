@@ -10,8 +10,12 @@
  */
 package net.jforum.actions.interceptors;
 
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.caelum.vraptor.InterceptionException;
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.core.InterceptorStack;
+import br.com.caelum.vraptor.interceptor.Interceptor;
+import br.com.caelum.vraptor.ioc.Container;
+import br.com.caelum.vraptor.resource.ResourceMethod;
 import net.jforum.controllers.MessageController;
 import net.jforum.controllers.UserController;
 import net.jforum.core.Role;
@@ -19,15 +23,12 @@ import net.jforum.core.SecurityConstraint;
 import net.jforum.entities.UserSession;
 import net.jforum.security.AccessRule;
 import net.jforum.security.EmptyRule;
-import br.com.caelum.vraptor.InterceptionException;
-import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.core.InterceptorStack;
-import br.com.caelum.vraptor.interceptor.Interceptor;
-import br.com.caelum.vraptor.ioc.Container;
-import br.com.caelum.vraptor.resource.ResourceMethod;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Handles the {@link SecurityConstraint} annotation, looking for AccessRules
+ *
  * @author Rafael Steil
  */
 public abstract class SecurityInterceptor implements Interceptor {
@@ -55,14 +56,12 @@ public abstract class SecurityInterceptor implements Interceptor {
 			AccessRule accessRule = this.findAccessRule(annotation.value());
 			shouldProceed = accessRule.shouldProceed(userSession, request);
 			displayLogin = annotation.displayLogin();
-		}
-		else {
+		} else {
 			Role[] multiRoles = annotation.multiRoles();
 
 			if (multiRoles.length == 0) {
 				throw new IllegalStateException("@SecurityConstraint does not have an access rule nor multi roles. Cannot continue");
-			}
-			else {
+			} else {
 				for (Role role : multiRoles) {
 					AccessRule accessRule = this.findAccessRule(role.value());
 
@@ -77,12 +76,10 @@ public abstract class SecurityInterceptor implements Interceptor {
 
 		if (shouldProceed) {
 			stack.next(method, resourceInstance);
-		}
-		else {
+		} else {
 			if (displayLogin) {
 				this.result.redirectTo(UserController.class).login(null, false);
-			}
-			else {
+			} else {
 				this.result.redirectTo(MessageController.class).accessDenied();
 			}
 		}
@@ -93,7 +90,7 @@ public abstract class SecurityInterceptor implements Interceptor {
 
 		if (accessRule == null) {
 			throw new NullPointerException(
-				String.format("Could not find the rule %s. Have you registered it in the configuration file?", klass.getName()));
+					String.format("Could not find the rule %s. Have you registered it in the configuration file?", klass.getName()));
 		}
 
 		return accessRule;

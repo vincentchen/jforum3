@@ -12,20 +12,20 @@ package net.jforum.core.events.post;
 
 import net.jforum.entities.Post;
 import net.jforum.events.EmptyPostEvent;
-import net.jforum.repository.TopicRepository;
-import net.jforum.repository.UserRepository;
-
+import net.jforum.repository.TopicDao;
+import net.jforum.repository.UserDao;
 import org.hibernate.ObjectNotFoundException;
 
 /**
  * Post events related to a topic.
+ *
  * @author Rafael Steil
  */
 public class TopicPostEvent extends EmptyPostEvent {
-	private TopicRepository topicRepository;
-	private UserRepository userRepository;
+	private TopicDao topicRepository;
+	private UserDao userRepository;
 
-	public TopicPostEvent(TopicRepository topicRepository, UserRepository userRepository) {
+	public TopicPostEvent(TopicDao topicRepository, UserDao userRepository) {
 		this.topicRepository = topicRepository;
 		this.userRepository = userRepository;
 	}
@@ -33,10 +33,10 @@ public class TopicPostEvent extends EmptyPostEvent {
 	/**
 	 * The actions are:
 	 * <ul>
-	 * 	<li> if topic.totalPosts == 0, delete topic
-	 * 	<li> If 1st post, update topic.firstPost
-	 * 	<li> If last post, update topic.lastPost
-	 * 	<li> Decrement topic replies
+	 * <li> if topic.totalPosts == 0, delete topic
+	 * <li> If 1st post, update topic.firstPost
+	 * <li> If last post, update topic.lastPost
+	 * <li> Decrement topic replies
 	 * </ul>
 	 */
 	@Override
@@ -77,8 +77,7 @@ public class TopicPostEvent extends EmptyPostEvent {
 			// won't exist, of course. So, is this expected, or should
 			// we handle this using another approach?
 			isLastPost = post.getTopic().getLastPost().equals(post);
-		}
-		catch (ObjectNotFoundException e) {
+		} catch (ObjectNotFoundException e) {
 			isLastPost = true;
 		}
 
@@ -92,8 +91,7 @@ public class TopicPostEvent extends EmptyPostEvent {
 
 		try {
 			isFirstPost = post.getTopic().getFirstPost().equals(post);
-		}
-		catch (ObjectNotFoundException e) {
+		} catch (ObjectNotFoundException e) {
 			isFirstPost = true;
 		}
 

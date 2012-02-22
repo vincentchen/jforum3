@@ -19,9 +19,9 @@ public class PostOptions {
 	private boolean bbCodeEnabled;
 	private boolean appendSignature;
 	private String contextPath;
-	
-	public PostOptions(boolean htmlEnabled, boolean smiliesEnabled, 
-			boolean bbCodeEnabled, boolean appendSignature, String contextPath) {
+
+	public PostOptions(boolean htmlEnabled, boolean smiliesEnabled,
+	                   boolean bbCodeEnabled, boolean appendSignature, String contextPath) {
 		this.htmlEnabled = htmlEnabled;
 		this.smiliesEnabled = smiliesEnabled;
 		this.bbCodeEnabled = bbCodeEnabled;
@@ -32,19 +32,19 @@ public class PostOptions {
 	public boolean isHtmlEnabled() {
 		return this.htmlEnabled;
 	}
-	
+
 	public boolean isSmiliesEnabled() {
-		return this.smiliesEnabled;	
+		return this.smiliesEnabled;
 	}
-	
+
 	public boolean isBbCodeEnabled() {
 		return this.bbCodeEnabled;
 	}
-	
+
 	public boolean appendSignature() {
 		return this.appendSignature;
 	}
-	
+
 	public String contextPath() {
 		return this.contextPath;
 	}

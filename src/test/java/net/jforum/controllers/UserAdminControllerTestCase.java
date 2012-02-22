@@ -16,8 +16,8 @@ import net.jforum.entities.Group;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.GroupRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.GroupDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.RoleManager;
 import net.jforum.services.UserService;
 import net.jforum.util.ConfigKeys;
@@ -37,9 +37,9 @@ import br.com.caelum.vraptor.util.test.MockResult;
  */
 public class UserAdminControllerTestCase extends AdminTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private UserRepository repository = context.mock(UserRepository.class);
+	private UserDao repository = context.mock(UserDao.class);
 	private UserAdminController controller;
-	private GroupRepository groupRepository = context.mock(GroupRepository.class);
+	private GroupDao groupRepository = context.mock(GroupDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private UserService userService = context.mock(UserService.class);
 	private UserSession userSession = context.mock(UserSession.class);

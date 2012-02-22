@@ -16,7 +16,7 @@ import java.util.List;
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Category;
 import net.jforum.entities.Forum;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.ForumDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -29,7 +29,7 @@ import org.junit.Test;
  */
 public class ForumServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private ForumRepository repository = context.mock(ForumRepository.class);
+	private ForumDao repository = context.mock(ForumDao.class);
 	private ForumService service = new ForumService(repository);
 
 	@Test

@@ -10,13 +10,13 @@
  */
 package net.jforum.controllers;
 
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Actions;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.util.I18n;
 import net.jforum.util.URLBuilder;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
 
 /**
  * Just display some messages
@@ -54,7 +54,7 @@ public class MessageController {
 	 */
 	public void topicWaitingModeration(int forumId) {
 		this.result.include("message", this.i18n.getFormattedMessage(
-			"PostShow.waitingModeration", URLBuilder.build(Domain.FORUMS, Actions.SHOW, forumId)));
+				"PostShow.waitingModeration", URLBuilder.build(Domain.FORUMS, Actions.SHOW, forumId)));
 		result.of(this).message();
 	}
 
@@ -66,7 +66,7 @@ public class MessageController {
 	 */
 	public void replyWaitingModeration(int topicId) {
 		this.result.include("message", this.i18n.getFormattedMessage("PostShow.waitingModeration",
-			URLBuilder.build(Domain.TOPICS, Actions.LIST, topicId)));
+				URLBuilder.build(Domain.TOPICS, Actions.LIST, topicId)));
 		result.of(this).message();
 	}
 }

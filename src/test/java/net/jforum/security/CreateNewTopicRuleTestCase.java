@@ -19,7 +19,7 @@ import net.jforum.core.SessionManager;
 import net.jforum.core.exceptions.AccessRuleException;
 import net.jforum.entities.Forum;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.ForumDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -41,7 +41,7 @@ public class CreateNewTopicRuleTestCase {
 		private static final long serialVersionUID = 1L;
 
 	{ put("forumId", "1"); }};
-	private ForumRepository repository = context.mock(ForumRepository.class);
+	private ForumDao repository = context.mock(ForumDao.class);
 	private SessionManager sessionManager = context.mock(SessionManager.class);
 
 	@Test

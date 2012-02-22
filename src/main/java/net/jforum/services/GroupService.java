@@ -10,37 +10,35 @@
  */
 package net.jforum.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import net.jforum.core.SessionManager;
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Group;
 import net.jforum.entities.Role;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.GroupRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.GroupDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.RoleManager;
 import net.jforum.util.SecurityConstants;
-
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import br.com.caelum.vraptor.ioc.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Rafael Steil
  */
-@Component
+@Service
 public class GroupService {
-	private GroupRepository repository;
-	private UserRepository userRepository;
+	private GroupDao repository;
+	private UserDao userRepository;
 	private UserSession userSession;
 	private SessionManager sessionManager;
 
-	public GroupService(GroupRepository repository, UserRepository userRepository,
-			UserSession userSession, SessionManager sessionManager) {
+	public GroupService(GroupDao repository, UserDao userRepository,
+	                    UserSession userSession, SessionManager sessionManager) {
 		this.repository = repository;
 		this.userSession = userSession;
 		this.userRepository = userRepository;
@@ -73,22 +71,18 @@ public class GroupService {
 
 		for (Map.Entry<String, List<?>> entry : map.get("boolean").entrySet()) {
 			String key = entry.getKey();
-			Boolean value = (Boolean)entry.getValue().get(0);
+			Boolean value = (Boolean) entry.getValue().get(0);
 
 			if (SecurityConstants.ADMINISTRATOR.equals(key)) {
 				registerRole(group, key, isSuperAdministrator ? value : isAdministrator);
-			}
-			else if (SecurityConstants.CAN_MANAGE_FORUMS.equals(key)) {
+			} else if (SecurityConstants.CAN_MANAGE_FORUMS.equals(key)) {
 				registerRole(group, key, isSuperAdministrator ? value : canManageForums);
-			}
-			else if (SecurityConstants.CO_ADMINISTRATOR.equals(key)) {
+			} else if (SecurityConstants.CO_ADMINISTRATOR.equals(key)) {
 				registerRole(group, key, isSuperAdministrator ? value : isCoAdministrator);
-			}
-			else if (SecurityConstants.INTERACT_OTHER_GROUPS.equals(key)) {
+			} else if (SecurityConstants.INTERACT_OTHER_GROUPS.equals(key)) {
 				registerRole(group, key, isSuperAdministrator ? value : canInteractwithOtherGroups);
-			}
-			else {
-				registerRole(group, key, (Boolean)entry.getValue().get(0));
+			} else {
+				registerRole(group, key, (Boolean) entry.getValue().get(0));
 			}
 		}
 
@@ -98,8 +92,7 @@ public class GroupService {
 
 			if (SecurityConstants.GROUPS.equals(key)) {
 				registerRole(group, key, isSuperAdministrator ? value : groups);
-			}
-			else {
+			} else {
 				registerRole(group, key, value);
 			}
 		}
@@ -112,6 +105,7 @@ public class GroupService {
 
 	/**
 	 * Add a new group
+	 *
 	 * @param group
 	 */
 	public void add(Group group) {
@@ -126,6 +120,7 @@ public class GroupService {
 
 	/**
 	 * Updates the information of an existing group
+	 *
 	 * @param group
 	 */
 	public void update(Group group) {
@@ -140,6 +135,7 @@ public class GroupService {
 
 	/**
 	 * Deletes one or more groups
+	 *
 	 * @param ids
 	 */
 	public void delete(int... ids) {

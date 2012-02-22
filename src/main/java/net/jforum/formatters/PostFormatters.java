@@ -10,14 +10,14 @@
  */
 package net.jforum.formatters;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.jforum.util.ConfigKeys;
-import net.jforum.util.JForumConfig;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.Container;
+import net.jforum.util.ConfigKeys;
+import net.jforum.util.JForumConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -25,13 +25,13 @@ import br.com.caelum.vraptor.ioc.Container;
 @Component
 @ApplicationScoped
 public class PostFormatters extends ArrayList<Formatter> {
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({"unchecked"})
 	public PostFormatters(JForumConfig config, Container container) throws Exception {
 
 		List<String> formatters = config.getValueAsList(ConfigKeys.MESSAGE_FORMATTERS);
 
 		for (String name : formatters) {
-			Class<? extends Formatter> k = (Class<? extends Formatter>)Class.forName(name);
+			Class<? extends Formatter> k = (Class<? extends Formatter>) Class.forName(name);
 			add(container.instanceFor(k));
 		}
 	}

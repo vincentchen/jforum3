@@ -10,14 +10,14 @@
  */
 package net.jforum.api;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.jforum.util.ConfigKeys;
-
 import org.springframework.context.ApplicationContext;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Base class to be used to run any JForum code in other environments.
+ *
  * @author Rafael Steil
  */
 public abstract class JForumExecutionContext {
@@ -27,8 +27,8 @@ public abstract class JForumExecutionContext {
 
 	public JForumExecutionContext(HttpServletRequest request) {
 		this.request = request;
-		this.context = (ApplicationContext)request.getSession().getServletContext()
-			.getAttribute(ConfigKeys.SPRING_CONTEXT);
+		this.context = (ApplicationContext) request.getSession().getServletContext()
+				.getAttribute(ConfigKeys.SPRING_CONTEXT);
 
 		this.initialized = this.context != null;
 	}
@@ -39,6 +39,7 @@ public abstract class JForumExecutionContext {
 
 	/**
 	 * Check if JForum is initialized and ready to use.
+	 *
 	 * @return true if JForum is ready for use
 	 */
 	protected boolean isInitialized() {
@@ -49,6 +50,6 @@ public abstract class JForumExecutionContext {
 
 	@SuppressWarnings("unchecked")
 	protected final <T> T getComponent(Class<T> k) {
-		return (T)this.context.getBean(k.getName());
+		return (T) this.context.getBean(k.getName());
 	}
 }

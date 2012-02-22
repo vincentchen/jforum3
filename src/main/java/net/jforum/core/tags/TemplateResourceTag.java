@@ -10,12 +10,13 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
-
 import net.jforum.util.ConfigKeys;
+
+import java.io.IOException;
 
 /**
  * Given a resource name, builds it's absolute URL, to be used in the templates
+ *
  * @author Rafael Steil
  */
 public class TemplateResourceTag extends JForumTag {
@@ -27,10 +28,10 @@ public class TemplateResourceTag extends JForumTag {
 	@Override
 	public void doTag() throws IOException {
 		String path = new StringBuilder(128)
-			.append(this.request().getContextPath())
-			.append(config().getValue(ConfigKeys.TEMPLATE_DIRECTORY))
-			.append(this.item)
-			.toString();
+				.append(this.request().getContextPath())
+				.append(config().getValue(ConfigKeys.TEMPLATE_DIRECTORY))
+				.append(this.item)
+				.toString();
 
 		this.write(path);
 	}

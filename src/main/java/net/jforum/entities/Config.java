@@ -10,16 +10,10 @@
  */
 package net.jforum.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 
 /**
  * @author Rafael Steil
@@ -97,10 +91,10 @@ public class Config {
 			return false;
 		}
 
-		Config c = (Config)o;
+		Config c = (Config) o;
 		return c.getId() == this.getId()
-			&& c.getName().equals(this.getName())
-			&& c.getValue().equals(this.getValue());
+				&& c.getName().equals(this.getName())
+				&& c.getValue().equals(this.getValue());
 	}
 
 	/**
@@ -117,11 +111,11 @@ public class Config {
 	@Override
 	public String toString() {
 		return new StringBuilder()
-			.append('[').append(this.getId()).append(',')
-			.append(this.getName()).append(',')
-			.append(this.getValue())
-			.append(']')
-			.toString();
+				.append('[').append(this.getId()).append(',')
+				.append(this.getName()).append(',')
+				.append(this.getValue())
+				.append(']')
+				.toString();
 
 	}
 }

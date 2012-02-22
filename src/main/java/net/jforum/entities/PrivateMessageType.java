@@ -21,5 +21,6 @@ public class PrivateMessageType {
 	public static final int SAVED_OUT = 4;
 	public static final int UNREAD = 5;
 
-	private PrivateMessageType() { }
+	private PrivateMessageType() {
+	}
 }

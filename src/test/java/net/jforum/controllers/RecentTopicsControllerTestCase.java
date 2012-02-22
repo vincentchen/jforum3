@@ -12,10 +12,9 @@ package net.jforum.controllers;
 
 import java.util.ArrayList;
 
-import net.jforum.controllers.RecentTopicsController;
 import net.jforum.entities.Topic;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.RecentTopicsRepository;
+import net.jforum.repository.RecentTopicsDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.TestCaseUtils;
@@ -32,8 +31,8 @@ import br.com.caelum.vraptor.util.test.MockResult;
  */
 public class RecentTopicsControllerTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private RecentTopicsRepository repository = context
-			.mock(RecentTopicsRepository.class);
+	private RecentTopicsDao repository = context
+			.mock(RecentTopicsDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private UserSession userSession = context.mock(UserSession.class);
 	private Result mockResult = context.mock(MockResult.class);

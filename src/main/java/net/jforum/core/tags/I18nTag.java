@@ -10,14 +10,13 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import net.jforum.util.I18n;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.DynamicAttributes;
-
-import net.jforum.util.I18n;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -46,8 +45,7 @@ public class I18nTag extends JForumTag implements DynamicAttributes {
 			}
 
 			this.write(message);
-		}
-		else {
+		} else {
 			String message = i18n.getFormattedMessage(this.key, this.params.toArray());
 
 			if (message == null) {

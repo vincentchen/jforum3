@@ -43,9 +43,9 @@
  */
 package net.jforum.sso;
 
-import java.util.Map;
-
 import net.jforum.entities.User;
+
+import java.util.Map;
 
 /**
  * Validates user's credentials.
@@ -62,8 +62,8 @@ public interface LoginAuthenticator {
 	/**
 	 * Authenticates an user.
 	 *
-	 * @param username Username
-	 * @param password Password
+	 * @param username    Username
+	 * @param password    Password
 	 * @param extraParams Extra parameters, if any.
 	 * @return An instance of a {@link net.jforum.entities.User} or <code>null</code>
 	 */

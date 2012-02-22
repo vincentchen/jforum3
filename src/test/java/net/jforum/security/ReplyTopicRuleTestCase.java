@@ -21,9 +21,9 @@ import net.jforum.entities.Forum;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.PostRepository;
-import net.jforum.repository.TopicRepository;
+import net.jforum.repository.ForumDao;
+import net.jforum.repository.PostDao;
+import net.jforum.repository.TopicDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -45,9 +45,9 @@ public class ReplyTopicRuleTestCase {
 		private static final long serialVersionUID = 1L;
 
 	{ put("topic.forum.id", "1"); }};
-	private TopicRepository topicRepository = context.mock(TopicRepository.class);
-	private PostRepository postRepository = context.mock(PostRepository.class);
-	private ForumRepository forumRepository = context.mock(ForumRepository.class);
+	private TopicDao topicRepository = context.mock(TopicDao.class);
+	private PostDao postRepository = context.mock(PostDao.class);
+	private ForumDao forumRepository = context.mock(ForumDao.class);
 	private SessionManager sessionManager = context.mock(SessionManager.class);
 	private ReplyTopicRule rule = new ReplyTopicRule(topicRepository, postRepository, forumRepository, sessionManager);
 

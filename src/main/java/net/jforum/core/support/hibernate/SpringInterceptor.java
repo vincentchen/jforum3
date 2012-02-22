@@ -1,13 +1,12 @@
 package net.jforum.core.support.hibernate;
 
-import java.io.Serializable;
-
 import net.jforum.core.exceptions.ForumException;
-
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.EntityMode;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
+
+import java.io.Serializable;
 
 /**
  * @author Rafael Steil

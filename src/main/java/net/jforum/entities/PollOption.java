@@ -10,17 +10,8 @@
  */
 package net.jforum.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 /**
  * @author Rafael Steil
@@ -97,8 +88,8 @@ public class PollOption implements Serializable {
 	@Override
 	public String toString() {
 		return new StringBuilder(128).append('[').append(this.id).append(", ")
-			.append(this.text).append(", ").append(this.voteCount).append(']')
-			.toString();
+				.append(this.text).append(", ").append(this.voteCount).append(']')
+				.toString();
 	}
 
 	/**
@@ -112,8 +103,8 @@ public class PollOption implements Serializable {
 
 		PollOption po = (PollOption) o;
 		return po.getId() == this.id
-			&& po.getText().equals(this.text)
-			&& po.getVoteCount() == this.voteCount;
+				&& po.getText().equals(this.text)
+				&& po.getVoteCount() == this.voteCount;
 	}
 
 	/**

@@ -17,7 +17,7 @@ import net.jforum.entities.Group;
 import net.jforum.entities.Role;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.GroupRepository;
+import net.jforum.repository.GroupDao;
 import net.jforum.services.GroupService;
 import net.jforum.util.SecurityConstants;
 import net.jforum.util.TestCaseUtils;
@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class NewCategoryGroupPermissionsEventTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private GroupRepository groupRepository = context.mock(GroupRepository.class);
+	private GroupDao groupRepository = context.mock(GroupDao.class);
 	private GroupService groupService = context.mock(GroupService.class);
 	private UserSession userSession = context.mock(UserSession.class);
 	private NewCategoryGroupPermissionsEvent event = new NewCategoryGroupPermissionsEvent(groupRepository, groupService, userSession);

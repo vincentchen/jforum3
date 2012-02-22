@@ -10,13 +10,13 @@
  */
 package net.jforum.formatters;
 
-import org.apache.commons.lang.StringUtils;
-
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Replace &lt; and &gt; by &amp;lt; and &amp;gt;
+ *
  * @author Rafael Steil
  */
 @Component

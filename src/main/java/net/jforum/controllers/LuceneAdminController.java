@@ -10,32 +10,25 @@
  */
 package net.jforum.controllers;
 
-import java.io.IOException;
-import java.util.Date;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.exceptions.ForumException;
 import net.jforum.entities.Post;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.ForumDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
-
 import org.apache.lucene.index.IndexReader;
-import org.hibernate.CacheMode;
-import org.hibernate.FlushMode;
-import org.hibernate.ScrollMode;
-import org.hibernate.ScrollableResults;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.SearchFactory;
 import org.hibernate.search.reader.ReaderProvider;
 import org.hibernate.search.store.DirectoryProvider;
 
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * @author Rafael Steil
@@ -44,13 +37,13 @@ import br.com.caelum.vraptor.Result;
 @Path(Domain.ADMIN_SEARCH)
 public class LuceneAdminController {
 	private JForumConfig config;
-	private ForumRepository forumRepository;
+	private ForumDao forumRepository;
 	private SessionFactory sessionFactory;
 	private final Result result;
 
 	public LuceneAdminController(JForumConfig config,
-			ForumRepository forumRepository, SessionFactory sessionFactory,
-			Result result) {
+	                             ForumDao forumRepository, SessionFactory sessionFactory,
+	                             Result result) {
 		this.config = config;
 		this.forumRepository = forumRepository;
 		this.sessionFactory = sessionFactory;
@@ -83,7 +76,7 @@ public class LuceneAdminController {
 
 					while (results.next()
 							&& "1".equals(config
-									.getValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING))) {
+							.getValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING))) {
 						index++;
 
 						fullTextSession.index(results.get(0));

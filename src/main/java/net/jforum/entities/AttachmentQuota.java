@@ -10,13 +10,7 @@
  */
 package net.jforum.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * @author Rafael Steil
@@ -46,8 +40,7 @@ public class AttachmentQuota {
 	/**
 	 * Checks if the size passed as argument is greater than the quota's limit.
 	 *
-	 * @param size
-	 *            The size to check
+	 * @param size The size to check
 	 * @return <code>true</code> if the size is greater than quota's limit.
 	 */
 	public boolean exceedsQuota(long size) {
@@ -74,8 +67,7 @@ public class AttachmentQuota {
 	}
 
 	/**
-	 * @param description
-	 *            The description to set.
+	 * @param description The description to set.
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -89,8 +81,7 @@ public class AttachmentQuota {
 	}
 
 	/**
-	 * @param id
-	 *            The id to set.
+	 * @param id The id to set.
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -104,8 +95,7 @@ public class AttachmentQuota {
 	}
 
 	/**
-	 * @param size
-	 *            The size to set.
+	 * @param size The size to set.
 	 */
 	public void setSize(int size) {
 		this.size = size;
@@ -119,8 +109,7 @@ public class AttachmentQuota {
 	}
 
 	/**
-	 * @param type
-	 *            The type to set.
+	 * @param type The type to set.
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -128,11 +117,11 @@ public class AttachmentQuota {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == this){
+		if (obj == this) {
 			return true;
 		}
 
-		if(!(obj instanceof AttachmentQuota)){
+		if (!(obj instanceof AttachmentQuota)) {
 			return false;
 		}
 

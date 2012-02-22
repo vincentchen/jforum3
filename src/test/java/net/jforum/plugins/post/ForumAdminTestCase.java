@@ -27,7 +27,7 @@ import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.extensions.ActionExtension;
 import net.jforum.extensions.Extends;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.ForumDao;
 import net.jforum.security.RoleManager;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.TestCaseUtils;
@@ -44,9 +44,9 @@ import br.com.caelum.vraptor.Result;
 public class ForumAdminTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
 
-	private ForumLimitedTimeRepository repository = context.mock(ForumLimitedTimeRepository.class);
+	private ForumLimitedTimeDao repository = context.mock(ForumLimitedTimeDao.class);
 	private JForumConfig config = context.mock(JForumConfig.class);
-	private ForumRepository forumRepository = context.mock(ForumRepository.class);
+	private ForumDao forumRepository = context.mock(ForumDao.class);
 	private Result mockResult = context.mock(Result.class);
 	private UserSession userSession = context.mock(UserSession.class);
 	private ForumAdminExtension extension = new ForumAdminExtension(config, forumRepository, repository, mockResult, userSession);

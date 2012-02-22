@@ -17,7 +17,7 @@ import junit.framework.Assert;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.repository.ForumRepository;
+import net.jforum.repository.ForumDao;
 import net.jforum.repository.RSSRepository;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.I18n;
@@ -40,7 +40,7 @@ public class RSSServiceTestCase {
 	private JForumConfig config = context.mock(JForumConfig.class);
 	private RSSRepository rssRepository = context.mock(RSSRepository.class);
 	private I18n i18n = context.mock(I18n.class);
-	private ForumRepository forumRepository = context.mock(ForumRepository.class);
+	private ForumDao forumRepository = context.mock(ForumDao.class);
 	private RSSService service = new RSSService(config, rssRepository, i18n, forumRepository);
 
 	@Test

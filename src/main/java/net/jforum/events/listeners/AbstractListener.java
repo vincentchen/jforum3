@@ -10,12 +10,11 @@
  */
 package net.jforum.events.listeners;
 
+import net.jforum.events.Event;
+import org.aspectj.lang.annotation.Pointcut;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.jforum.events.Event;
-
-import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author Rafael Steil
@@ -23,20 +22,24 @@ import org.aspectj.lang.annotation.Pointcut;
 public abstract class AbstractListener<EventType extends Event<TargetType>, TargetType> {
 	private List<EventType> events = new ArrayList<EventType>();
 
-	@Pointcut("execution(* net.jforum.repository.Repository.add(..))")
+	@Pointcut("execution(* net.jforum.repository.Dao.add(..))")
 	@SuppressWarnings("all")
-	protected void repositoryAdd() {}
+	protected void repositoryAdd() {
+	}
 
-	@Pointcut("execution(* net.jforum.repository.Repository.remove(..))")
+	@Pointcut("execution(* net.jforum.repository.Dao.remove(..))")
 	@SuppressWarnings("all")
-	protected void repositoryRemove() {}
+	protected void repositoryRemove() {
+	}
 
-	@Pointcut("execution(* net.jforum.repository.Repository.update(..))")
+	@Pointcut("execution(* net.jforum.repository.Dao.update(..))")
 	@SuppressWarnings("all")
-	protected void repositoryUpdate() {}
+	protected void repositoryUpdate() {
+	}
 
 	/**
 	 * Defines the list the events
+	 *
 	 * @param events the events to set
 	 */
 	public void setEvents(List<EventType> events) {

@@ -10,20 +10,20 @@
  */
 package net.jforum.formatters;
 
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
+import br.com.caelum.vraptor.ioc.Component;
+import org.apache.commons.lang.StringUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
-
-import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
-
 /**
  * Applies formatting for all contents of bb_config.xml.
  * Before using this class, all bb codes you want to be
  * processed should be added through the addBb() method.
+ *
  * @author Rafael Steil
  */
 @Component
@@ -40,8 +40,7 @@ public class BBConfigFormatter implements Formatter {
 	public void addBb(BBCode code) {
 		if (code.alwaysProcess()) {
 			this.alwaysProcessTags.put(code.getTagName(), code);
-		}
-		else {
+		} else {
 			this.bbTags.put(code.getTagName(), code);
 		}
 	}
@@ -65,7 +64,7 @@ public class BBConfigFormatter implements Formatter {
 	/**
 	 * Applies bb code formatting to the text
 	 *
-	 * @param text the contents to be formatted
+	 * @param text    the contents to be formatted
 	 * @param options post options
 	 * @return the formatted text
 	 */
@@ -78,8 +77,7 @@ public class BBConfigFormatter implements Formatter {
 
 		if (codeIndex == -1 || codeEndIndex == -1 || codeEndIndex < codeIndex) {
 			text = this.processBBExceptCodeTag(text, options);
-		}
-		else {
+		} else {
 			int nextStartPos = 0;
 			StringBuilder result = new StringBuilder(text.length());
 
@@ -130,9 +128,8 @@ public class BBConfigFormatter implements Formatter {
 					String contents = null;
 
 					if ("code".equals(bb.getTagName())) {
-					    contents = matcher.group(1);
-					}
-					else {
+						contents = matcher.group(1);
+					} else {
 						lang = matcher.group(1);
 						contents = matcher.group(2);
 					}
@@ -156,8 +153,7 @@ public class BBConfigFormatter implements Formatter {
 						}
 
 						index = sb.indexOf("[code]");
-					}
-					else {
+					} else {
 						if (index > -1) {
 							replace.replace(index, index + 2, lang.toString());
 						}
@@ -188,7 +184,7 @@ public class BBConfigFormatter implements Formatter {
 	/**
 	 * Process all bb codes, except [code]
 	 *
-	 * @param text the text to format
+	 * @param text    the text to format
 	 * @param options post options
 	 * @return the formatted text
 	 */

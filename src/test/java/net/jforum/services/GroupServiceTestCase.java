@@ -15,8 +15,8 @@ import net.jforum.core.SessionManager;
 import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.Group;
 import net.jforum.entities.UserSession;
-import net.jforum.repository.GroupRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.GroupDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.RoleManager;
 import net.jforum.util.TestCaseUtils;
 
@@ -29,11 +29,11 @@ import org.junit.Test;
  */
 public class GroupServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private GroupRepository repository = context.mock(GroupRepository.class);
+	private GroupDao repository = context.mock(GroupDao.class);
 	private SessionManager sessionManager = context.mock(SessionManager.class);
 	private UserSession userSession = context.mock(UserSession.class);
 	private RoleManager roleManager = context.mock(RoleManager.class);
-	private UserRepository userRepository = context.mock(UserRepository.class);
+	private UserDao userRepository = context.mock(UserDao.class);
 	private GroupService service = new GroupService(repository, userRepository, userSession, sessionManager);
 
 	@Test

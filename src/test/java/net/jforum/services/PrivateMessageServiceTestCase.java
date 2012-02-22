@@ -14,7 +14,7 @@ import net.jforum.core.exceptions.ValidationException;
 import net.jforum.entities.PrivateMessage;
 import net.jforum.entities.PrivateMessageType;
 import net.jforum.entities.User;
-import net.jforum.repository.PrivateMessageRepository;
+import net.jforum.repository.PrivateMessageDao;
 import net.jforum.util.TestCaseUtils;
 
 import org.jmock.Expectations;
@@ -29,7 +29,7 @@ import org.junit.Test;
  */
 public class PrivateMessageServiceTestCase {
 	private Mockery context = TestCaseUtils.newMockery();
-	private PrivateMessageRepository repository = context.mock(PrivateMessageRepository.class);
+	private PrivateMessageDao repository = context.mock(PrivateMessageDao.class);
 	private PrivateMessageService service = new PrivateMessageService(repository);
 	private States state = context.states("state");
 	private PrivateMessage pm = new PrivateMessage();

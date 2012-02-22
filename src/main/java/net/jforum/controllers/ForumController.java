@@ -10,8 +10,9 @@
  */
 package net.jforum.controllers;
 
-import java.util.Date;
-
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import net.jforum.actions.helpers.Domain;
 import net.jforum.core.SecurityConstraint;
 import net.jforum.core.SessionManager;
@@ -20,9 +21,9 @@ import net.jforum.entities.Topic;
 import net.jforum.entities.UserSession;
 import net.jforum.entities.util.PaginatedResult;
 import net.jforum.entities.util.Pagination;
-import net.jforum.repository.CategoryRepository;
-import net.jforum.repository.ForumRepository;
-import net.jforum.repository.UserRepository;
+import net.jforum.repository.CategoryDao;
+import net.jforum.repository.ForumDao;
+import net.jforum.repository.UserDao;
 import net.jforum.security.AccessForumRule;
 import net.jforum.security.AuthenticatedRule;
 import net.jforum.services.MostUsersEverOnlineService;
@@ -30,9 +31,8 @@ import net.jforum.util.ConfigKeys;
 import net.jforum.util.GroupInteractionFilter;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.SecurityConstants;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+
+import java.util.Date;
 
 /**
  * @author Rafael Steil
@@ -40,9 +40,9 @@ import br.com.caelum.vraptor.Result;
 @Resource
 @Path(Domain.FORUMS)
 public class ForumController {
-	private CategoryRepository categoryRepository;
-	private ForumRepository forumRepository;
-	private UserRepository userRepository;
+	private CategoryDao categoryRepository;
+	private ForumDao forumRepository;
+	private UserDao userRepository;
 	private MostUsersEverOnlineService mostUsersEverOnlineService;
 	private JForumConfig config;
 	private GroupInteractionFilter groupInteractionFilter;
@@ -50,11 +50,11 @@ public class ForumController {
 	private final UserSession userSession;
 	private final SessionManager sessionManager;
 
-	public ForumController(CategoryRepository categoryRepository,
-		ForumRepository forumRepository, UserSession userSession,
-		UserRepository userRepository, MostUsersEverOnlineService mostUsersEverOnlineService,
-		JForumConfig config, GroupInteractionFilter groupInteractionFilter,
-		Result result, SessionManager sessionManager) {
+	public ForumController(CategoryDao categoryRepository,
+	                       ForumDao forumRepository, UserSession userSession,
+	                       UserDao userRepository, MostUsersEverOnlineService mostUsersEverOnlineService,
+	                       JForumConfig config, GroupInteractionFilter groupInteractionFilter,
+	                       Result result, SessionManager sessionManager) {
 		this.categoryRepository = categoryRepository;
 		this.userSession = userSession;
 		this.forumRepository = forumRepository;
@@ -75,7 +75,7 @@ public class ForumController {
 		int recordsPerPage = this.config.getInt(ConfigKeys.TOPICS_PER_PAGE);
 
 		PaginatedResult<Topic> newMessages = this.forumRepository.getNewMessages(new Date(userSession.getLastVisit()),
-			new Pagination().calculeStart(page, recordsPerPage), recordsPerPage);
+				new Pagination().calculeStart(page, recordsPerPage), recordsPerPage);
 
 		Pagination pagination = new Pagination(this.config, page).forNewMessages(newMessages.getTotalRecords());
 
@@ -99,7 +99,7 @@ public class ForumController {
 		this.result.include("isModeratorOnline", this.sessionManager.isModeratorOnline());
 		this.result.include("categories", this.categoryRepository.getAllCategories());
 		this.result.include("topics", forum.getTopics(pagination.getStart(),
-			pagination.getRecordsPerPage()));
+				pagination.getRecordsPerPage()));
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class ForumController {
 		this.result.include("lastRegisteredUser", this.userRepository.getLastRegisteredUser());
 		this.result.include("postsPerPage", this.config.getInt(ConfigKeys.POSTS_PER_PAGE));
 		this.result.include("mostUsersEverOnline", mostUsersEverOnlineService
-			.getMostRecentData(this.sessionManager.getTotalUsers()));
+				.getMostRecentData(this.sessionManager.getTotalUsers()));
 
 		if (userSession.isLogged() && !userSession.getRoleManager().roleExists(SecurityConstants.INTERACT_OTHER_GROUPS)) {
 			this.groupInteractionFilter.filterForumListing(this.result, userSession);

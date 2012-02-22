@@ -10,14 +10,15 @@
  */
 package net.jforum.util.mail;
 
-import java.util.List;
-
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
 import net.jforum.util.JForumConfig;
 
+import java.util.List;
+
 /**
  * Factory for specific types of mail dispatching
+ *
  * @author Rafael Steil
  */
 public class SpammerFactory {
@@ -29,6 +30,7 @@ public class SpammerFactory {
 
 	/**
 	 * Creates a {@link TopicReplySpammer} istance
+	 *
 	 * @param topic the topic being replies
 	 * @param users the list of users who should be notified
 	 * @return the spammer instance

@@ -13,18 +13,19 @@ package net.jforum.services;
 import net.jforum.entities.Topic;
 import net.jforum.entities.TopicWatch;
 import net.jforum.entities.User;
-import net.jforum.repository.TopicWatchRepository;
-import br.com.caelum.vraptor.ioc.Component;
+import net.jforum.repository.TopicWatchDao;
+import org.springframework.stereotype.Service;
 
 /**
  * Topic Watching for posts (new posts)
+ *
  * @author Rafael Steil
  */
-@Component
+@Service
 public class TopicWatchService {
-	private TopicWatchRepository repository;
+	private TopicWatchDao repository;
 
-	public TopicWatchService(TopicWatchRepository repository) {
+	public TopicWatchService(TopicWatchDao repository) {
 		this.repository = repository;
 	}
 
@@ -35,8 +36,9 @@ public class TopicWatchService {
 
 	/**
 	 * Watch a specific topic
+	 *
 	 * @param topic the topic to watch
-	 * @param user the user who wants to watch
+	 * @param user  the user who wants to watch
 	 */
 	public void watch(Topic topic, User user) {
 		TopicWatch watch = this.repository.getSubscription(topic, user);
@@ -53,8 +55,9 @@ public class TopicWatchService {
 
 	/**
 	 * Unwatch a specific topic
+	 *
 	 * @param topic the topic to unwatch
-	 * @param user the user who wants to unwatch
+	 * @param user  the user who wants to unwatch
 	 */
 	public void unwatch(Topic topic, User user) {
 		this.repository.removeSubscription(topic, user);

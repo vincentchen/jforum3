@@ -10,24 +10,23 @@
  */
 package net.jforum.core.events.post;
 
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.jforum.entities.BadWord;
 import net.jforum.entities.Post;
 import net.jforum.events.EmptyPostEvent;
-import net.jforum.repository.BadWordRepository;
-
+import net.jforum.repository.BadWordDao;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Rafael Steil
  */
 public class BadWordEvent extends EmptyPostEvent {
-	private BadWordRepository repository;
+	private BadWordDao repository;
 
-	public BadWordEvent(BadWordRepository repository) {
+	public BadWordEvent(BadWordDao repository) {
 		this.repository = repository;
 	}
 

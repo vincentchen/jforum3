@@ -10,30 +10,31 @@
  */
 package net.jforum.core.events.post;
 
-import java.util.List;
-
 import net.jforum.entities.Post;
 import net.jforum.entities.User;
 import net.jforum.events.EmptyPostEvent;
-import net.jforum.repository.TopicWatchRepository;
+import net.jforum.repository.TopicWatchDao;
 import net.jforum.util.ConfigKeys;
 import net.jforum.util.JForumConfig;
 import net.jforum.util.mail.Spammer;
 import net.jforum.util.mail.SpammerFactory;
 import net.jforum.util.mail.SpammerTaskExecutor;
 
+import java.util.List;
+
 /**
  * When a new post is added, dispatch emails to the users who are watching the respective topic.
+ *
  * @author Rafael Steil
  */
 public class TopicReplyEvent extends EmptyPostEvent {
-	private TopicWatchRepository watchRepository;
+	private TopicWatchDao watchRepository;
 	private SpammerTaskExecutor taskExecutor;
 	private JForumConfig config;
 	private SpammerFactory spammerFactory;
 
-	public TopicReplyEvent(TopicWatchRepository watchRepository, SpammerTaskExecutor taskExecutor,
-		JForumConfig config, SpammerFactory spammerFactory) {
+	public TopicReplyEvent(TopicWatchDao watchRepository, SpammerTaskExecutor taskExecutor,
+	                       JForumConfig config, SpammerFactory spammerFactory) {
 		this.watchRepository = watchRepository;
 		this.taskExecutor = taskExecutor;
 		this.config = config;

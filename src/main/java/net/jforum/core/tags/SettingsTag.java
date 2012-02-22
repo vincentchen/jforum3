@@ -10,16 +10,15 @@
  */
 package net.jforum.core.tags;
 
-import java.io.IOException;
-
 import javax.servlet.jsp.JspException;
+import java.io.IOException;
 
 /**
  * @author Rafael Steil
  */
 public class SettingsTag extends JForumTag {
 	private String key;
-	
+
 	/**
 	 * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
 	 */
@@ -27,7 +26,7 @@ public class SettingsTag extends JForumTag {
 	public void doTag() throws JspException, IOException {
 		this.write(this.config().getValue(this.key));
 	}
-	
+
 	public void setKey(String key) {
 		this.key = key;
 	}
