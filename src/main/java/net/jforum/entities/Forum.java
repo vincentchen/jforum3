@@ -38,23 +38,18 @@ import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.PrototypeScoped;
-
 /**
  * @author Rafael Steil
  */
 @Entity
 @Table(name = "jforum_forums")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Component
-@PrototypeScoped
 public class Forum implements Serializable {
 	@Id
 	@SequenceGenerator(name = "sequence", sequenceName = "jforum_forums_seq")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequence")
 	@Column(name = "forum_id")
-	@Field(store = Store.NO, index = Index.TOKENIZED)
+	@Field(store = Store.NO, index = Index.YES)
 	private int id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -215,7 +210,7 @@ public class Forum implements Serializable {
 	/**
 	 * Sets the category id
 	 *
-	 * @param idCategories The ID of the category to set to the forum
+	 * @param category The ID of the category to set to the forum
 	 */
 	public void setCategory(Category category) {
 		this.category = category;

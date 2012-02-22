@@ -28,17 +28,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.PrototypeScoped;
-
 /**
  * @author Rafael Steil
  */
 @Entity
 @Table(name = "jforum_categories")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Component
-@PrototypeScoped
 public class Category implements Serializable {
 	@Id
 	@SequenceGenerator(name = "sequence", sequenceName = "jforum_categories_seq")

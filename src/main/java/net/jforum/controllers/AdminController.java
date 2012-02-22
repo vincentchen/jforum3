@@ -15,27 +15,23 @@ import net.jforum.core.SecurityConstraint;
 import net.jforum.core.SessionManager;
 import net.jforum.repository.ForumRepository;
 import net.jforum.security.AdministrationRule;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.inject.Inject;
 
 /**
  * @author Rafael Steil
  */
-@Resource
-@Path(Domain.ADMIN)
+@Controller()
+@RequestMapping(value = Domain.ROOT+Domain.ADMIN)
 @SecurityConstraint(value = AdministrationRule.class, displayLogin = true)
 public class AdminController {
-	private final SessionManager sessionManager;
-	private final ForumRepository forumRepository;
-	private final Result result;
-
-	public AdminController(SessionManager sessionManager,
-			ForumRepository forumRepository, Result result) {
-		this.sessionManager = sessionManager;
-		this.forumRepository = forumRepository;
-		this.result = result;
-	}
+    @Inject
+	private SessionManager sessionManager;
+    @Inject
+	private ForumRepository forumRepository;
 
 	/**
 	 * Shows the main administration page (for logged users)
@@ -53,9 +49,9 @@ public class AdminController {
 	/**
 	 * The main admin page
 	 */
-	public void main() {
-		this.result.include("stats", this.forumRepository.getForumStats());
-		this.result .include("sessions", this.sessionManager.getLoggedSessions());
-		this.result.include("totalLoggedUsers", this.sessionManager.getTotalLoggedUsers());
+	public void main(Model result) {
+		result.addAttribute("stats", this.forumRepository.getForumStats());
+		result .addAttribute("sessions", this.sessionManager.getLoggedSessions());
+		result.addAttribute("totalLoggedUsers", this.sessionManager.getTotalLoggedUsers());
 	}
 }

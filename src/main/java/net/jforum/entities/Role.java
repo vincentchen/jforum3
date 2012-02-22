@@ -13,26 +13,12 @@ package net.jforum.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.PrototypeScoped;
 
 /**
  * @author Rafael Steil
@@ -40,8 +26,6 @@ import br.com.caelum.vraptor.ioc.PrototypeScoped;
 @Entity
 @Table(name = "jforum_roles")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Component
-@PrototypeScoped
 public class Role {
 	@Id
 	@SequenceGenerator(name = "sequence", sequenceName = "jforum_roles_seq")
@@ -56,7 +40,7 @@ public class Role {
 	@JoinColumn(name = "group_id")
 	private Group group;
 
-	@CollectionOfElements(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@JoinTable(name = "jforum_role_values", joinColumns = @JoinColumn(name = "role_id"))
 	@Column(name = "role_value")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

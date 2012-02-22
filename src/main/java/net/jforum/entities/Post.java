@@ -41,9 +41,6 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Resolution;
 import org.hibernate.search.annotations.Store;
 
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.PrototypeScoped;
-
 /**
  * @author Rafael Steil
  */
@@ -51,8 +48,6 @@ import br.com.caelum.vraptor.ioc.PrototypeScoped;
 @Indexed
 @Table(name = "jforum_posts")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Component
-@PrototypeScoped
 public class Post implements Serializable {
 	@Id
 	@DocumentId
@@ -62,16 +57,16 @@ public class Post implements Serializable {
 	private int id;
 
 	@Column(name = "post_date")
-	@Field(index=Index.UN_TOKENIZED, store=Store.NO)
+	@Field(index=Index.NO, store=Store.NO)
 	@DateBridge(resolution=Resolution.MINUTE)
 	private Date date;
 
 	@Column(name = "post_text")
-	@Field(store = Store.NO, index = Index.TOKENIZED)
+	@Field(store = Store.NO, index = Index.YES)
 	private String text;
 
 	@Column(name = "post_subject")
-	@Field(store = Store.NO, index = Index.TOKENIZED)
+	@Field(store = Store.NO, index = Index.YES)
 	private String subject;
 
 	@Column(name = "enable_bbcode")
@@ -302,7 +297,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the id of the topic that the message belongs to
 	 *
-	 * @param topicId
+	 * @param topic
 	 *            The id of the topic
 	 */
 	public void setTopic(Topic topic) {
@@ -312,7 +307,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the User that sent the message
 	 *
-	 * @param userId
+	 * @param user
 	 *            The user Id
 	 */
 	public void setUser(User user) {
@@ -360,7 +355,7 @@ public class Post implements Serializable {
 	/**
 	 * Sets the IP of the user
 	 *
-	 * @param userIP
+	 * @param userIp
 	 *            The IP address of the user
 	 */
 	public void setUserIp(String userIp) {
@@ -398,8 +393,7 @@ public class Post implements Serializable {
 	}
 
 	/**
-	 * @param editCount
-	 *            the editCount to set
+	 * @param the editCount to set
 	 */
 	public void incrementEditCount() {
 		this.editCount++;

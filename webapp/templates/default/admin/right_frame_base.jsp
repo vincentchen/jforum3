@@ -18,7 +18,7 @@
 									<table width="100%">
 										<tr>
 											<td width="100%">
-												<#include moduleAction>
+												<#include moduleAction/>
 											</td>
 										</tr>
 									</table>

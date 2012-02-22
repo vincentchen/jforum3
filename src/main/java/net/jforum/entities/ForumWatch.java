@@ -19,16 +19,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.PrototypeScoped;
-
 /**
  * @author Rafael Steil
  */
 @Entity
 @Table(name = "jforum_forums_watch")
-@Component
-@PrototypeScoped
 public class ForumWatch implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

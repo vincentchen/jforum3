@@ -25,21 +25,18 @@ import net.jforum.repository.ConfigRepository;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Rafael Steil
  * @author Jose Donizetti Brito Junior
  */
-@Component
-@ApplicationScoped
 public class JForumConfig extends PropertiesConfiguration {
-	private static final Logger logger = Logger.getLogger(JForumConfig.class);
+	private static final Logger logger = LoggerFactory.getLogger(JForumConfig.class);
 	private final SessionFactory sessionFactory;
 
 	public JForumConfig(ServletContext servletContext, SessionFactory sessionFactory) {

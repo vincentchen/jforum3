@@ -25,19 +25,15 @@ import javax.servlet.http.HttpServletResponse;
 import net.jforum.security.RoleManager;
 import net.jforum.util.ConfigKeys;
 
-import org.apache.log4j.Logger;
-
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.SessionScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Stores information about an user's session.
  * @author Rafael Steil
  */
-@Component
-@SessionScoped
 public class UserSession  {
-	private static final Logger logger = Logger.getLogger(UserSession.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserSession.class);
 	private User user = new User(null);
 	private RoleManager roleManager;
 	private Map<Integer, Long> topicReadTime = new HashMap<Integer, Long>();

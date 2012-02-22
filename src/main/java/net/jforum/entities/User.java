@@ -37,24 +37,20 @@ import net.jforum.repository.UserRepository;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.ioc.PrototypeScoped;
-
 /**
  * @author Rafael Steil
  */
 @Entity
 @Table(name = "jforum_users")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate(true)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Component
-@PrototypeScoped
 public class User implements Serializable {
 	@Id
 	@SequenceGenerator(name = "sequence", sequenceName = "jforum_users_seq")
@@ -103,7 +99,7 @@ public class User implements Serializable {
 	private boolean notifyText;
 
 	@Column(name = "username")
-	@Field(store = Store.NO, index = Index.TOKENIZED)
+	@Field(store = Store.NO, index = Index.YES)
 	private String username;
 
 	@Column(name = "user_password")
@@ -120,7 +116,7 @@ public class User implements Serializable {
 	private Avatar avatar;
 
 	@Column(name = "user_email")
-	@Field(store = Store.NO, index = Index.TOKENIZED)
+	@Field(store = Store.NO, index = Index.YES)
 	private String email;
 
 	@Column(name = "user_website")
@@ -180,11 +176,11 @@ public class User implements Serializable {
 	private boolean isDeleted;
 
 	@Transient
-	@Field(store = Store.NO, index = Index.TOKENIZED)
+	@Field(store = Store.NO, index = Index.YES)
 	private String firstName;
 
 	@Transient
-	@Field(store = Store.NO, index = Index.TOKENIZED)
+	@Field(store = Store.NO, index = Index.YES)
 	private String lastName;
 
 	@Column(name = "security_hash")
@@ -676,7 +672,7 @@ public class User implements Serializable {
 	/**
 	 * Sets the ranking id
 	 *
-	 * @param rankId The id of the ranking
+	 * @param ranking The id of the ranking
 	 */
 	public void setRanking(Ranking ranking) {
 		this.ranking = ranking;

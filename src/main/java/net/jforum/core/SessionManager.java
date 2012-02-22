@@ -33,9 +33,9 @@ import net.jforum.util.JForumConfig;
 import net.jforum.util.MD5;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
-import br.com.caelum.vraptor.ioc.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Manages all user sessions
@@ -43,7 +43,7 @@ import br.com.caelum.vraptor.ioc.Component;
  */
 @Component
 public class SessionManager {
-	private static final Logger logger = Logger.getLogger(SessionManager.class);
+	private static final Logger logger = LoggerFactory.getLogger(SessionManager.class);
 	private static Map<String, UserSession> loggedSessions = new HashMap<String, UserSession>();
 	private static Map<String, UserSession> anonymousSessions = new HashMap<String, UserSession>();
 	private UserRepository userRepository;
@@ -368,7 +368,7 @@ public class SessionManager {
 	 * Checks for user authentication using some SSO implementation
 	 *
 	 * @param userSession UserSession
-	 * @param request TODO
+	 * //@param  TODO
 	 */
 	private void checkSSO(UserSession userSession) {
 		try {
